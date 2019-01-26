@@ -12,10 +12,11 @@ class Person < ActiveRecord::Base
   has_one :occupation,        as: :occupatiable,  :dependent => :destroy
   has_one :deficiency_person, as: :deficiencable, :dependent => :destroy
   
-  validates_presence_of :name
-  #, :email, :date_born, :category 
+  validates_presence_of :name, :category
+  #, :email, :date_born 
   #validates :email, format: { with: Devise.email_regexp, message: "inválido" }
-  validates_uniqueness_of :email, :cpf
+  validates_uniqueness_of :cpf, :allow_blank => true, :allow_nil => true
+  validates_uniqueness_of :email, :allow_blank => true, :allow_nil => true  
 
   validates_length_of :cpf, :maximum => 11
   before_validation :unmask_cpf
