@@ -1,0 +1,20 @@
+<div id="mensalidade" class="tab-pane fade">
+    <div class="col-lg-12 box-shadow">   
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Data de vencimento</th>
+            <th>Valor</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @tuitionPeople.each do |tuition| %>
+        <tr>                                
+            <td><%= tuition.due_date %></td>
+            <td><%= tuition.tuition.day %></td>
+        </tr>
+        <% end %>
+        </tbody>
+    </table>
+    </div>
+</div>

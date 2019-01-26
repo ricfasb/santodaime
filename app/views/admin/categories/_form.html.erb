@@ -1,0 +1,72 @@
+<%- model_class = Category -%>
+<%= form_for [:admin, @category], :html => { remote: true, :class => "form-horizontal tuition" } do |f| %>
+
+<div class="content">  
+  <div class="container-fluid">
+
+    <div class="row justify-content-center d-flex align-items-center">
+      <div class="col-10">
+
+        <div class="row">
+          <div class="col">            
+                <%= f.text_field :description, :placeholder => model_class.human_attribute_name(:description), :class => 'form-control' %>            
+          </div>
+          <div class="col-4">
+            <div class="togglebutdton">
+              <label class="input-checkbox checkbox-lightBlue">
+                <%= f.check_box :insert_tuition %>
+                <span class="checkbox"></span>
+              </label>
+              <label for="category_insert_tuition" class="label"><%= model_class.human_attribute_name(:insert_tuition)%></label>             
+            </div>
+          </div>
+        </div>  
+
+        <div class="row">     
+          <div class="col-6 divMensalidade">
+            <div class="label-floating">                
+                <%= f.collection_select(:tuition_id, Tuition.order('description desc').all, :id, :description,
+     	              {:prompt => 'Selecione a mensalidade'}, {:class => 'selectpicker', data: {style: "btn btn-primary"}}) %>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12" align="right">
+            <div class="btn-group" role="group">
+              <%= f.submit nil, :class => 'btn btn-success' %>
+              <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                        admin_categories_path, :class => 'btn btn-danger' %>
+            </div>
+          </div>
+        </div> 
+
+      </div>    
+    </div>
+  </div>
+</div>          
+<% end %>
+
+<script> 
+  jQuery(function($){
+    $('.selectpicker').selectpicker({
+        width: '100%'
+    });
+    
+    $('#liCategoria').addClass("active");   
+    
+    function verifyTuition(){
+      if( $('#category_insert_tuition').is(':checked')){
+        $('.divMensalidade').css('display', 'block');
+      }else{
+        $('.divMensalidade').css('display', 'none');
+      }
+    }
+
+    verifyTuition();
+    $('#category_insert_tuition').change(function () {
+      verifyTuition();
+    });
+
+  });
+</script>     

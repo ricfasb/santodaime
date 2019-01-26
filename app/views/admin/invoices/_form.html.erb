@@ -1,0 +1,83 @@
+<%- model_class = Invoice -%>
+<%= form_for [:admin, @invoice], :html => { remote: true, :class => "form-horizontal invoice" } do |f| %>
+
+  <% content_for :head do %>
+    <%= javascript_include_tag 'notify' %>
+  <% end %>
+
+  <div class="content">  
+    <div class="container-fluid">
+      <div class="row justify-content-center d-flex align-items-center">
+        <div class="col-10">
+        
+          <div class="row">
+            <div class="col-lg-10">
+              <%= f.collection_select(:person_id, Person.all.order(:name), :id, :name,
+                  {:prompt => 'Selecione a pessoa'}, {:class => 'selectpicker', 'data-live-search'=>"true", 'data-size'=>"2", data: {style: "btn btn-primary"}}) %>
+            </div>
+            <div class="col-lg-2">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-10">
+              <%= f.collection_select(:invoice_type_id, InvoiceType.all.order(:description), :id, :description,
+                  {:prompt => 'Tipo de cobrança'}, {:class => 'selectpicker', data: {style: "btn btn-primary"}}) %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">                            
+              <%= f.text_field :description, :placeholder => model_class.human_attribute_name(:description), :class => 'form-control' %>              
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="input-group">                
+                <%= f.text_field :due_date, placeholder: model_class.human_attribute_name(:due_date), :data => {:provide => "datepicker", "date-format" => "dd/mm/yyyy", "datepicker-color" => "primary"}, class: 'form-control date-picker' %>
+                <span class="input-group-addon">
+                  <i class="fa fa-calendar btnCalendar"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-lg-6">                             
+              <%= f.text_field :amount, :placeholder => model_class.human_attribute_name(:amount), value: sprintf('%.2f', f.object.amount.to_f).gsub(/\./, ','), class: "mask-money form-control" %>                            
+            </div>
+          </div>
+
+          <div class="btn-group pull-right">
+            <%= f.submit nil, :class => 'btn btn-success' %>
+            <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                      admin_invoices_path, :class => 'btn btn-danger' %>
+          </div>
+
+        </div>
+      </div>      
+    </div>
+  </div>
+
+<% end %>
+
+<script> 
+  jQuery(function($){
+    $('.selectpicker').selectpicker({
+        width: '100%'
+    });
+    
+    $('#liCobranca').addClass("active"); 
+
+    $(".mask-money").maskMoney(
+      { 
+        prefix: '',
+        includeThousandsSeparator: true,
+        thousands:'',
+        allowDecimal: true,
+        decimalSymbol: ',',
+        integerLimit: 2,
+        requireDecimal: true
+      }
+    );
+  });
+</script> 

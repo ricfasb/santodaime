@@ -1,0 +1,66 @@
+<%- model_class = Email -%>
+<%= form_for [:admin, @email], :html => { remote: true, :class => "form-horizontal email" } do |f| %>
+
+  <% content_for :head do %>
+    <%= javascript_include_tag 'notify' %>
+  <% end %>
+
+        <div class="row">
+          <div class="col-lg-6">                        
+            <%= f.text_field :title, :placeholder => model_class.human_attribute_name(:title), :class => 'form-control' %>           
+          </div>
+
+          <div class="col-lg-6">                        
+            <%= f.text_field :subject, :placeholder => model_class.human_attribute_name(:subject), :class => 'form-control' %>            
+          </div>
+        </div>
+
+        
+        <div class="row">
+          <div class="col-lg-12">            
+            <%= f.trix_editor :message, :cols => 10, :rows => 8, placeholder: "Mensagem"  %>                            
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4">            
+              <%= f.label model_class.human_attribute_name(:schedule), :class => 'control-label' %>
+              <%= f.text_field :schedule, :class => 'form-control datetimepicker', value: "10/01/2019 08:00:00" %>            
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="btn-group pull-right">
+              <%= f.submit nil, :class => 'btn btn-success' %>
+              <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                        admin_emails_path, :class => 'btn btn-danger' %>
+            </div>
+          </div>
+        </div> 
+
+
+<% end %>
+
+<script> 
+  jQuery(function($){
+    $('.selectpicker').selectpicker({
+        width: '100%'
+    });
+    
+    $('#liEmail').addClass("active");  
+    $(".mask-money").maskMoney(
+      { prefix:'', formatOnBlur: true, allowNegative: false, thousands:'', decimal:',', affixesStay: false }
+    );
+    
+    $(".mask-date").mask("99/99/9999");
+    $(".mask-date").datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: 'dd/mm/yy',
+      maxDate: '0',
+      yearRange: '1900:' + (new Date).getFullYear()
+    });
+    
+  });
+</script>   

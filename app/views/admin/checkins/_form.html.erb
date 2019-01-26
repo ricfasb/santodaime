@@ -1,0 +1,153 @@
+<%= form_for [:admin, @checkin], :html => { :class => "form-horizontal checkin" } do |f| %>
+
+  <div class="content">  
+    <div class="container-fluid">
+      <div class="row justify-content-center d-flex align-items-center">
+        <div class="col-12">
+
+           <div class="row">
+            <div class="col-2">
+              <div class="img-raised rounded img-fluid" id="divImagemFoto" align="center"> 
+                
+              </div>
+            </div>
+            <div class="col-5" style="padding: 25px">
+              <div class="row nome"></div>
+
+              <div class="row categoria"></div>
+
+              <div class="row mensagem"></div>
+            </div>
+
+            <div class="col-5" id="divPendencias" style="padding-top: 25px" align="center"></div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-12" align="center">
+              <applet name="NitgenApplet" codebase="/" code="br.pucpr.pergamum.biometria.NitgenApplet.class" archive="NitgenAppletSigned.jar?v=13" width="360" height="170">
+                <param name="Caller-Allowable-Codebase" value = "*">
+                    <param name="Permissions" value="all-permissions" />
+                    <param name="separate_jvm" value="true"/>
+              </applet>
+            </div>
+          </div>
+
+           <div class="row">
+            <div class="col-12" align="center">                 
+              <button type="button" class="btn btn-warning btn-round" id="btnLimpar">Limpar Tela</button>                            
+              <button type="button" class="btn btn-success btn-round" id="btnIniciarApplet">Iniciar checkin</button>                            
+            </div>
+          </div> 
+        
+          <div class="row">
+            <div class="col-lg-12" align="center">
+              
+            </div>
+          </div>        
+
+          <%= f.hidden_field :person_id %>
+          <%= f.hidden_field :company_id %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<input type="text" id="fingerprint" style="visibility: hidden">
+
+<script> 
+  jQuery(function($){
+    $('#liCheckIn').addClass("active"); 
+
+    $("#btnLimpar").on("click", function(event) {
+      event.preventDefault();
+      $('#divImagemFoto').html("");
+      $('.nome').html("");
+      $('.categoria').html("");
+      $('.mensagem').html("");
+      $('#divPendencias').html("");
+    }); 
+
+    $("#fingerprint").on("change", function(event) {       
+      if( $(this).val().length > 0) {
+        search_fingerprint(event);
+      }
+    }); 
+
+    function search_fingerprint(){
+      event.preventDefault();
+       //var fingerprint = "AQAAABQAAABUAQAAAQASAAEAWwAAAAAATAEAAJvEceuWgjz7%252F1H5UfuaLqWX5mJ9xOmQ75pFOeZ4ueQKLxNFTk%252F%252F55Lefc3TEqg4lP1EkLNLIYc2QOQQgXR2qiBxme%252FyIWx%252F2N0nIwYmuTam%252FPWTJGXSdnGWhMs7GyiZPRdnMSX1Oxk7NV5lKl9ChUeNK596dA0p9JOyiB*K*5u9wPjMMr4VDVsGuTUKRAE3nF0B5gHpalwsnGMyXOcdygmSI%252Foien8C9kFAy55lWkZxQ7z1OiEjp7dADvxyqUMA7PU7mIPckBijc4oIlA7up56bde7wGsimlo94FMdrMOI9uZV6c1UDAQl4ronnFDKD6*KGSQ9rCKDwLiZO8zHYGoggyK7XGXYA3sUSE90iacEETe8VS3Sn7Asmm4S2kUSQKcURb%252FBiJqcL4SPFALWZr1JB*Aai4tQBl%252FaIClrHGXkzgZGemXFp9y2ybS9qXmKv8w";
+      var fingerprint = $('#fingerprint').val();
+
+      $.ajax({
+        url: "/admin/people/" + 99 +"/search_fingerprint/",
+        type: "GET",
+        data: {"fingerprint" : fingerprint},
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON;  
+          var person = JSON.parse(json.person);
+
+          var htmlPessoa = "<h4 style=\"font-weight:bold; font-size: x-large\">"+person.name+"</h4>";
+          $('.nome').html(htmlPessoa);
+
+          var htmlCategoria = "<span>Categoria: "+json.category.description+"</span>";   
+          $('.categoria').html(htmlCategoria);
+
+          if(json.message === "OK"){
+            var htmlMensagem = "<span class=\"text-success\" style=\"font-weight:bold\">Entrada realizada com sucesso.</span>";
+          } else {
+            var htmlMensagem = "<span class=\"text-danger\" style=\"font-weight:bold\">Entrada não realizada.</span>";
+          }
+          $('.mensagem').html(htmlMensagem);
+          
+          var htmlPendencias = "<div class=\"row\"><div class=\"col-1\" align=\"right\"><i class=\"material-icons\" data-notify=\"icon\" style=\"color: #dc3545\">add_alert</i></div>";
+          htmlPendencias += "<div class=\"col-10\" align=\"left\"><h4 class=\"text-danger\" style=\"font-weight:bold\">Pendências</h4></div></div>";
+          $('#divPendencias').html(htmlPendencias);
+          
+          var htmlPhoto = "<img class=\"img_capa_zk\" id=\"image-output\" src=" + person.photo + " />"
+
+          $('#divImagemFoto').html(htmlPhoto);
+                    
+        },
+        error: function(o, status, error) {
+          var json = o.responseJSON;
+          alert('Erro ao buscar cadastro');
+        }
+      });
+    }
+
+    //busca no banco a pessoa    
+    $("#btnIniciarApplet").on("click", function(event) { 
+      iniciarApplet(); 
+      autenticacaoBiometrica();      
+      event.preventDefault();             
+    });
+    
+    function autenticacaoBiometrica(){
+      var isBiometria = iniciarApplet();
+      var isBiometriaValida = false;
+      var codErro = 0;      
+      
+      var template = document.NitgenApplet.getBiometria();
+      $('#fingerprint').val(template);
+      $('#fingerprint').trigger('change');
+    }       
+
+    function iniciarApplet(){
+      var myApplet = $("#appletBiometria");
+      var retorno = new Boolean(false);
+
+      setTimeout(function() {
+        try{
+          myApplet.init();
+          retorno = isVerificarErroSDK();
+        } catch(ex){
+          return false;
+        }
+      }, 2000);      
+    }    
+
+  });
+</script> 

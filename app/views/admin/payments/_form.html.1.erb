@@ -1,0 +1,69 @@
+<%= form_for [:admin, @payment], :html => { :class => "form-horizontal payment" } do |f| %>
+
+  <% if @payment.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@payment.errors.count, "error") %> prohibited this payment from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @payment.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :person_id, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :person_id, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:person_id) %>
+  </div>
+  <div>
+    <%= f.label :invoice_id, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :invoice_id, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:invoice_id) %>
+  </div>
+  <div>
+    <%= f.label :pay_day, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :pay_day, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:pay_day) %>
+  </div>
+  <div>
+    <%= f.label :pay_amount, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :pay_amount, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:pay_amount) %>
+  </div>
+  <div>
+    <%= f.label :discount, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :discount, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:discount) %>
+  </div>
+  <div>
+    <%= f.label :obs_discount, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :obs_discount, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:obs_discount) %>
+  </div>
+
+  <div>
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                admin_payments_path, :class => 'btn btn-default' %>
+    </div>
+  </div>
+
+<% end %>

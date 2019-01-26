@@ -1,0 +1,242 @@
+<%- model_class = Payment -%>
+
+	  <div class="row">
+	    <div class="col-md-12">
+	      <div class="card">
+	        <div class="card-header card-header-success" data-background-color="green">
+	          <h4 class="title">Pagamentos</h4>
+	        </div> 
+
+          <div class="card-content">            
+            <div >
+              <div class="card-content table-responsive">
+
+                <div class="row d-flex justify-content-center" style="padding: 10px">  
+                  <div class="col-2">    
+                    <input type="text" id="txtCodigo" class="form-control mask-person-id" placeholder="Insira o código" />                      
+                  </div>
+                  <div class="col-8 d-flex justify-content-center">              
+                    <%= collection_select(:person_id, :id, Person.all.order(:name), :id, :name,
+                      {:prompt => 'Selecione a pessoa'}, {:class => 'selectpicker', 'data-live-search'=>"true", 'data-size'=>"2", data: {style: "btn btn-primary"}}) %>                    
+                  </div>  
+                  <div class="col-2 d-flex justify-content-center">
+                    <%= link_to raw('<i class="material-icons">check</i>'),
+                            "", :onclick => "btnPagamento",
+                            :class => 'btn btn-xs btn-success btn-icon btn-round' %>
+                  </div>
+                </div> 
+
+                <div class="row">  
+                  <div class="col-12">  
+                    <table class="table table-striped" id="tableDebitos">
+                      <thead>
+                        <tr>
+                          <th align="center">
+                            <div class="form-check">   
+                              <label class="form-check-label">      
+                                <input class="form-check-input" type="checkbox" id="chkAll" value="">&nbsp;      
+                                <span class="form-check-sign">   
+                                  <span class="check"></span> 
+                                </span>      
+                              </label>  
+                            </div>
+                          </th>                      
+                          <th><%= model_class.human_attribute_name(:invoice_id) %></th>
+                          <th><%= model_class.human_attribute_name(:description) %></th>
+                          <th><%= model_class.human_attribute_name(:due_date) %></th>
+                          <th><%= model_class.human_attribute_name(:pay_amount) %></th>
+                          <th><%= model_class.human_attribute_name(:discount) %></th>
+                          <th><%= model_class.human_attribute_name(:obs_discount) %></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% @payments.each do |payment| %>
+                          <tr>
+                            <td><%= link_to payment.id, admin_payment_path(payment) %></td>                                                    
+                            <td><%= payment.invoice_id %></td>
+                            <td><%= payment.description %></td>
+                            <td><%= payment.due_date %></td>
+                            <td><%= payment.pay_amount %></td>
+                            <td><%= payment.discount %></td>
+                            <td><%= payment.obs_discount %></td>                                                      
+                          </tr>
+                        <% end %>
+                      </tbody>
+                      <% if @payments.blank? %> 
+                        <tfoot> 
+                          <th colspan="9" class="tfoot_empty" style="text-align: center; height: 50px;">
+                            Nenhum registro encontrado!
+                          </th>
+                        </tfoot>
+                      <% elsif @payments.count > 5 %>
+                        <tfoot> 
+                          <th colspan="9" style="text-align: left; height: 50px;">
+                            <%= will_paginate @payments %>
+                          </th>
+                        </tfoot>
+                      <% end %> 
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script> 
+  jQuery(function($){
+    $('.selectpicker').selectpicker({
+        width: '100%'
+    });
+
+    $(".mask-person-id").on("change", function(event) {
+      var codPessoa = $(".mask-person-id").val();
+      var codPessoaCompleto = ("0000000000" + codPessoa).slice(-10);
+
+      $(".mask-person-id").val(codPessoaCompleto);
+    });
+
+    $(".btnPagamento").on("click", function(event) {
+      event.preventDefault();
+      var person_id = $("#txtCodigo").val();
+      $.ajax({
+        url: "/admin/payments/" + person_id +"/pay/",
+        type: "POST",        
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON;
+          alert('tamita');
+        },
+        error: function(o, status, error) {
+          var json = o.responseJSON;
+          alert(json);
+        }
+      });
+    });
+
+    $("#txtCodigo").on("blur", function(event) {
+      var person_id = $("#txtCodigo").val();
+      if(person_id === "")
+        return;
+      $.ajax({
+        url: "/admin/people/" + person_id +"/search_person/",
+        type: "GET",        
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON;          
+          var person = json.person;       
+          //this.val(<%= code_completion(escape_javascript( '5' )) %>)
+          if(person.length > 0){
+            $('#person_id_id').selectpicker('val', person[0].id );                
+          }else{
+            $('#person_id_id').selectpicker('val', 0 ); 
+          }   
+          $('.selectpicker').selectpicker('refresh'); 
+        },
+        error: function(o, status, error) {
+          var json = o.responseJSON;
+          alert(json);
+        }
+      });
+    });  
+
+    $("#chkAll").on("change", function(event) {      
+      if($("#chkAll").is(":checked")){
+        $('.form-check-input').prop( "checked", true );
+      }else{
+        $('.form-check-input').prop( "checked", false );        
+      }
+    });
+
+    $('#person_id_id').change(function () {            
+      var person_id =  $('#person_id_id').val();
+
+      $.ajax({
+        url: "/admin/payments/" + person_id +"/get_debits/",
+        type: "GET",
+        data: {"person_id" : person_id},
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON;                  
+          var tuitions = json.tuitions;
+          var invoices = json.invoices;
+          var person   = json.person_id;
+          var hasOne   = false;
+          var tfoot    = "<tfoot>"+ 
+                         " <tr>"+
+                         "  <th colspan=\"9\" class=\"tfoot_empty\" style=\"text-align: center; height: 50px;\">"+
+                         "   Nenhum registro encontrado!"+
+                         "  </th>"+
+                         " </tr>"
+                         "</tfoot>";  
+          var tbody    = "<tbody>"+                          
+                         "</tbody>";      
+          
+          if( invoices.length > 0 || tuitions.length > 0){
+            hasOne = true;
+            $('#chkAll').prop('checked', true);
+          }
+
+          $('#tableDebitos > tbody').remove();
+          $('#tableDebitos > tfoot').remove();    
+
+          if( hasOne ){    
+            $( '#tableDebitos').append(tbody);
+
+            for (var i = 0; i < tuitions.length; i++) {
+              var linha = "<tr>"+
+                            "<td>"+
+                            "  <div class=\"form-check\">"+
+                            "    <label class=\"form-check-label\">"+
+                            "      <input class=\"form-check-input\" type=\"checkbox\" checked value=\"\">&nbsp;"+                          
+                            "      <span class=\"form-check-sign\">"+
+                            "        <span class=\"check\"></span>"+
+                            "      </span>"+
+                            "    </label>"+
+                            "  </div>"+ 
+                            "</td>"+
+                            "<td>Mensalidade</td>"+
+                            "<td>Multa referente a mensalidade</td>"+
+                            "<td>"+ tuitions[i].due_date +"</td>"+
+                            "<td>"+ tuitions[i].tuition.amount +"</td>"+
+                            "<td><input type=\"text\" placeholder=\"0,00\" class=\"form-control\"></td>"+
+                            "<td><input type=\"text\" placeholder=\"Observação\" class=\"form-control\"></td>"+                          
+                          "</tr>";
+              $('#tableDebitos > tbody').append(linha);
+            }
+
+            for (var i = 0; i < invoices.length; i++) {
+              var linha = "<tr>"+
+                            "<td>"+
+                            "  <div class=\"form-check\">"+
+                            "    <label class=\"form-check-label\">"+
+                            "      <input class=\"form-check-input\" type=\"checkbox\" checked value=\"\">&nbsp;"+                          
+                            "      <span class=\"form-check-sign\">"+
+                            "        <span class=\"check\"></span>"+
+                            "      </span>"+
+                            "    </label>"+
+                            "  </div>"+ 
+                            "</td>"+
+                            "<td>"+ invoices[i].invoice_type.description +"</td>"+
+                            "<td>"+ invoices[i].description +"</td>"+
+                            "<td>"+ invoices[i].due_date +"</td>"+
+                            "<td>"+ invoices[i].amount +"</td>"+
+                            "<td><input type=\"text\" placeholder=\"0,00\" class=\"form-control\"></td>"+
+                            "<td><input type=\"text\" placeholder=\"Observação\" class=\"form-control\"></td>"+                          
+                          "</tr>";
+              $('#tableDebitos > tbody').append(linha);
+            }
+          }else{
+            $('#tableDebitos > tbody').html(""); 
+            if( $( '#tableDebitos > tfoot' ).length === 0 )
+              $( '#tableDebitos').append(tfoot);
+          }
+        },
+        error: function(o, status, error) {
+          var json = o.responseJSON;
+          alert(json);
+        }
+      });
+    });
+
+  });
+</script> 

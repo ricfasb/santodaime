@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  description: MyString
+  day: MyString
+  amount: MyString
+  email: one
+
+two:
+  description: MyString
+  day: MyString
+  amount: MyString
+  email: two

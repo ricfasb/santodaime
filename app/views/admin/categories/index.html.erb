@@ -1,0 +1,104 @@
+<%- model_class = Category -%>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-success" data-background-color="green">
+              <div class="row">
+                <div class="col-md-8">
+                  <h4 class="title">Categorias</h4>
+                  <p class="category">Listagem de categorias</p>
+                </div>
+                <div class="col" align="right">
+                    <%= link_to raw('<i class="now-ui-icons ui-1_simple-add"></i>'),
+                      new_admin_category_path, 
+                      :style => "margin-left: 35px",
+                      :class => 'btn btn-lg btn-success btn-round btn-icon' %>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card-content">                                           
+              <%= search_form_for [:admin, @q] do |f| %>
+              <div class="row">  
+                <div class="col-md-1 col-1"></div>
+                <div class="col-md-2 col-2 justify-content-center d-flex align-items-center">
+                  <%= f.label :description_cont, :class => 'form-control' %>                                                    
+                </div>
+                <div class="col-md-7 col-7 justify-content-center d-flex align-items-center" align="right">			   
+                  <%= f.search_field :description_cont, :placeholder => 'Valor a ser pesquisado', :class => 'form-control' %>
+                </div> 
+                <div class="col-md-2" align="center">                           
+                  <%= link_to raw('<i class="now-ui-icons ui-1_zoom-bold"></i>'),
+                    "", :onclick => "$('#category_search').submit()",                            
+                    :style => "margin-left: 35px",
+                    :class => 'btn btn-lg btn-warning btn-round btn-icon' %>
+                </div>  
+              </div>
+              <% end %>                    
+              <div class="row">
+                <div class="col">
+                  <div class="card-content table-responsive">                        
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th width="10%"><%= model_class.human_attribute_name(:id) %></th>
+                          <th width="45%"><%= model_class.human_attribute_name(:description) %></th>
+                          <th width="45%"><%= model_class.human_attribute_name(:insert_tuition) %></th>                                                                
+                          <th width="20%"><%=t '.actions', :default => t("helpers.actions") %></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% @categories.each do |category| %>
+                          <tr>
+                            <td><%= category.id %></td>
+                            <td style="word-break: break-all;"><%= link_to category.description, admin_category_path(category) %></td>
+                            <td>
+                              <% unless category.nil? %>
+                                <% if category.insert_tuition == true %>
+                                  <%= "Sim" %>
+                                <% else %>
+                                  <%= "Não" %>
+                                <% end %>
+                              <% end %>
+                            </td>                                                                    
+                            <td>
+                              <div class="btn-group" role="group">
+                                <%= link_to raw('<i class="material-icons">edit</i>'),
+                                            edit_admin_category_path(category), :style => 'color: gray; heigth: 100%; width: 100%;' %>
+                                <%= link_to raw('<i class="material-icons">delete</i>'),
+                                            admin_category_path(category),
+                                            :method => :delete,
+                                            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },                                            
+                                            :style => 'color: #cf1a1a; font-size: 32px;' %>                                
+                              </div>
+                            </td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                      <% if @categories.blank? %> 
+                        <tfoot> 
+                          <th colspan="5" class="tfoot_empty" style="text-align: center; height: 50px;">
+                            Nenhum registro encontrado!
+                          </th>
+                        </tfoot>
+                      <% elsif @categories.count > 10 %>
+                        <tfoot> 
+                          <th colspan="5" style="text-align: left; height: 50px;">
+                            <%= will_paginate @categories %>
+                          </th>
+                        </tfoot>
+                      <% end %> 
+                    </table>                          
+                  </div>
+                </div>
+              </div>   
+            </div>
+      </div->
+    </div>
+</div>       
+      
+<script>
+  jQuery(function($){
+    $.notify("<%= notice %>", "success" );
+  });
+</script>

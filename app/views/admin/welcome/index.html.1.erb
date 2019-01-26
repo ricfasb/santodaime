@@ -1,0 +1,139 @@
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header" data-background-color="orange">
+                            <i class="fa fa-address-card"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="category">Quant. Fardados</p>
+                        <h3 class="title" >0
+                            <!--<small>GB</small> -->
+                        </h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons text-danger">warning</i>
+                            <a href="#">Gerar relatório.</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header" data-background-color="green">
+                        <i class="fa fa-birthday-cake"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="category">Anivers. do mês</p>
+                        <h3 class="title">0</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">update</i> Imprimir listagem
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header" data-background-color="green">
+                        <i class="fa fa-barcode"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="category">Quant. Produtos</p>
+                        <h3 class="title">0</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">date_range</i> Listagem
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header" data-background-color="orange">
+                            <i class="fa fa-calendar"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="category">Empréstimos</p>
+                        <h3 class="title">0</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">local_offer</i>Imprimir relatório
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header card-chart" data-background-color="green">
+                        <div class="ct-chart" id="dailySalesChart">
+                            <%= scatter_chart State.pluck(:name, :uf) %>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Gráfico 1</h4>
+                        <p class="card-category">Descrição 1</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> Visualizar
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header card-chart" data-background-color="orange">
+                        <div class="ct-chart" id="emailsSubscriptionChart">
+                            <%= scatter_chart State.pluck(:name, :uf) %>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Gráfico 2</h4>
+                        <p class="card-category">Descrição 2</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> Visualizar
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header card-chart" data-background-color="green">
+                        <div class="ct-chart" id="completedTasksChart">
+                            <%= scatter_chart State.pluck(:name, :uf) %>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Gráfico 3</h4>
+                        <p class="card-category">Descrição 3</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> Visualizar
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script> 
+  jQuery(function($){
+    $('#liHome').addClass("active");
+    $.notify("<%= notice %>", "success" );
+  });
+</script> 

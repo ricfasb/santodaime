@@ -1,0 +1,86 @@
+<%- model_class = Person -%>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-success" data-background-color="green">
+              <h4 class="title"><%= "#{ @person.name }" %></h4>
+          </div>
+          
+          <div class="card-content">
+            <section class="landing">    
+              <dl class="row">
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+                <dd class="col-3" ><%= @person.name %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
+                <dd class="col-3" ><%= @person.email %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:date_born) %>:</strong></dt>
+                <dd class="col-3"><%= @person.date_born %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:date_enroll) %>:</strong></dt>
+                <dd class="col-3"><%= @person.date_enroll %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:height) %>:</strong></dt>
+                <dd class="col-3"><%= @person.height %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:rg) %>:</strong></dt>
+                <dd class="col-3"><%= @person.rg %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:cpf) %>:</strong></dt>
+                <dd class="col-3"><%= @person.cpf %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:telephone_residence) %>:</strong></dt>
+                <dd class="col-3"><%= @person.telephone_residence %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:smartphone_number) %>:</strong></dt>
+                <dd class="col-3"><%= @person.smartphone_number %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:telephone_message) %>:</strong></dt>
+                <dd class="col-3"><%= @person.telephone_message %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:message_person) %>:</strong></dt>
+                <dd class="col-3"><%= @person.message_person %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:facebook) %>:</strong></dt>
+                <dd class="col-3"><%= @person.facebook %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:father_name) %>:</strong></dt>
+                <dd class="col-3"><%= @person.father_name %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:mother_name) %>:</strong></dt>
+                <dd class="col-3"><%= @person.mother_name %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:category_id) %>:</strong></dt>
+                <dd class="col-3"><%= @person.category.description %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:driver_license_id) %>:</strong></dt>
+                <dd class="col-3"><%= @person.driver_license_id %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:marital_state_id) %>:</strong></dt>
+                <dd class="col-3"><%= @person.marital_state_id %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:wifes_name) %>:</strong></dt>
+                <dd class="col-3"><%= @person.wifes_name %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:among_sun) %>:</strong></dt>
+                <dd class="col-3"><%= @person.among_sun %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:degree_education_id) %>:</strong></dt>
+                <dd class="col-3"><%= @person.degree_education_id %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:course) %>:</strong></dt>
+                <dd class="col-3"><%= @person.course %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:occupation_id) %>:</strong></dt>
+                <dd class="col-3"><%= @person.occupation_id %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:motive) %>:</strong></dt>
+                <dd class="col-3"><%= @person.motive %></dd>
+                <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:complementary_information) %>:</strong></dt>
+                <dd class="col-3"><%= @person.complementary_information %></dd>
+              </dl>
+            </section>              
+                <div class="col-lg-offset-1 col-lg-10">
+                  <div class="btn-group pull-right">
+                    <%= link_to t('.back', :default => t("helpers.links.back")),
+                                  admin_people_path, :class => 'btn btn-default'  %>
+                    <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                                  edit_admin_person_path(@person), :class => 'btn btn-default' %>
+                    <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                                  admin_person_path(@person),
+                                  :method => 'delete',
+                                  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                                  :class => 'btn btn-danger' %>
+                  </div>                
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script> 
+  jQuery(function($){
+    $('#liPessoa').addClass("active");    
+  });
+</script>              

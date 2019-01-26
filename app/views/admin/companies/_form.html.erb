@@ -1,0 +1,210 @@
+<%- model_class = Company -%>
+<%= form_for [:admin, @company], :html => { remote: true, :class => "form-horizontal company" } do |f| %>
+
+  <% content_for :head do %>
+    <%= javascript_include_tag 'notify' %>
+  <% end %>
+
+    <div class="row justify-content-center d-flex align-items-center">
+      <div class="col-11">
+        
+        <div class="row">
+          <div class="col-lg-8">             
+            <%= f.text_field :name, :placeholder => model_class.human_attribute_name(:name), :class => 'form-control' %>            
+          </div>
+          <div class="col-lg-4">                      
+            <%= f.text_field :telephone, :placeholder => model_class.human_attribute_name(:telephone), :class => 'form-control' %>            
+          </div>
+        </div>
+
+        <%= f.fields_for :address do |a| %>
+          <div class="row">
+              <div class="col-lg-4">                             
+                <%= a.text_field :zip_code, :placeholder => model_class.human_attribute_name(:zip_code), :class => 'form-control' %>                
+              </div>
+              <div class="col-lg-8">                
+                <%= a.text_field :street, :placeholder => model_class.human_attribute_name(:street), :class => 'form-control' %>                
+              </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-4">              
+              <%= a.text_field :number, :placeholder => model_class.human_attribute_name(:number), :class => 'form-control' %>              
+            </div>
+            <div class="col-lg-8">              
+                <%= a.text_field :complement, :placeholder => model_class.human_attribute_name(:complement), :class => 'form-control' %>              
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-lg-4">                             
+              <%= a.text_field :reference, :placeholder => model_class.human_attribute_name(:reference), :class => 'form-control' %>
+            </div>
+
+            <div class="col-lg-8">                          
+              <%= a.text_field :neighbourhood, :placeholder => model_class.human_attribute_name(:neighbourhood), :class => 'form-control' %>              
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-lg-4">
+              <%= a.collection_select(:state_id, State.all, :id, :name,
+              {:prompt => 'Estado'}, {:class => 'selectpicker', data: {style: "btn btn-success"}}) %>
+            </div>
+            <div class="col-lg-8">
+              <%= a.select(:city_id, City.where(:state_id => a.object.state_id ).collect{|s| [s.name, s.id]}, 
+                {:prompt => 'Cidade'}, {:class => 'selectpicker', data: {style: "btn btn-default"}} ) %>                          
+            </div>
+          </div>      
+        <% end %>   
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="btn-group pull-right" style="padding-top: 10px">
+              <%= f.submit nil, :class => 'btn btn-success' %>
+              <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                        admin_companies_path, :class => 'btn btn-danger' %>
+            </div>
+          </div>
+        </div> 
+
+      </div>    
+    </div>
+
+<% end %>
+
+<script> 
+  jQuery(function($){
+    $('.selectpicker').selectpicker({
+        width: '100%',
+        noneSelectedText : 'Selecione uma opção'
+    });
+
+    var city_id;
+    var state_id;
+
+    $("#company_name").focus();
+    
+    $("#company_address_attributes_zip_code").on("focus", function(event) { 
+      $(this).mask("99.999-999");
+    });
+    $("#company_telephone").on("focus", function(event) { 
+      $(this).mask("(99)99999-9999");
+    });
+
+    $("#company_address_attributes_zip_code").on("blur", function(event) { 
+      $(this).unmask();
+      if($(this).val().length > 0){
+        getCep(event);
+      }
+      
+    });
+    $("#company_telephone").on("blur", function(event) { 
+      $(this).unmask();
+    });
+
+    $('#liSede').addClass("active");
+
+    $('#company_address_attributes_state_id').change(function () {
+      var id = $(this).val();   
+      if( state_id === id)
+        return;
+
+      $.ajax({
+        url: "/admin/companies/" + 99 +"/load_cities/",
+        type: "GET",
+        data: {"state_id" : id},
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON;          
+          var options = '';
+          
+          $("#company_address_attributes_city_id").empty();
+
+          for (var i = 0; i < json.length; i++) {
+            options += '<option value="' + json[i].id + '">' + json[i].name + '</option>';
+          }
+          $("#company_address_attributes_city_id").append(options);
+          $('#company_address_attributes_city_id').selectpicker('refresh');
+
+          $("#company_address_attributes_city_id").selectpicker('val', city_id);          
+        },
+        error: function(o, status, error) {
+          var json = o.responseJSON;
+          alert(json);
+        }
+      });
+    });
+
+    function createLoader(){
+      var $loader = $('<img class="loader" src="/assets/ajax-loading.gif" width="50px" height="50px"></img>');
+          $loader.css('float', 'left');
+          $loader.css('position', 'fixed');
+          $loader.css('left', '50%');
+          $loader.css('top', '40%');
+      
+      $('body').append($loader);
+    }
+
+    function removeLoader(){
+      $('body .loader').remove();
+    }
+
+    function normalizaLabelFloating() {
+      setTimeout(function(){
+        $('.control-label').each(function(i) {
+         	if( typeof $(this).next().val() !== 'undefined' && $(this).next().val().length > 0){
+            $(this).parent().removeClass('is-empty');
+         	}else if($(this).prev().hasClass('is-focused')){
+            $(this).parent().addClass('is-empty');
+          }
+        });
+      }, 100);
+    }
+
+    var getCep = function(event) {
+      event.preventDefault();
+      var cep = $('#company_address_attributes_zip_code').val();
+      cep = cep.replace('.','').replace('-','');
+      
+      $.ajax({
+        url: "/admin/companies/" + 99 +"/get_cep/",
+        type: "GET",
+        data: {"cep" : cep},
+        beforeSend: function() {
+          createLoader();
+        },
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON;
+
+          state_id = json.state[0].id;
+          city_id = json.city[0].id;
+          var cities = json.cities;          
+          var options = '';
+          
+          $("#company_address_attributes_city_id").empty();
+
+          for (var i = 0; i < cities.length; i++) {
+            options += '<option value="' + cities[i].id + '">' + cities[i].name + '</option>';
+          }
+          $("#company_address_attributes_city_id").append(options);
+          $('#company_address_attributes_city_id').selectpicker('refresh');
+          $("#company_address_attributes_city_id").selectpicker('val', city_id);
+          $("#company_address_attributes_state_id").selectpicker('val', state_id);
+
+          $('#company_address_attributes_street').val(json.address.response.logradouro);          
+          $('#company_address_attributes_neighbourhood').val(json.address.response.bairro);          
+                              
+        },
+        error: function(o, status, error) {
+          var json = o.responseJSON;
+          alert(json);
+        },
+        complete: function() {
+          removeLoader();
+          normalizaLabelFloating();
+        }
+      });
+    };
+  
+  });
+</script> 

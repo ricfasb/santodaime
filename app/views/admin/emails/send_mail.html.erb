@@ -1,0 +1,108 @@
+<%- model_class = Email -%>
+	  <div class="row">
+	    <div class="col-md-12">            
+	      <div class="card">
+	        <div class="card-header card-header-success" data-background-color="green">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4 class="title">Envio de E-mail</h4>
+                        <p class="category">Agendamento de envio de e-mails</p>
+                    </div>
+                    <div class="col" align="right">
+                        <%= link_to raw('<i class="now-ui-icons ui-2_time-alarm"></i>'),
+                        new_admin_email_path,                       
+                        data: { toggle: 'tooltip', placement: 'top', original_title: 'Agendar E-mail' },
+                        :style => "margin-left: 75px",
+                        :class => 'btn btn-lg btn-success btn-round btn-icon' %>  
+                    </div>
+                </div>
+	        </div> 
+
+          <div class="card-content">
+            <%= form_for [:admin, @email], :html => { remote: true, :class => "form-horizontal tuition" } do |f| %>
+            <div class="row justify-content-center d-flex align-items-center">
+                <div class="col-11">
+                    <div class="row">
+                        <div class="col-lg-6">                                                        
+                            <%= f.text_field :title, :placeholder => model_class.human_attribute_name(:title), :class => 'form-control' %>                            
+                        </div>
+
+                        <div class="col-lg-6">                                                        
+                            <%= f.text_field :subject, :placeholder => model_class.human_attribute_name(:subject), :class => 'form-control' %>                            
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                                <label class="form-check-label" for="exampleRadios1">
+                                    Pessoa
+                                </label>                        
+                                <input class="form-check-input" style="margin-left: 35px" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                                <label class="form-check-label" for="exampleRadios2">
+                                    Categoria
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8">
+                            <div class="divCategoria" style="display: none">
+                                <%= f.label model_class.human_attribute_name(:category_id), :class => 'control-label' %>                
+                                <%= f.collection_select(:category_id, Category.order('description desc').all, :id, :description,
+                                    {:prompt => 'Selecione uma categoria'}, {:class => 'selectpicker', data: {style: "btn btn-primary"}}) %>
+                            </div>
+                            <div class="divPessoa">
+                                <%= f.label model_class.human_attribute_name(:person_id), :class => 'control-label' %>                
+                                <%= f.collection_select(:person_id, Person.order('name desc').all, :id, :name,
+                                    {:prompt => 'Selecione um pessoa'}, {:class => 'selectpicker', data: {style: "btn btn-primary"}}) %>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-lg-12">                            
+                            <%= f.trix_editor :message, :cols => 5, :rows => 8, placeholder: "Mensagem"  %>                              
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="btn-group pull-right">
+                            <%= f.submit "Enviar email", :class => 'btn btn-success' %>
+                            <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                                        admin_emails_path, :class => 'btn btn-danger' %>
+                            </div>
+                        </div>
+                    </div>     
+                </div> 
+            </div>             
+            <% end %>           
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script> 
+  jQuery(function($){    
+    $('.selectpicker').selectpicker({
+        width: '100%'
+    });
+    
+    $('#liEmail').addClass("active");  
+    $('[data-toggle="tooltip"]').tooltip();
+    $('#exampleRadios1').click(function(){
+      if( $('#exampleRadios1').is(":checked") ){
+        $('.divPessoa').css("display", "block");
+        $('.divCategoria').css("display", "none");
+      }
+    });
+
+    $('#exampleRadios2').click(function(){
+      if( $('#exampleRadios2').is(":checked") ){
+        $('.divPessoa').css("display", "none");
+        $('.divCategoria').css("display", "block");
+      }
+    });
+  });
+</script>   

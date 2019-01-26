@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  company: one
+  person: one
+  title: MyString
+  subject: MyString
+  message: MyString
+  schedule: 2018-08-19 18:08:25
+
+two:
+  company: two
+  person: two
+  title: MyString
+  subject: MyString
+  message: MyString
+  schedule: 2018-08-19 18:08:25

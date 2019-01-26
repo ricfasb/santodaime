@@ -1,0 +1,716 @@
+<%- model_class = Person -%>
+<%= form_for [:admin, @person], :html => { remote: true, :class => "form-horizontal person", :multipart => true } do |f| %>
+
+  
+    <div class="container-fluid">
+      <div class="row justify-content-center d-flex align-items-center"  style="height: 100vh">
+        <div class="col-10">
+          <div class="card">
+            <div class="card-content">
+              <div class="row">
+                <div class="col-12">
+                  <ul class="nav nav-tabs card-nav-tabs justify-content-center" role="tablist" data-background-color="green">            
+                    <li class="nav-item">
+                      <a class="nav-link active" data-toggle="tab" role="tab" href="#dados">Dados Pessoais</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" role="tab" href="#doc">Documentos</a>
+                    </li>
+                    <% unless @tuitionPeople.nil? %>
+                      <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" role="tab" href="#mensalidade">Mensalidades</a>
+                      </li>
+                    <% end %>
+                  </ul>
+                  <div class="tab-content">
+                    <div id="dados" class="tab-pane active" >
+
+                      <div class="col-lg-12 box-shadow">
+                        <div class="row">
+
+                          <div class="col-md-9">                        							
+                            <div class="row">                        
+                              <div class="col-md-7">
+                                <%= f.text_field :name, :placeholder => model_class.human_attribute_name(:name), :class => 'form-control' %>
+                              </div>
+
+                              <div class="col-md-5">                                                                  
+                                <div class="input-group">                       
+                                  <%= f.text_field :date_born, placeholder: model_class.human_attribute_name(:date_born), :data => {:provide => "datepicker", "date-format" => "dd/mm/yyyy", "datepicker-color" => "primary"}, class: 'form-control date-picker' %>
+                                  <span class="input-group-addon">
+                                    <i class="fa fa-calendar btnCalendar btnCalendarDateBorn"></i>
+                                  </span>
+                                </div>                        
+                              </div>
+
+                            </div>
+
+                            <div class="row">             
+                              <div class="col-md-7">
+                                <%= f.text_field :email, :placeholder => model_class.human_attribute_name(:email), :class => 'form-control' %>
+                              </div>
+
+                              <div class="col-md-5">
+                                <div class="input-group">                      
+                                  <%= f.text_field :date_enroll, placeholder: model_class.human_attribute_name(:date_enroll), :data => {:provide => "datepicker", "date-format" => "dd/mm/yyyy", "datepicker-color" => "primary"}, class: 'form-control date-picker' %>
+                                  <span class="input-group-addon">
+                                    <i class="fa fa-calendar btnCalendar btnCalendarDateEnroll"></i>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>  
+
+                            <div class="row">                                           
+                              <div class="col-md-4">
+                                <%= f.text_field :rg, :placeholder => model_class.human_attribute_name(:rg), :class => 'form-control' %>
+                              </div>
+
+                              <div class="col-md-4">
+                                <%= f.text_field :cpf, :placeholder => model_class.human_attribute_name(:cpf), :class => 'form-control' %>                        
+                                
+                                <%= hidden_field_tag :data_uri, "" %>
+                              </div>
+
+                              <div class="col-md-4">
+                                <%= f.text_field :telephone_residence, :placeholder => model_class.human_attribute_name(:telephone_residence), :class => 'form-control' %>
+                              </div>
+                            </div>
+
+                            <div class="row">                                      
+                              <div class="col-md-4">
+                                <%= f.text_field :smartphone_number, :placeholder => model_class.human_attribute_name(:smartphone_number), :class => 'form-control' %>
+                              </div>
+
+                              <div class="col-md-4">
+                                <%= f.text_field :telephone_message, :placeholder => model_class.human_attribute_name(:telephone_message), :class => 'form-control' %>
+                              </div>
+
+                              <div class="col-md-4">
+                                <%= f.text_field :message_person, :placeholder => model_class.human_attribute_name(:message_person), :class => 'form-control' %>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-3"> 
+                            <div class="divImagemFoto2" id="divImagemFoto" align="center">
+                              <%= image_tag(@person.photo.url(:thumb), :class => "img_capa_zk2", style: "width: 100%;", id:"image-output") %>
+                              </img>
+                              
+                              <div>
+                                <div class="image-upload">	 
+                                  <label for="file-input">
+                                    <span class="fa fa-upload" style="color:#036; font-size: 20px; background: #fff; border: none;"></span>
+                                  </label>
+                                  <%= f.file_field :photo, id:"file-input" %>
+
+                                  <button class="fa fa-camera"	id="btnWebcam"
+                                    style="color: #888; font-size: 20px; border: none; background: #FFF;"/>
+                                
+                                <button class="fa fa-times"	id="btnExcluirFoto"
+                                    style="color:#f00; font-size: 20px; border: none; background: #fff;"/>
+                                </div>                                                          
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>                           
+
+                        <div class="row">             
+                          <div class="col-md-4">
+                            <%= f.text_field :facebook, :placeholder => model_class.human_attribute_name(:facebook), :class => 'form-control' %>
+                          </div>
+
+                          <div class="col-md-4">
+                            <%= f.text_field :father_name, :placeholder => model_class.human_attribute_name(:father_name), :class => 'form-control' %>
+                          </div>
+
+                          <div class="col-md-4">
+                            <%= f.text_field :mother_name, :placeholder => model_class.human_attribute_name(:mother_name), :class => 'form-control' %>
+                          </div>
+                        </div>
+
+                        <%= f.fields_for :address do |ad| %>
+                          <div class="row">
+                            <div class="col-md-4">
+                              <%= ad.text_field :zip_code, :placeholder => model_class.human_attribute_name(:zip_code), :class => 'form-control' %>
+                            </div>
+                            <div class="col-md-8">
+                              <%= ad.text_field :street, :placeholder => model_class.human_attribute_name(:street), :class => 'form-control' %>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-4">
+                              <%= ad.text_field :number, :placeholder => model_class.human_attribute_name(:number), :class => 'form-control' %>
+                            </div>
+
+                            <div class="col-md-8">
+                              <%= ad.text_field :complement, :placeholder => model_class.human_attribute_name(:complement), :class => 'form-control' %>
+                            </div>
+                          </div>
+                          
+                          <div class="row">
+                            <div class="col-md-4">
+                              <%= ad.text_field :reference, :placeholder => model_class.human_attribute_name(:reference), :class => 'form-control' %>
+                            </div>
+
+                            <div class="col-md-8">
+                              <%= ad.text_field :neighbourhood, :placeholder => model_class.human_attribute_name(:neighbourhood), :class => 'form-control' %>
+                            </div>
+                          </div>
+                          
+                          <div class="row">
+                            <div class="col-md-4">
+                              <%= ad.collection_select(:state_id, State.all.order(:name).all, :id, :name,
+                                {:prompt => 'Estado'}, {:class => 'selectpicker dropup', data: {style: "btn btn-success"}}) %>
+                            </div>
+                            <div class="col-md-8">
+                              <%= ad.select(:city_id, City.where(:state_id => ad.object.state_id ).collect{|s| [s.name, s.id]}, 
+                                {:prompt => 'Cidade'}, {:class => 'selectpicker dropup', data: {style: "btn btn-primary"}} ) %>  
+                            </div>
+                          </div> 
+
+                        </div>  
+                      <% end %>
+                    </div> <!-- fim tab dados pessoais -->
+                    <div id="doc" class="tab-pane fade">
+
+                      <div class="col-lg-12 box-shadow">                
+                        <%= f.fields_for :driver_license do |d| %>
+                          <div class="row">					                        	
+                            <div class="col-md-3">
+                              <%= d.text_field :number, :placeholder => model_class.human_attribute_name(:number), :class => 'form-control' %>                    
+                            </div>
+                            <div class="col-md-3">
+                              <%= d.text_field :category, :placeholder => model_class.human_attribute_name(:category), :class => 'form-control' %>                    
+                            </div>
+                            <div class="col-md-3">
+                              <div class="input-group">
+                                <%= d.text_field :date_issue, :placeholder => model_class.human_attribute_name(:date_issue), :data => {:provide => "datepicker", "date-format" => "dd/mm/yyyy", "datepicker-color" => "primary"}, class: 'form-control date-picker' %>
+                                <span class="input-group-addon">
+                                  <i class="fa fa-calendar btnCalendar btnCalendarDateIssue"></i>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="input-group">
+                                <%= d.text_field :expering_date, :placeholder => model_class.human_attribute_name(:expering_date), :data => {:provide => "datepicker", "date-format" => "dd/mm/yyyy", "datepicker-color" => "primary"}, class: 'form-control date-picker' %>
+                                <span class="input-group-addon">
+                                  <i class="fa fa-calendar btnCalendar btnCalendarDateExpering"></i>
+                                </span>
+                              </div>
+                            </div>
+                          </div>	
+                        <% end %>
+
+                        <div class="row">					                        	
+                          <div class="col-md-5">
+                            <%= f.collection_select(:marital_state_id, MaritalState.all.order(:description), :id, :description,
+                                {:prompt => 'Estado Civil'}, {:class => 'selectpicker', data: {style: "btn btn-warning"}}) %>
+                          </div>
+                          <div class="col-md-5">                    
+                            <%= f.text_field :wifes_name, :placeholder => model_class.human_attribute_name(:wifes_name), :class => 'form-control' %>
+                          </div>
+                          <div class="col-md-2">					                        		
+                            <%= f.text_field :among_sun, :placeholder => model_class.human_attribute_name(:among_sun), :class => 'form-control' %>
+                          </div>
+                        </div>
+
+                        <div class="row">					                        	
+                          <div class="col-md-5">
+                            <%= f.collection_select(:degree_education_id, DegreeEducation.all.order(:description), :id, :description,
+                                {:prompt => 'Grau de escolaridade'}, {:class => 'selectpicker', data: {style: "btn btn-default"}}) %>
+                          </div>
+                          <div class="col-md-7">                    
+                            <%= f.text_field :course, :placeholder => model_class.human_attribute_name(:course), :class => 'form-control' %>
+                          </div>
+                        </div>
+
+                        <%= f.fields_for :deficiency_person do |dp| %>
+                          <div class="row">
+                            <div class="col-md-4">
+                              <%= dp.text_area :chronic_disease, :placeholder => model_class.human_attribute_name(:chronic_disease), :class => 'form-control', :size => "40x2" %>                                        
+                            </div>	
+                            <div class="col-md-4">
+                              <%= dp.text_area :controlled_medication, :placeholder => model_class.human_attribute_name(:controlled_medication), :class => 'form-control', :size => "40x2" %>                                                              
+                            </div>          
+                            <div class="col-md-4">
+                              <%= f.text_area :motive, :placeholder => model_class.human_attribute_name(:motive), :class => 'form-control', :size => "40x2" %>                                        
+                            </div>          
+                          </div>
+                        <% end %>
+
+                        <div class="row">					                        						                        						                        				
+                          
+                                                      
+                          <div class="col-md-4">                            
+                          </div>					                        						                       
+                          
+                          <div class="col-md-4">
+                            
+                          </div>	
+                        </div>
+
+                        <%= f.fields_for :occupation do |o| %>
+                          <div class="row">                            
+                            <div class="col-md-4">
+                              <%= o.text_field :description, :placeholder => model_class.human_attribute_name(:description), :class => 'form-control' %>                      
+                            </div>	
+                            <div class="col-md-2">
+                              <%= o.text_field :experience_time, :placeholder => model_class.human_attribute_name(:experience_time), :class => 'form-control' %>                      
+                            </div>  
+                            <div class="col-md-2">	 
+                              <%= f.number_field :height, input_html: {value: '1.001', step:'0.001'}, :placeholder => model_class.human_attribute_name(:height), :class => 'form-control' %>                           
+                            </div> 
+                            <div class="col-md-4">
+                              <%= f.text_field :complementary_information, :placeholder => model_class.human_attribute_name(:complementary_information), :class => 'form-control' %>                                                              
+                            </div>                 
+                          </div>
+
+                          <div class="row">		
+                            <div class="col-lg-4">
+                              <span class="badge badge-success">Endereço profissional:</span>
+                            </div>
+                            <div class="col-lg-8"></div>
+                          </div>
+
+                          <%= o.fields_for :address do |adp| %>
+                            <div class="row">
+                              <div class="col-md-4">
+                                <%= adp.text_field :zip_code, :placeholder => model_class.human_attribute_name(:zip_code), :class => 'form-control' %>
+                              </div>
+                              <div class="col-md-8">
+                                <%= adp.text_field :street, :placeholder => model_class.human_attribute_name(:street), :class => 'form-control' %>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-md-4">
+                                <%= adp.text_field :number, :placeholder => model_class.human_attribute_name(:number), :class => 'form-control' %>
+                              </div>
+
+                              <div class="col-md-8">
+                                <%= adp.text_field :complement, :placeholder => model_class.human_attribute_name(:complement), :class => 'form-control' %>
+                              </div>
+                            </div>
+                              
+                            <div class="row">
+                              <div class="col-md-4">
+                                <%= adp.text_field :reference, :placeholder => model_class.human_attribute_name(:reference), :class => 'form-control' %>
+                              </div>
+
+                              <div class="col-md-8">
+                                <%= adp.text_field :neighbourhood, :placeholder => model_class.human_attribute_name(:neighbourhood), :class => 'form-control' %>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-md-4">
+                                <%= adp.collection_select(:state_id, State.all.order(:name).all, :id, :name,
+                                  {:prompt => 'Estado'}, {:class => 'selectpicker', data: {style: "btn btn-success"}}) %>
+                              </div>
+                              <div class="col-md-8">
+                                <%= adp.select(:city_id, City.where(:state_id => adp.object.state_id ).collect{|s| [s.name, s.id]}, 
+                                  {:prompt => 'Cidade'}, {:class => 'selectpicker', data: {style: "btn btn-primary"}} ) %>  
+                              </div>
+                            </div>
+                          <% end %>
+                        <% end %>                
+                        <%= f.hidden_field :fingerprint %>                                 
+                        <%= f.hidden_field :category_id, value: '3' %>                                    
+                      </div>
+                    </div> <!-- fim tab documentos -->
+                    <% unless @tuitionPeople.nil? %>
+                      <%= render :partial => 'tuitions_person' %> 
+                    <% end%>
+                  </div>                  
+                </div>
+              </div>
+
+              <div class="row">                    
+                <div class="col-12" align="right">
+                  <div class="btn-group" style="margin-bottom: 10px; margin-right: 15px" >
+                    <%= f.submit 'Enviar cadastro', :class => 'btn btn-success' %>
+                    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                              admin_people_path, :class => 'btn btn-danger' %>
+                  </div>
+                </div>
+              </div> 
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+
+<% end %>
+
+<script> 
+  jQuery(function($){
+
+    var webcamScreen =  "<div class=\"modal fade\" id=\"webcamModal\" role=\"dialog\">"+
+                        "  <div class=\"modal-dialog\">"+
+                        "    <div class=\"modal-content\">"+
+                        "      <div class=\"modal-header\">"+
+                        "          <button type=\"button\" class=\"close\" id=\"closeModal\" data-dismiss=\"modal\"><span>×</span></button>"+
+                        "          <h4 class=\"modal-title\">Webcam</h4>"+
+                        "      </div>"+
+                        "      <div class=\"modal-body\" id=\"videoCam\" align=\"center\"></div>"+
+                        "     <div class=\"modal-footer\">"+
+                        "          <button type=\"button\" class=\"btn btn-success\" id=\"btnCapturarFoto\" >Capturar</button>	"		+
+                        "          <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" id=\"btnFecharWebcam\">Fechar</button>"+
+                        "      </div>"+
+                        "    </div>"+
+                        "  </div>"+
+                        "</div>";
+    
+    $("#btnWebcam").on("click", function(event) {
+      event.preventDefault();
+
+      $(webcamScreen).appendTo("body");
+
+      var video = document.createElement('video'), canvas;
+      video.setAttribute("width", "320");
+      video.setAttribute("height", "240");
+      video.setAttribute("autoplay", "");
+      video.setAttribute("id", "webcam");
+
+      $('#videoCam').html(video);
+
+      /* Script webcam */
+      //var video = document.querySelector('video')      
+      /**
+        *  generates a still frame image from the stream in the <video>
+        *  appends the image to the <body>
+      */
+      function takeSnapshot() {
+        var img = document.querySelector('image') || document.createElement('image');
+        var context;
+        var width = video.offsetWidth
+          , height = video.offsetHeight;
+
+        canvas = canvas || document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+
+        context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, width, height);
+        var dataURL = canvas.toDataURL("image/png");
+        
+        $("#data_uri").val(dataURL);
+
+        //img.src = canvas.toDataURL('image/png');
+        $("#image-output").attr("src", canvas.toDataURL('image/png'));
+        //$("#person_photo").attr("val", decoded_image);
+        //document.body.appendChild(img);
+      }
+
+      function stop(videoElem){        
+        let stream = videoElem.srcObject;
+        let tracks = stream.getTracks();
+
+        tracks.forEach(function(track) {
+          track.stop();
+        });
+
+        videoElem.srcObject = null;
+      }
+
+      // Older browsers might not implement mediaDevices at all, so we set an empty object first
+      if (navigator.mediaDevices === undefined) {
+        navigator.mediaDevices = {};
+      }
+
+      // Some browsers partially implement mediaDevices. We can't just assign an object
+      // with getUserMedia as it would overwrite existing properties.
+      // Here, we will just add the getUserMedia property if it's missing.
+      if (navigator.mediaDevices.getUserMedia === undefined) {
+        navigator.mediaDevices.getUserMedia = function(constraints) {
+
+          // First get ahold of the legacy getUserMedia, if present
+          var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+          // Some browsers just don't implement it - return a rejected promise with an error
+          // to keep a consistent interface
+          if (!getUserMedia) {
+            return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+          }
+
+          // Otherwise, wrap the call to the old navigator.getUserMedia with a Promise
+          return new Promise(function(resolve, reject) {
+            getUserMedia.call(navigator, constraints, resolve, reject);
+          });
+        }
+      }
+
+      // use MediaDevices API
+      // docs: https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+      if (navigator.mediaDevices) {
+        // access the web cam
+        navigator.mediaDevices.getUserMedia({video: true})
+          // permission granted:
+          .then(function(stream) {
+
+            $("#webcamModal").modal();  
+
+            var video = document.querySelector('video');
+
+            // Older browsers may not have srcObject
+            if ("srcObject" in video) {
+              video.srcObject = stream;
+            } else {
+              // Avoid using this in new browsers, as it is going away.
+              video.src = window.URL.createObjectURL(stream);
+            }
+            video.onloadedmetadata = function(e) {
+              video.play();
+            };
+            video.addEventListener('click', takeSnapshot); 
+            $("#btnCapturarFoto").on("click", function(event) {
+              event.preventDefault();            
+              takeSnapshot();
+            });    
+
+            function closeVideo(){
+              stop(video);
+
+              $('#webcamModal').modal('hide');   
+              $( '#webcamModal' ).remove();
+              
+              $('#videoCam').html("");
+              $('.modal-backdrop').remove(); 
+              $( '#webcamModal' ).remove();
+            }
+
+            $("#closeModal").on("click", function(event) {
+              event.preventDefault();                   
+              closeVideo();
+            });
+
+            $("#btnFecharWebcam").on("click", function(event) {
+              event.preventDefault();                                 
+              closeVideo();
+            });
+
+          })
+          // permission denied:
+          .catch(function(error) {
+            alert('Não foi possível acessar a câmera. Erro: ' + error.name );
+          });          
+      }            
+    }); 
+    
+    $("#file-input").on("change", function(event) {
+      event.preventDefault();
+      var output = document.getElementById('image-output');
+      output.src = URL.createObjectURL(event.target.files[0]);
+    });
+
+    $("#image-output").on("click", function(event) {
+      event.preventDefault();
+      $("#file-input").click();
+    }); 
+
+    $("#btnFecharWebcam").on("click", function(event) {
+      event.preventDefault();     
+      
+      $('#webcamModal').modal('hide');   
+      $( '#webcamModal' ).remove();
+      stop();
+      $('#videoCam').html("");
+      $('.modal-backdrop').remove(); 
+      $( '#webcamModal' ).remove();
+    });
+    
+    $("#btnExcluirFoto").on("click", function(event) {
+      event.preventDefault();      
+      $("#image-output").attr("src", "/assets/foto_pessoa-2052e00ecae3107cda8ff0b8b8d1fae4ef457df77a49808cab192d6d3f5a88b7.png");
+      $("#data_uri").val("");
+    });
+
+    /* Fim webcam */
+    $('.selectpicker').selectpicker({
+        width: '100%'
+    });   
+
+    $('#liPessoa').addClass("active");
+    
+    $("#person_name").focus();
+
+    $(".datepicker").datepicker({
+      dateFormat: 'dd/mm/yy',
+      dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+      dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+      dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+      monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+      monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+      nextText: '>>',
+      prevText: '<<'
+    });          
+
+    $(".btnCalendarDateBorn").on("click", function() {
+      $('#person_date_born').focus();
+    });
+
+    $(".btnCalendarDateEnroll").on("click", function() {
+      $('#person_date_enroll').focus();
+    });
+
+    $(".btnCalendarDateIssue").on("click", function() {
+      $('#person_driver_license_attributes_date_issue').focus();
+    });
+
+    $(".btnCalendarExperingDate").on("click", function() {
+      $('#person_driver_license_attributes_expering_date').focus();
+    });
+    
+    $(".btnCalendar").css("cursor", "pointer");
+    $(".form-control").css("margin", "7px 1px !important");
+
+    $("#person_date_born").mask("99/99/9999");
+    $("#person_date_enroll").mask("99/99/9999");
+    $("#person_driver_license_attributes_date_issue").mask("99/99/9999");
+    $("#person_driver_license_attributes_expering_date").mask("99/99/9999");
+
+    $("#person_telephone_residence").mask("(99)99999-9999");
+    $("#person_smartphone_number").mask("(99)99999-9999");
+    $("#person_telephone_message").mask("(99)99999-9999");
+    $("#person_cpf").mask("999.999.999-99");
+
+    $("#person_address_attributes_zip_code").mask("99.999-999");
+    $("#person_occupation_attributes_address_attributes_zip_code").mask("99.999-999");
+
+    $("#person_address_attributes_zip_code").on("blur", function(event) { 
+      if( $('input#person_address_attributes_zip_code').val().length > 0) {
+        getCepResidencial(event);
+      }
+    });
+
+    $("#person_occupation_attributes_address_attributes_zip_code").on("blur", function(event) { 
+      if( $(this).val().length > 0) {
+        getCepProfissional(event);
+      }
+    });
+
+    var city_id;
+    var city_id_profissional;
+
+    var getCepProfissional = function(event) {
+      event.preventDefault();
+      var cep = $('#person_address_attributes_zip_code').val();
+  
+      $.ajax({
+        url: "/admin/people/" + 99 +"/get_cep/",
+        type: "GET",
+        data: {"cep" : cep.replace('.','').replace('-','')},
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON;
+          var state_id = json.state[0].id;
+          city_id_profissional = json.city[0].id;
+
+          $('#person_occupation_attributes_address_attributes_street').val(json.address.response.logradouro);
+          $('#person_occupation_attributes_address_attributes_neighbourhood').val(json.address.response.bairro);
+          
+          $("#person_occupation_attributes_address_attributes_state_id").selectpicker('val', state_id );
+          $('.selectpicker').selectpicker('refresh');
+        },
+        error: function(o, status, error) {
+          var json = o.responseJSON;
+          alert(json);
+        }
+      });
+    };
+
+    var getCepResidencial = function(event) {
+        event.preventDefault();
+        var cep = $('#person_address_attributes_zip_code').val().replace('.','').replace('-','');
+    
+        $.ajax({
+          url: "/admin/people/" + 99 +"/get_cep/",
+          type: "GET",
+          data: {"cep" : cep},
+          success: function(data, status, jqXHR){
+            var json = jqXHR.responseJSON;
+            var state_id = json.state[0].id;
+            city_id = json.city[0].id;
+
+            $('#person_address_attributes_street').val(json.address.response.logradouro);
+            $('#person_address_attributes_neighbourhood').val(json.address.response.bairro);
+            
+            $("#person_address_attributes_state_id").selectpicker('val', state_id );
+            $('.selectpicker').selectpicker('refresh');
+          },
+          error: function(o, status, error) {
+            var json = o.responseJSON;
+            alert(json);
+          }
+        });
+      };      
+  });
+
+  $('#person_address_attributes_state_id').change(function () {
+    var id = $(this).val(); 
+    
+    $.ajax({
+      url: "/admin/companies/" + 99 +"/load_cities/",
+      type: "GET",
+      data: {"state_id" : id},
+      success: function(data, status, jqXHR){
+        var json = jqXHR.responseJSON;          
+        var options = '';
+        
+        $("#person_address_attributes_city_id").empty();
+
+        for (var i = 0; i < json.length; i++) {
+          options += '<option value="' + json[i].id + '">' + json[i].name + '</option>';
+        }
+        $("#person_address_attributes_city_id").append(options);
+        $('#person_address_attributes_city_id').selectpicker('refresh');
+
+        $("#person_address_attributes_city_id").selectpicker('val', city_id);
+        
+      },
+      error: function(o, status, error) {
+        var json = o.responseJSON;
+        alert(json);
+      }
+    });
+  });
+
+  $('#person_occupation_attributes_address_attributes_state_id').change(function () {
+    var id = $(this).val(); 
+    
+    $.ajax({
+      url: "/admin/companies/" + 99 +"/load_cities/",
+      type: "GET",
+      data: {"state_id" : id},
+      success: function(data, status, jqXHR){
+        var json = jqXHR.responseJSON;          
+        var options = '';
+        
+        $("#person_occupation_attributes_address_attributes_city_id").empty();
+
+        for (var i = 0; i < json.length; i++) {
+          options += '<option value="' + json[i].id + '">' + json[i].name + '</option>';
+        }
+        $("#person_occupation_attributes_address_attributes_city_id").append(options);
+        $('#person_occupation_attributes_address_attributes_city_id').selectpicker('refresh');
+
+        $("#person_occupation_attributes_address_attributes_city_id").selectpicker('val', city_id_profissional);
+        
+      },
+      error: function(o, status, error) {
+        var json = o.responseJSON;
+        alert(json);
+      }
+    });
+  });
+
+    
+</script>
+
+<style>
+  .row{
+    padding: 3px;
+  }
+</style>

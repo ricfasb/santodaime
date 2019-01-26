@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Igreja Céu da Nova Vida</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />        
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body style="background-image:url('/assets/background-28bd3b91b764402a8edefafafaa9f62cc1248e71669c961ba08b274c3008bc33.jpg');background-repeat: no-repeat;-webkit-background-size: cover;
+  -moz-background-size: cover; -o-background-size: cover; background-size: cover;">
+    
+    <%= yield.force_encoding("UTF-8")  %>
+
+  </body>
+</html>

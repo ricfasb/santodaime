@@ -1,0 +1,38 @@
+<%- model_class = Email -%>
+<div class="row">
+  <div class="col">
+      <div class="card">
+          <div class="card-header card-header-success" data-background-color="green">
+            <div class="row">
+              <div class="col-md-8">
+                  <h4 class="title">Envio de E-mail</h4>
+                  <p class="category">Agendamento de envio de e-mails</p>
+              </div>
+                <div class="col" align="right">                        
+                  <%= link_to raw('<i class="now-ui-icons ui-1_email-85"></i>'),
+                      admin_email_send_mail_path("-1"), 
+                      data: { toggle: 'tooltip', placement: 'top', original_title: 'Enviar e-mail' },
+                      :style => "margin-left: 75px",
+                      :class => 'btn btn-lg btn-warning btn-round btn-icon' %>
+              </div>  
+            </div>
+          </div> 
+
+          <div class="card-content">
+            <div class="row justify-content-center d-flex align-items-center">   
+              <div class="col-11"> 
+                <%= render :partial => 'form' %> 
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<script> 
+  jQuery(function($){    
+    
+    $('#liEmail').addClass("active");  
+    $('[data-toggle="tooltip"]').tooltip();    
+  });
+</script>   

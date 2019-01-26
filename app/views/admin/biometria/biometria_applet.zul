@@ -1,0 +1,82 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<zscript><![CDATA[//@IMPORT
+	import br.pucpr.pergamum.zk.eventHandler.biometria.BiometriaAppletComposer;
+]]></zscript>
+
+<window closable="true" mode="modal" id="winBiometriaApplet" border="normal" title="Biometria" use="BiometriaAppletComposer" width="400px">
+<style src="../css/pergamum_1024.css" />
+<script src="../js/generico.js"/>
+
+<zscript><![CDATA[
+	//@DECLARATION
+	Textbox txtFingerPrint = (Textbox) arg.get("txtFingerPrint");
+	String tipoBiometria = Integer.toString((int) arg.get("tipoBiometria"));
+]]></zscript>
+
+<script type="text/javascript">
+	function chamarAppletLeitura(txtErro,applet,txtFingerPrintCadastro){
+		var template = document.getElementById(applet).getTemplate();
+		var codErro = document.getElementById(applet).getCodErro();
+		
+		if (codErro != 0){
+			/*O erro está sendo exibido pela applet pois a mensagem do ZK ficava em baixo, impossibilitando a leitura.
+			var msgErro = document.getElementById(applet).getMensagemErro(codErro);
+			document.getElementById(txtErro).value = "@erro@"+msgErro;*/
+		}else{
+			if (template != null){
+				document.getElementById(txtErro).value = "@sucesso@"
+				
+				//Envia o template para a tela de cadastro
+				document.getElementById(txtFingerPrintCadastro).value = template;
+				document.getElementById(txtFingerPrintCadastro).focus();
+				document.getElementById(txtFingerPrintCadastro).blur();
+			}
+		}
+		
+		//Envia mensagem de sucesso ou erro para o composer fechar ou não a janela
+		document.getElementById(txtErro).focus();
+		document.getElementById(txtErro).blur();
+	}
+</script>
+
+<grid width="99%">
+	<columns>
+		<column align="center" />
+	</columns>
+	<rows>
+		<row>
+			<!-- Adiciona o applet na tela de acordo com a parametrização -->
+			<zk switch="${tipoBiometria}">
+				<zk case="1">
+					<applet id="biometriaNitgenApplet" code="br.pucpr.pergamum.biometria.NitgenApplet.class"
+						archive="../biometria/NitgenAppletSigned.jar?v=1" width="360px" height="170px"
+						Caller-Allowable-Codebase="*" Permissions="all-permissions" separate_jvm="true" />
+				</zk>
+				<zk case="2">
+					<applet id="biometriaSupremaApplet" code="br.pucpr.pergamum.biometria.SupremaBioMiniApplet.class"
+						archive="../biometria/SupremaAppletSigned.jar?v=1" width="360px" height="170px"
+						Caller-Allowable-Codebase="*" Permissions="all-permissions" separate_jvm="true" />
+				</zk>
+				<zk case="3">
+					<applet id="biometriaDigiScanApplet" code="br.pucpr.pergamum.biometria.DigiScanFS80Applet.class"
+						archive="../biometria/DigiScanFS80AppletSigned.jar?v=2" width="360px" height="170px"
+						Caller-Allowable-Codebase="*" Permissions="all-permissions" separate_jvm="true" />
+				</zk>
+				<zk case="4">
+					<applet id="biometriaNitgenV2Applet" code="br.pucpr.pergamum.biometria.NitgenApplet.class"
+						archive="../biometria/NitgenAppletV2Signed.jar?v=1" width="360px" height="170px"
+						Caller-Allowable-Codebase="*" Permissions="all-permissions" separate_jvm="true" />
+				</zk>
+			</zk>			
+		</row>
+		<row>
+			<button label="L3r B10m3tr14" id="btnLerBiometria" zclass="bt_ok" />
+		</row>
+		<row>
+			<textbox id="txtErro" readonly="true" width="0px" visible="true" />
+		</row>
+	</rows>
+</grid>
+</window>
+</zk>

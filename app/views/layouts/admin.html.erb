@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Igreja Céu da Nova Vida</title>  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />      
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application' %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+        
+    <div class="wrapper">
+        <nav class="navbar navbar-expand-lg bg-success">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Igreja Céu da Nova Vida</a>
+                <button class="navbar-toggler navbar-toggle" type="button" data-toggle="collapse" data-target="#example-navbar-icons" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                
+
+                <div class="collapse navbar-collapse" id="example-navbar-icons">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#pablo"><i class="now-ui-icons ui-1_settings-gear-63" aria-hidden="true"></i></a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
+                                <i class="now-ui-icons users_single-02" aria-hidden="true"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">                                
+                                <a class="dropdown-item" href="/users/sign_out" data-method="delete">Logout</a>                                
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="sidebar" data-color="green" >            
+            <div class="sidebar-wrapper" >
+                <ul class="nav">
+                    <li id="liHome" class="<%= active_class(admin_welcome_index_path) %>">
+                        <a href="/admin/welcome/index">
+                            <i class="material-icons">dashboard</i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+
+                    <li id="liSede" class="<%= active_class(admin_companies_path) %>">
+                        <a href="/admin/companies">
+                            <i class="material-icons">home</i>
+                            <p>Sedes</p>
+                        </a>
+                    </li>
+                    <li id="liCategoria" class="<%= active_class(admin_categories_path) %>">
+                        <a href="/admin/categories">
+                            <i class="material-icons">extension</i>
+                            <p>Categorias</p>
+                        </a>
+                    </li>
+                    <li id="liPessoa" class="<%= active_class(admin_people_path) %>">
+                        <a href="/admin/people">
+                            <i class="material-icons">person</i>
+                            <p>Pessoas</p>
+                        </a>
+                    </li>
+                    <!--<li id="liProduto">
+                        <a href="#">
+                            <i class="material-icons disabled">shopping_cart</i>
+                            <p>Produtos</p>
+                        </a>
+                    </li>
+                    <li id="liEmprestimo">
+                        <a href="#">
+                            <i class="material-icons">shopping_cart</i>
+                            <p>Empréstimos</p>
+                        </a>
+                    </li>-->
+                    <li id="liEmail" class="<%= active_class(admin_emails_path) %>">
+                        <a href="/admin/emails">
+                            <i class="material-icons">mailn</i>
+                            <p>Envio de e-mails</p>
+                        </a>
+                    </li>                      
+                    <li id="liCheckIn" class="<%= active_class(admin_checkins_path) %>">
+                        <a href="/admin/checkins">
+                            <i class="material-icons">fingerprint</i>
+                            <p>CheckIn Biométrico</p>
+                        </a>
+                    </li>
+                    <li id="liCobranca" class="<%= active_class(admin_invoices_path) %>">
+                        <a href="/admin/invoices">
+                            <i class="material-icons">attach_money</i>
+                            <p>Cobranças</p>
+                        </a>
+                    </li> 
+                    <li id="liMensalidade" class="<%= active_class(admin_tuitions_path) %>">
+                        <a href="/admin/tuitions">
+                            <i class="material-icons">monetization_on</i>
+                            <p>Mensalidades</p>
+                        </a>
+                    </li>   
+                    <li id="liPagamento" class="<%= active_class(admin_payments_path) %>">
+                        <a href="/admin/payments">
+                            <i class="material-icons">credit_card</i>
+                            <p>Pagamentos</p>
+                        </a>
+                    </li>   
+                    <!--<li id="liRelatorio" class="<%= active_class(admin_emails_path) %>">
+                        <a href="/admin/emails">
+                            <i class="material-icons">report</i>
+                            <p>Relatórios</p>
+                        </a>
+                    </li>-->  
+                    <!--<li id="liUsuarios" class="<%= active_class(admin_people_path) %>">
+                        <a href="/admin/people">
+                            <i class="material-icons">person</i>
+                            <p>Usuários</p>
+                        </a>
+                    </li>-->                 
+                    <li id="liLogout">
+                        <a href="/users/sign_out" data-method="delete" >
+                            <i class="material-icons text-gray">power_settings_new</i>
+                            <p>Logout</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>        
+
+        <div class="main-panel">           
+            <div class="container-fluid">
+                <%= yield.force_encoding("UTF-8")  %>
+            </div>
+        </div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,118 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<zscript><![CDATA[//@IMPORT
+	import br.pucpr.pergamum.zk.eventHandler.biometria.VerBiometriaComposer;
+]]></zscript>
+
+<window closable="true" mode="modal" id="winBiometria" border="normal" title="Biometria" use="VerBiometriaComposer" width="400px">
+<style src="../css/pergamum_1024.css" />
+<script src="../js/generico.js"/>
+
+<zscript><![CDATA[
+	//@DECLARATION
+	String fingerPrint = (String) arg.get("fingerPrint");
+	String tipoBiometria = Integer.toString( (Integer) arg.get("tipoBiometria") );	
+	Textbox txtBiometriaValida = (Textbox) arg.get("txtBiometriaValida");
+]]></zscript>
+
+<script type="text/javascript">
+	function chamarAppletAutenticacaoBiometria(txtErro, applet, txtFingerPrint, tipoBiometria){
+	
+		var isBiometriaValida = false;
+		var codErro = 0;
+			
+		if( tipoBiometria === '1'){			
+			//Nitgen - Faz leitura automaticamente e compara com o valor passado
+			isBiometriaValida = document.getElementById(applet).getIsBiometriaValida(txtFingerPrint);				
+		}
+		
+		if( tipoBiometria === '2'){		
+			//Suprema - Captura a biometria separadamente e depois chama o método para compara
+			var templateLeitura = document.getElementById(applet).getTemplate();
+			codErro = document.getElementById(applet).getCodErro();
+				
+			if ( codErro === 0) {
+				if(templateLeitura !== null){					
+					isBiometriaValida = document.getElementById(applet).getIsBiometriaValida(txtFingerPrint,templateLeitura);					
+				}
+			}				
+		}
+		
+		if( tipoBiometria === '3'){		
+			//DigiScan - Captura a biometria separadamente e depois chama o método para compara
+			var templateLeitura = document.getElementById(applet).getTemplate();
+			codErro = document.getElementById(applet).getCodErro();
+		
+			if(codErro === 0){
+				if(templateLeitura !== null){
+					isBiometriaValida = document.getElementById(applet).getIsBiometriaValida(txtFingerPrint,templateLeitura);
+				}
+			}
+		}
+				
+		if( tipoBiometria === '4'){		
+			//Nitgen - Faz leitura automaticamente e compara com o valor passado
+			isBiometriaValida = document.getElementById(applet).getIsBiometriaValida(txtFingerPrint);			
+		}		
+		
+		var btnLerBiometria = zk.Widget.$(jq('$btnLerBiometria'));
+		var winBiometria = zk.Widget.$(jq('$winBiometria'));
+		var txtStatusBiometria = zk.Widget.$(jq('$txtStatusBiometria'));
+		
+		if(isBiometriaValida === true){
+			val = 's';			
+			txtStatusBiometria.setValue(val);
+			txtStatusBiometria.smartUpdate('value', val );
+			txtStatusBiometria.fire('onChanging');
+			winBiometria.fire('onClose');
+			winBiometria.detach();			
+		}
+	}
+</script>
+
+<grid width="99%">
+	<columns>
+		<column align="center" />
+	</columns>
+	<rows>
+		<row>
+			<!-- Adiciona o applet na tela de acordo com a parametrização -->
+			<zk switch="${tipoBiometria}">
+				<zk case="1">
+					<applet id="biometriaNitgenApplet" code="br.pucpr.pergamum.biometria.NitgenApplet.class"
+						archive="../biometria/NitgenAppletSigned.jar?v=1" width="360px" height="170px"
+						Caller-Allowable-Codebase="*" Permissions="all-permissions" separate_jvm="true" />
+				</zk>
+				<zk case="2">
+					<applet id="biometriaSupremaApplet" code="br.pucpr.pergamum.biometria.SupremaBioMiniApplet.class"
+						archive="../biometria/SupremaAppletSigned.jar?v=1" width="360px" height="170px"
+						Caller-Allowable-Codebase="*" Permissions="all-permissions" separate_jvm="true" />
+				</zk>
+				<zk case="3">
+					<applet id="biometriaDigiScanApplet" code="br.pucpr.pergamum.biometria.DigiScanFS80Applet.class"
+						archive="../biometria/DigiScanFS80AppletSigned.jar?v=2" width="360px" height="170px"
+						Caller-Allowable-Codebase="*" Permissions="all-permissions" separate_jvm="true" />
+				</zk>
+				<zk case="4">
+					<applet id="biometriaNitgenV2Applet" code="br.pucpr.pergamum.biometria.NitgenApplet.class"
+						archive="../biometria/NitgenAppletV2Signed.jar?v=1" width="360px" height="170px"
+						Caller-Allowable-Codebase="*" Permissions="all-permissions" separate_jvm="true" />
+				</zk>
+			</zk>			
+		</row>		
+		<row>
+			<button label="L3r B10m3tr14" id="btnLerBiometria" zclass="bt_ok" visible="true" />
+		</row>
+		<row>
+			<textbox id="txtErro" readonly="true" width="0px" visible="true" />			
+		</row>
+		<row visible="false">
+			<textbox id="txtStatusBiometria" value="false">
+				<custom-attributes org.zkoss.zk.ui.updateByClient="true"/>
+			</textbox>			
+		</row>
+		
+	</rows>
+</grid>
+</window>
+</zk>

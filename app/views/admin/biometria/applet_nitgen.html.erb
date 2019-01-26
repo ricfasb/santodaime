@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Nitgen</title>
+		<script>
+			//ARQUIVO DE EXEMPLO PARA TESTE DO APPLET			
+			function chamarAppletLeitura(){
+				limparCamposLeitura();
+				
+				if(document.getElementById("template1").value != ""){
+					limparResultadoComparacao();
+					limparTemplates();
+				}
+				
+				var template = document.NitgenApplet.getTemplate();
+				
+				document.getElementById("template").value = template;				
+				document.getElementById("template1").value = template;
+
+				verificarErro();
+			}
+			
+			function chamarAppletComparacao(){
+				limparResultadoComparacao();
+				
+				var template1 = document.getElementById("template1").value;
+				
+				var isBiometriaValida = document.NitgenApplet.getIsBiometriaValida(template1);
+				if (isBiometriaValida)
+					document.getElementById("resultadoComparacao").value = "V�lida";
+				else
+					document.getElementById("resultadoComparacao").value = "Inv�lida";
+				
+				verificarErro();
+			}
+			
+			function verificarErro(){
+				var codErro = document.NitgenApplet.getCodErro();
+				document.getElementById("codErro").value = codErro;
+				
+				if (codErro != 0){
+					var msgErro = document.NitgenApplet.getMensagemErro(codErro);
+					document.getElementById("msgErro").value = msgErro;
+				}
+				
+				document.getElementById("resp").value = ("Ok");
+			}
+			
+			function limparCamposErro(){
+				document.getElementById("codErro").value = "";
+				document.getElementById("msgErro").value = "";
+				document.getElementById("resp").value = "";
+			}
+			
+			function limparCamposLeitura(){
+				limparCamposErro();
+				document.getElementById("template").value = "";				
+			}
+			
+			function limparResultadoComparacao(){
+				limparCamposErro();
+				document.getElementById("resultadoComparacao").value = "";
+			}
+			
+			function limparTemplates(){
+				document.getElementById("template1").value = "";
+			}
+			
+			function limparTudo(){
+				limparCamposErro();
+				limparCamposLeitura();
+				limparResultadoComparacao();
+				limparTemplates();
+			}
+		</script>
+	</head>
+	<body>
+		<div style="float:left; width:50%;">
+			<b>Painel do Applet</b><br />
+			<applet name="NitgenApplet" codebase="/" code="br.pucpr.pergamum.biometria.NitgenApplet.class" archive="NitgenAppletSigned.jar?v=12" width="360" height="170">
+				<param name="Caller-Allowable-Codebase" value = "*">
+		        <param name="Permissions" value="all-permissions" />
+		        <param name="separate_jvm" value="true"/>
+			</applet>
+			<br />
+			<b>Leitura</b><br />
+			Template:<br />
+			<input type="text" id="template" value="" size="78">
+			<br />
+			<input type="button" onclick="chamarAppletLeitura();" value="Leitura Biométrica">			
+		</div>
+		<div style="float:left; width:50%;">
+			<b>Comparação</b><br />
+			Template 1:<br />
+			<input type="text" id="template1" value="" size="78">
+			<br />
+			Resultado:<br />
+			<input type="text" id="resultadoComparacao" value="" size="78">
+			<br />
+			<input type="button" onclick="chamarAppletComparacao();" value="Comparar templates">			
+			<br /><br />
+			<br />
+			
+			<b>Execução</b><br />
+			codErro:<br />
+			<input type="text" id=codErro value="" size="78">
+			<br />
+			msgErro:<br />
+			<input type="text" id=msgErro value="" size="78">
+			<br />
+			Confirmação:<br />
+			<input type="text" id="resp" value="" size="78">
+			<br />
+			<input type="button" onclick="limparTudo();" value="Limpar Tudo">
+		</div>
+	</body>
+</html>
