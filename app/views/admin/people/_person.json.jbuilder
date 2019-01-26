@@ -1,2 +1,2 @@
 json.extract! person, :id, :name, :email, :photo, :date_born, :date_enroll, :height, :rg, :cpf, :telephone_residence, :smartphone_number, :telephone_message, :message_person, :facebook, :father_name, :mother_name, :category_id, :driver_license_id, :marital_state_id, :wifes_name, :among_sun, :degree_education_id, :course, :occupation_id, :motive, :complementary_information, :fingerprint, :created_at, :updated_at
-json.url person_url(person, format: :json)
+json.url admin_person_url(person, format: :json)

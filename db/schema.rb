@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20180820131744) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "addresses", force: :cascade do |t|
     t.string   "zip_code"
     t.string   "street"
@@ -25,10 +28,10 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.integer  "state_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.index ["addressable_id"], name: "index_addresses_on_addressable_id"
-    t.index ["addressable_type"], name: "index_addresses_on_addressable_type"
-    t.index ["city_id"], name: "index_addresses_on_city_id"
-    t.index ["state_id"], name: "index_addresses_on_state_id"
+    t.index ["addressable_id"], name: "index_addresses_on_addressable_id", using: :btree
+    t.index ["addressable_type"], name: "index_addresses_on_addressable_type", using: :btree
+    t.index ["city_id"], name: "index_addresses_on_city_id", using: :btree
+    t.index ["state_id"], name: "index_addresses_on_state_id", using: :btree
   end
 
   create_table "categories", force: :cascade do |t|
@@ -37,7 +40,7 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.datetime "updated_at",     null: false
     t.boolean  "insert_tuition"
     t.integer  "tuition_id"
-    t.index ["tuition_id"], name: "index_categories_on_tuition_id"
+    t.index ["tuition_id"], name: "index_categories_on_tuition_id", using: :btree
   end
 
   create_table "checkins", force: :cascade do |t|
@@ -45,8 +48,8 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.integer  "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_checkins_on_company_id"
-    t.index ["person_id"], name: "index_checkins_on_person_id"
+    t.index ["company_id"], name: "index_checkins_on_company_id", using: :btree
+    t.index ["person_id"], name: "index_checkins_on_person_id", using: :btree
   end
 
   create_table "cities", force: :cascade do |t|
@@ -54,7 +57,7 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.integer  "state_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["state_id"], name: "index_cities_on_state_id"
+    t.index ["state_id"], name: "index_cities_on_state_id", using: :btree
   end
 
   create_table "companies", force: :cascade do |t|
@@ -63,7 +66,7 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.integer  "address_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["address_id"], name: "index_companies_on_address_id"
+    t.index ["address_id"], name: "index_companies_on_address_id", using: :btree
   end
 
   create_table "deficiency_people", force: :cascade do |t|
@@ -73,8 +76,8 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.string   "deficiencable_type"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
-    t.index ["deficiencable_id"], name: "index_deficiency_people_on_deficiencable_id"
-    t.index ["deficiencable_type"], name: "index_deficiency_people_on_deficiencable_type"
+    t.index ["deficiencable_id"], name: "index_deficiency_people_on_deficiencable_id", using: :btree
+    t.index ["deficiencable_type"], name: "index_deficiency_people_on_deficiencable_type", using: :btree
   end
 
   create_table "degree_educations", force: :cascade do |t|
@@ -92,8 +95,8 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.string   "licensable_type"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.index ["licensable_id"], name: "index_driver_licenses_on_licensable_id"
-    t.index ["licensable_type"], name: "index_driver_licenses_on_licensable_type"
+    t.index ["licensable_id"], name: "index_driver_licenses_on_licensable_id", using: :btree
+    t.index ["licensable_type"], name: "index_driver_licenses_on_licensable_type", using: :btree
   end
 
   create_table "emails", force: :cascade do |t|
@@ -107,9 +110,9 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.datetime "schedule"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.index ["category_id"], name: "index_emails_on_category_id"
-    t.index ["company_id"], name: "index_emails_on_company_id"
-    t.index ["person_id"], name: "index_emails_on_person_id"
+    t.index ["category_id"], name: "index_emails_on_category_id", using: :btree
+    t.index ["company_id"], name: "index_emails_on_company_id", using: :btree
+    t.index ["person_id"], name: "index_emails_on_person_id", using: :btree
   end
 
   create_table "invoice_types", force: :cascade do |t|
@@ -126,8 +129,8 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.float    "amount"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.index ["invoice_type_id"], name: "index_invoices_on_invoice_type_id"
-    t.index ["person_id"], name: "index_invoices_on_person_id"
+    t.index ["invoice_type_id"], name: "index_invoices_on_invoice_type_id", using: :btree
+    t.index ["person_id"], name: "index_invoices_on_person_id", using: :btree
   end
 
   create_table "marital_states", force: :cascade do |t|
@@ -144,9 +147,9 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.string   "occupatiable_type"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.index ["address_id"], name: "index_occupations_on_address_id"
-    t.index ["occupatiable_id"], name: "index_occupations_on_occupatiable_id"
-    t.index ["occupatiable_type"], name: "index_occupations_on_occupatiable_type"
+    t.index ["address_id"], name: "index_occupations_on_address_id", using: :btree
+    t.index ["occupatiable_id"], name: "index_occupations_on_occupatiable_id", using: :btree
+    t.index ["occupatiable_type"], name: "index_occupations_on_occupatiable_type", using: :btree
   end
 
   create_table "payments", force: :cascade do |t|
@@ -158,8 +161,8 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.string   "obs_discount"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.index ["invoice_id"], name: "index_payments_on_invoice_id"
-    t.index ["person_id"], name: "index_payments_on_person_id"
+    t.index ["invoice_id"], name: "index_payments_on_invoice_id", using: :btree
+    t.index ["person_id"], name: "index_payments_on_person_id", using: :btree
   end
 
   create_table "people", force: :cascade do |t|
@@ -197,14 +200,14 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.integer  "on_line"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
-    t.index ["address_id"], name: "index_people_on_address_id"
-    t.index ["category_id"], name: "index_people_on_category_id"
-    t.index ["cpf"], name: "index_people_on_cpf"
-    t.index ["deficiency_person_id"], name: "index_people_on_deficiency_person_id"
-    t.index ["degree_education_id"], name: "index_people_on_degree_education_id"
-    t.index ["driver_license_id"], name: "index_people_on_driver_license_id"
-    t.index ["marital_state_id"], name: "index_people_on_marital_state_id"
-    t.index ["occupation_id"], name: "index_people_on_occupation_id"
+    t.index ["address_id"], name: "index_people_on_address_id", using: :btree
+    t.index ["category_id"], name: "index_people_on_category_id", using: :btree
+    t.index ["cpf"], name: "index_people_on_cpf", using: :btree
+    t.index ["deficiency_person_id"], name: "index_people_on_deficiency_person_id", using: :btree
+    t.index ["degree_education_id"], name: "index_people_on_degree_education_id", using: :btree
+    t.index ["driver_license_id"], name: "index_people_on_driver_license_id", using: :btree
+    t.index ["marital_state_id"], name: "index_people_on_marital_state_id", using: :btree
+    t.index ["occupation_id"], name: "index_people_on_occupation_id", using: :btree
   end
 
   create_table "periodicities", force: :cascade do |t|
@@ -231,8 +234,8 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.string   "amount_paied"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
-    t.index ["person_id"], name: "index_tuition_people_on_person_id"
-    t.index ["tuition_id"], name: "index_tuition_people_on_tuition_id"
+    t.index ["person_id"], name: "index_tuition_people_on_person_id", using: :btree
+    t.index ["tuition_id"], name: "index_tuition_people_on_tuition_id", using: :btree
   end
 
   create_table "tuitions", force: :cascade do |t|
@@ -244,7 +247,7 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.integer  "email_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.index ["email_id"], name: "index_tuitions_on_email_id"
+    t.index ["email_id"], name: "index_tuitions_on_email_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -260,8 +263,33 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "addresses", "cities"
+  add_foreign_key "addresses", "states"
+  add_foreign_key "categories", "tuitions"
+  add_foreign_key "checkins", "companies"
+  add_foreign_key "checkins", "people"
+  add_foreign_key "cities", "states"
+  add_foreign_key "companies", "addresses"
+  add_foreign_key "emails", "categories"
+  add_foreign_key "emails", "companies"
+  add_foreign_key "emails", "people"
+  add_foreign_key "invoices", "invoice_types"
+  add_foreign_key "invoices", "people"
+  add_foreign_key "occupations", "addresses"
+  add_foreign_key "payments", "invoices"
+  add_foreign_key "payments", "people"
+  add_foreign_key "people", "addresses"
+  add_foreign_key "people", "categories"
+  add_foreign_key "people", "deficiency_people"
+  add_foreign_key "people", "degree_educations"
+  add_foreign_key "people", "driver_licenses"
+  add_foreign_key "people", "marital_states"
+  add_foreign_key "people", "occupations"
+  add_foreign_key "tuition_people", "people"
+  add_foreign_key "tuition_people", "tuitions"
+  add_foreign_key "tuitions", "emails"
 end

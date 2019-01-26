@@ -20,13 +20,18 @@
                   
                   <div class="card-content">
                     <%= search_form_for [:admin, @q] do |f| %>
-                    <div class="row">  
-                      <div class="col-md-1"></div>
+                    <div class="row">                        
                       <div class="col-md-2 justify-content-center d-flex align-items-center">
                         <%= f.label :person_name_cont, :class => 'form-control' %>                                                    
                       </div>
-                      <div class="col-md-7 justify-content-center d-flex align-items-center" align="right">			   
-                        <%= f.search_field :person_name_cont, :placeholder => 'Valor a ser pesquisado', :class => 'form-control' %>
+                      <div class="col-md-4 justify-content-center d-flex align-items-center" align="right">			   
+                        <%= f.search_field :person_name_cont, :placeholder => 'Nome da pessoa', :class => 'form-control' %>
+                      </div> 
+                      <div class="col-md-2 justify-content-center d-flex align-items-center" align="right">			                           
+                        <%= f.search_field :created_at_gteq, :placeholder => 'Data inicial', class: 'form-control input-sm', 'datepicker' => true %>
+                      </div> 
+                      <div class="col-md-2 justify-content-center d-flex align-items-center" align="right">			                           
+                        <%= f.search_field :created_at_lteq, :placeholder => 'Data final', class: 'form-control input-sm', 'datepicker' => true %>
                       </div> 
                       <div class="col-md-2" align="center">                           
                         <%= link_to raw('<i class="now-ui-icons ui-1_zoom-bold"></i>'),
