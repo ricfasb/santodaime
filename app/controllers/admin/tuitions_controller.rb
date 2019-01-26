@@ -1,5 +1,7 @@
 class Admin::TuitionsController < Admin::AdminController
   
+  protect_from_forgery with: :exception
+  
   layout "admin"
   
   before_action :set_tuition, only: [:show, :edit, :update, :destroy]
