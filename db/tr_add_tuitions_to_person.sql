@@ -63,8 +63,5 @@ $BODY$
 LANGUAGE plpgsql VOLATILE
 COST 100;
 
-drop trigger tr_add_tuitions_to_person;
-
 create trigger tr_add_tuitions_to_person after insert on people
 for each row execute procedure add_tuitions_to_person();
-
