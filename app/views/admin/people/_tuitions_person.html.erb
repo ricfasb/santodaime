@@ -10,7 +10,7 @@
         <tbody>
         <% @tuitionPeople.each do |tuition| %>
         <tr>                                
-            <td><%= tuition.due_date %></td>
+            <td><%= tuition.due_date.strftime("%d/%m/%Y") %></td>
             <td><%= tuition.tuition.amount %></td>
         </tr>
         <% end %>
