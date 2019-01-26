@@ -1,6 +1,5 @@
 class Admin::InvoiceTypesController < ApplicationController
-
-  skip_before_filter :verify_authenticity_token
+  protect_from_forgery with: :null_session
   
   before_action :set_admin_invoice_type, only: [:show, :edit, :update, :destroy]
 
