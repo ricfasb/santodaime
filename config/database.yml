@@ -106,7 +106,7 @@ production:
  encoding: UTF-8
  port: 5432
  pool: 5
- host: aa1hp0kidz6by6s.cfmwc5eqvf2q.sa-east-1.rds.amazonaws.com
- database: ebdb
- username: binario
- password: Rico0504
+ host: ec2-54-83-50-174.compute-1.amazonaws.com
+ database: d85e3hmtaf0p8k
+ username: bfxbfdiopextop
+ password: 67d4f450e8ff92a3493add1230a9d305171d286261f969291e958abaf17453e7
