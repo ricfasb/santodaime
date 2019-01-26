@@ -1,0 +1,1 @@
+psql -h ec2 -p 5432 -d d85e3 -U bfxb -f tr_add_tuitions_to_person.sql

@@ -14,8 +14,15 @@ DECLARE
 BEGIN
     --pega a categoria
     category := NEW.category_id;
-    --perga a mensalidade e se insere mensalidade para a categoia desta pessoa
-    select c.tuition_id, c.insert_tuition into tuition, insert_tuition from categories c where c.id = category;
+    --perga a mensalidade e se insere mensalidade para a categoria desta pessoa
+    select c.tuition_id, c.insert_tuition into tuition, insert_tuition from categories c 
+     where c.id = category;
+
+     raise notice 'The transaction is in an uncommittable state. '
+                 'Transaction was rolled back';
+
+    raise notice '% %', SQLERRM, SQLSTATE;
+
     select t.day into due_day from tuitions t where id = tuition;
 
     --pega o mes atual
@@ -55,6 +62,8 @@ $BODY$
 
 LANGUAGE plpgsql VOLATILE
 COST 100;
+
+drop trigger tr_add_tuitions_to_person;
 
 create trigger tr_add_tuitions_to_person after insert on people
 for each row execute procedure add_tuitions_to_person();
