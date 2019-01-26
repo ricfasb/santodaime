@@ -1,5 +1,6 @@
 class Admin::CheckinsController < Admin::AdminController
-
+  skip_before_filter :verify_authenticity_token
+  
   layout "admin"
 
   before_action :set_checkin, only: [:show, :edit, :update, :destroy]

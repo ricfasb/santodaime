@@ -1,5 +1,7 @@
 class Admin::InvoicesController < Admin::AdminController
 
+  skip_before_filter :verify_authenticity_token
+  
   layout "admin"
 
   before_action :set_invoice, only: [:show, :edit, :update, :destroy]

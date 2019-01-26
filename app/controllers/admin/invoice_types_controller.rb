@@ -1,4 +1,7 @@
 class Admin::InvoiceTypesController < ApplicationController
+
+  skip_before_filter :verify_authenticity_token
+  
   before_action :set_admin_invoice_type, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/invoice_types

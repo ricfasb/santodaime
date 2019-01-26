@@ -1,5 +1,7 @@
 class Admin::PaymentsController < Admin::AdminController
 
+  skip_before_filter :verify_authenticity_token
+  
   layout "admin"
 
   before_action :set_payment, only: [:show, :edit, :update, :destroy]

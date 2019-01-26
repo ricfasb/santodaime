@@ -1,4 +1,7 @@
 class Admin::PeopleController < Admin::AdminController
+
+  skip_before_filter :verify_authenticity_token
+  
   require 'base64'
   require 'io/console'
   require 'jasper-bridge'

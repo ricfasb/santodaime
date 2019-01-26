@@ -1,5 +1,6 @@
 class Admin::CompaniesController < Admin::AdminController
-
+  skip_before_filter :verify_authenticity_token
+  
   layout "admin"
 
   before_action :set_company, only: [:show, :edit, :update, :destroy]
