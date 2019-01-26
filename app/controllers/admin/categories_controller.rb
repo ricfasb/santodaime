@@ -1,5 +1,6 @@
 class Admin::CategoriesController < Admin::AdminController
-
+  protect_from_forgery with: :null_session
+  
   layout "admin"
 
   before_action :set_category, only: [:show, :edit, :update, :destroy]
