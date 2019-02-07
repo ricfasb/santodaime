@@ -1,5 +1,4 @@
 class Admin::CheckinsController < Admin::AdminController
-  protect_from_forgery with: :null_session
   
   layout "admin"
 
@@ -11,6 +10,7 @@ class Admin::CheckinsController < Admin::AdminController
   # GET /checkins.json
   def index
     @q = Checkin.ransack(params[:q])
+    @q.sorts = ['created_at desc'] if @q.sorts.empty?
     @checkins = @q.result.paginate(:page => params[:page], :per_page => 10)  
   end
 
@@ -35,11 +35,11 @@ class Admin::CheckinsController < Admin::AdminController
 
     respond_to do |format|
       if @checkin.save
-        format.html { redirect_to admin_checkin_url, notice: 'Checkin was successfully created.' }
-        format.json { render :show, status: :created, location: @checkin }
+        format.js
+        render json: {}, status: :created
       else
-        format.html { render :new }
-        format.json { render json: @checkin.errors, status: :unprocessable_entity }
+        format.js
+        render json: @checkin.errors, status: :unprocessable_entity
       end
     end
   end

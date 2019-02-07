@@ -1,5 +1,4 @@
 class Admin::PeopleController < Admin::AdminController
-  protect_from_forgery with: :null_session
   
   require 'base64'
   require 'io/console'
@@ -25,16 +24,11 @@ class Admin::PeopleController < Admin::AdminController
   end
   
   def search_fingerprint    
-    @q = Person.ransack(params[:q])
-    @person = @q.result
-    #@person = Person.find(27)
-    @category = Category.find(@person.category_id)
+    @people = Person.all
 
-    @server = Rails.root
     if request.xhr?      
-      unless @person.nil?
-        render :json => { :person => @person.to_json(:methods => [:photo]),
-                          :category => @category,                          
+      unless @people.nil?
+        render :json => { :people => @people.to_json(:include => :category, :methods => [:photo]),                        
                           :message => 'OK' }
       end
     else
