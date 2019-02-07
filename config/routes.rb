@@ -10,13 +10,12 @@ Rails.application.routes.draw do
   namespace :admin do
     
     resources :people do
-      get :search_fingerprint
-      get :search_person
-      get "/admin/people/:person_id/search_fingerprint", to: "people#search_fingerprint"      
+      get :search_person           
       get :get_cep
-      get "birthdays_month", to: "people#birthdays_month", on: :collection
-      get "birthday", to: "people#birthday", on: :collection
-      get "exportar_pdf", to: "people#exportar_pdf", on: :collection
+      get "search_fingerprint", to: "people#search_fingerprint",  on: :collection
+      get "birthdays_month",    to: "people#birthdays_month",     on: :collection
+      get "birthday",           to: "people#birthday",            on: :collection
+      get "exportar_pdf",       to: "people#exportar_pdf",        on: :collection
     end
 
     get '/users' => 'users#index'
