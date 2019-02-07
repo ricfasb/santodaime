@@ -25,7 +25,7 @@
 
           <div class="row">
             <div class="col-12" align="center">
-              <applet name="NitgenApplet" codebase="/" code="br.pucpr.pergamum.biometria.NitgenApplet.class" archive="NitgenAppletSigned.jar?v=13" width="360" height="170">
+              <applet name="NitgenApplet" codebase="/" code="br.com.sistemabinario.biometria.NitgenApplet.class" archive="NitgenApplet.jar?v=1" width="360" height="170">
                 <param name="Caller-Allowable-Codebase" value = "*">
                     <param name="Permissions" value="all-permissions" />
                     <param name="separate_jvm" value="true"/>
@@ -76,40 +76,77 @@
       }
     }); 
 
-    function search_fingerprint(){
+    var checkin = function(event) {
       event.preventDefault();
-       //var fingerprint = "AQAAABQAAABUAQAAAQASAAEAWwAAAAAATAEAAJvEceuWgjz7%252F1H5UfuaLqWX5mJ9xOmQ75pFOeZ4ueQKLxNFTk%252F%252F55Lefc3TEqg4lP1EkLNLIYc2QOQQgXR2qiBxme%252FyIWx%252F2N0nIwYmuTam%252FPWTJGXSdnGWhMs7GyiZPRdnMSX1Oxk7NV5lKl9ChUeNK596dA0p9JOyiB*K*5u9wPjMMr4VDVsGuTUKRAE3nF0B5gHpalwsnGMyXOcdygmSI%252Foien8C9kFAy55lWkZxQ7z1OiEjp7dADvxyqUMA7PU7mIPckBijc4oIlA7up56bde7wGsimlo94FMdrMOI9uZV6c1UDAQl4ronnFDKD6*KGSQ9rCKDwLiZO8zHYGoggyK7XGXYA3sUSE90iacEETe8VS3Sn7Asmm4S2kUSQKcURb%252FBiJqcL4SPFALWZr1JB*Aai4tQBl%252FaIClrHGXkzgZGemXFp9y2ybS9qXmKv8w";
+      var checkin_person_id  = $('#checkin_person_id').val();
+      var checkin_company_id = $('#checkin_company_id').val();
+
+      $.ajax({
+        url: "/admin/checkins",
+        type: "POST",
+        data: {"checkin" : { "person_id" : checkin_person_id, "company_id" : "1" } },
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON;
+          alert('Entrada realizada com sucesso');
+        },
+        error: function(o, status, error) {
+          var json = o.responseJSON;
+          alert('Erro ao registrar entrada');
+        }
+      });
+    };
+
+    function search_fingerprint(event){
+      event.preventDefault();      
       var fingerprint = $('#fingerprint').val();
 
       $.ajax({
-        url: "/admin/people/" + 99 +"/search_fingerprint/",
+        url: "/admin/people/search_fingerprint/",
         type: "GET",
-        data: {"fingerprint" : fingerprint},
+        data: {},
         success: function(data, status, jqXHR){
           var json = jqXHR.responseJSON;  
-          var person = JSON.parse(json.person);
+          var people = JSON.parse(json.people);
+          var found = new Boolean(false);
+          var person = null;
 
-          var htmlPessoa = "<h4 style=\"font-weight:bold; font-size: x-large\">"+person.name+"</h4>";
-          $('.nome').html(htmlPessoa);
+          $.each(people, function(i, item) {            
+            if(buscaBiometria(people[i].fingerprint, fingerprint) ){
+              found = true;
+              person = people[i];                          
+              return false;              
+            }             
+          });    
 
-          var htmlCategoria = "<span>Categoria: "+json.category.description+"</span>";   
-          $('.categoria').html(htmlCategoria);
+          if(found === true){
+            $('#checkin_person_id').val(person.id);  
+            checkin(event);
 
-          if(json.message === "OK"){
-            var htmlMensagem = "<span class=\"text-success\" style=\"font-weight:bold\">Entrada realizada com sucesso.</span>";
-          } else {
-            var htmlMensagem = "<span class=\"text-danger\" style=\"font-weight:bold\">Entrada não realizada.</span>";
-          }
-          $('.mensagem').html(htmlMensagem);
-          
-          var htmlPendencias = "<div class=\"row\"><div class=\"col-1\" align=\"right\"><i class=\"material-icons\" data-notify=\"icon\" style=\"color: #dc3545\">add_alert</i></div>";
-          htmlPendencias += "<div class=\"col-10\" align=\"left\"><h4 class=\"text-danger\" style=\"font-weight:bold\">Pendências</h4></div></div>";
-          $('#divPendencias').html(htmlPendencias);
-          
-          var htmlPhoto = "<img class=\"img_capa_zk\" id=\"image-output\" src=" + person.photo + " />"
+            var htmlPessoa = "<h4 style=\"font-weight:bold; font-size: x-large\">"+person.name+"</h4>";
+            $('.nome').html(htmlPessoa);
 
-          $('#divImagemFoto').html(htmlPhoto);
-                    
+            var htmlCategoria = "<span>Categoria: "+person.category.description+"</span>";   
+            $('.categoria').html(htmlCategoria);
+
+            if(json.message === "OK"){
+              var htmlMensagem = "<span class=\"text-success\" style=\"font-weight:bold\">Entrada realizada com sucesso.</span>";
+            } else {
+              var htmlMensagem = "<span class=\"text-danger\" style=\"font-weight:bold\">Entrada não realizada.</span>";
+            }
+            $('.mensagem').html(htmlMensagem);
+            
+            var htmlPendencias = "<div class=\"row\"><div class=\"col-1\" align=\"right\"><i class=\"material-icons\" data-notify=\"icon\" style=\"color: #dc3545\">add_alert</i></div>";
+            htmlPendencias += "<div class=\"col-10\" align=\"left\"><h4 class=\"text-danger\" style=\"font-weight:bold\">Pendências</h4></div></div>";
+            $('#divPendencias').html(htmlPendencias);
+            
+            var htmlPhoto = "<img class=\"img_capa_zk\" id=\"image-output\" src=" + person.photo + " />"
+
+            $('#divImagemFoto').html(htmlPhoto);            
+          }else{
+            $('#checkin_person_id').val("");  
+            $("#btnLimpar").click();
+            alert('Biometria não localizada');            
+          }   
         },
         error: function(o, status, error) {
           var json = o.responseJSON;
@@ -124,11 +161,14 @@
       autenticacaoBiometrica();      
       event.preventDefault();             
     });
+
+    function buscaBiometria(biometria, template){
+      var isBiometria = iniciarApplet();
+      return document.NitgenApplet.buscaBiometria(biometria, template);      
+    }
     
     function autenticacaoBiometrica(){
-      var isBiometria = iniciarApplet();
-      var isBiometriaValida = false;
-      var codErro = 0;      
+      var isBiometria = iniciarApplet();  
       
       var template = document.NitgenApplet.getBiometria();
       $('#fingerprint').val(template);
@@ -147,7 +187,15 @@
           return false;
         }
       }, 2000);      
-    }    
+    }
+
+    function autenticacaoBiometrica(){
+      var isBiometria = iniciarApplet();  
+      
+      var template = document.NitgenApplet.getBiometria();
+      $('#fingerprint').val(template);
+      $('#fingerprint').trigger('change');
+    }      
 
   });
 </script> 
