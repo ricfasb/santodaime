@@ -42,12 +42,12 @@
         neighbourhood: Bairro 
         category: Categoria
         category_id: Categoria
-        driver_license_id: Habilitação
+        driver_license_id: Habilitação        
         marital_state_id: Estado civil
         degree_education_id: Grau de escolaridade
         occupation_id: Profissão
-        date_issue: Data de emissão
-        expering_date: Validade
+        date_issue: Emissão CNH
+        expering_date: Validade CNH
         wifes_name: Conjuge
         among_sun: Quantidade de filhos
         course: Curso
