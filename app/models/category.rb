@@ -7,8 +7,9 @@ class Category < ActiveRecord::Base
     def generates_tuition        
         if insert_tuition && tuition_id.nil?
             errors.add(:insert_tuition, 'Selecione a mensalidade')
-        #elsif tuition_id.nil?
-         #  self.tuition_id = nil
+        end
+        if !insert_tuition
+          self.tuition_id = nil
         end
     end
 
