@@ -18,11 +18,6 @@ BEGIN
     select c.tuition_id, c.insert_tuition into tuition, insert_tuition from categories c 
      where c.id = category;
 
-     raise notice 'The transaction is in an uncommittable state. '
-                 'Transaction was rolled back';
-
-    raise notice '% %', SQLERRM, SQLSTATE;
-
     select t.day into due_day from tuitions t where id = tuition;
 
     --pega o mes atual
