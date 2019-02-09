@@ -1,5 +1,5 @@
 class Tuition < ApplicationRecord
-  belongs_to :email
+  has_one :email
 
   validates_presence_of :description
 

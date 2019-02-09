@@ -41,8 +41,8 @@
                             <td><%= tuition.day %></td>
                             <td><%= tuition.amount %></td>
                             <td>
-                              <% unless tuition.email.nil? %>
-                              <%= tuition.email.title %>
+                              <% unless tuition.email_id.nil? %>
+                                <%= tuition.email_id %>
                               <% end %>
                             </td>
                             <td>

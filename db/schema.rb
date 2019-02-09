@@ -87,8 +87,8 @@ ActiveRecord::Schema.define(version: 20180820131744) do
   end
 
   create_table "driver_licenses", force: :cascade do |t|
-    t.string   "number"
-    t.string   "category"
+    t.string   "number_cnh"
+    t.string   "category_cnh"
     t.date     "date_issue"
     t.date     "expering_date"
     t.integer  "licensable_id"
