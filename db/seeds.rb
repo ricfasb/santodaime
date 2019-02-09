@@ -7,9 +7,9 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
     #Categoria
-    Category.create(id: 1, description: 'Fardado')
-    Category.create(id: 2, description: 'Visitante')
-    Category.create(id: 3, description: 'On-line')
+    #Category.create(description: 'Fardado')
+    #Category.create(description: 'Visitante')
+    #Category.create(description: 'On-line')
 
     #Estado civil
     MaritalState.create(description: 'Solteiro')
@@ -32,7 +32,7 @@
     DegreeEducation.create(description: 'Pós-graduação (Scricto sensu, nível doutor) - Incompleto')
     DegreeEducation.create(description: 'Pós-graduação (Scricto sensu, nível doutor) - Completo')
 
-    InvoiceType.create(id: 1, description: 'Multa')
+    InvoiceType.create(description: 'Multa')
     #InvoiceType.create(id: 2, description: 'Visitante')
     #InvoiceType.create(id: 3, description: 'On-line')
     # 100.times do
