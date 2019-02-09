@@ -25,11 +25,15 @@ class Person < ActiveRecord::Base
   accepts_nested_attributes_for :driver_license,    :allow_destroy => true
   accepts_nested_attributes_for :deficiency_person, :allow_destroy => true
 
-  def unmask_cpf    
-    self.cpf.gsub!(/(\.|\-)/, "")    
-    self.telephone_residence.gsub!(/(\(|\)|\-|\ )/, "")    
-    self.smartphone_number.gsub!(/(\(|\)|\-|\ )/, "")
-    self.telephone_message.gsub!(/(\(|\)|\-|\ )/, "")
-    #self.cep.gsub!(/(\-)/, "")
-  end
+  has_many :tuition_person, :dependent => :destroy
+
+  private
+    def unmask_cpf    
+      self.cpf.gsub!(/(\.|\-)/, "")    
+      self.telephone_residence.gsub!(/(\(|\)|\-|\ )/, "")    
+      self.smartphone_number.gsub!(/(\(|\)|\-|\ )/, "")
+      self.telephone_message.gsub!(/(\(|\)|\-|\ )/, "")
+      #self.cep.gsub!(/(\-)/, "")
+    end
+
 end
