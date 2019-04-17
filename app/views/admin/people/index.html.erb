@@ -60,6 +60,7 @@
                                 <th>Fardamento</th>    
                                 <th>Celular</th>                                                                                          
                                 <th>Categoria</th>
+                                <th style="text-align: center">Biometria</th>
                                 <th><%=t '.actions', :default => t("helpers.actions") %></th>
                               </tr>
                             </thead>
@@ -72,6 +73,13 @@
                                   <td><%= person.date_enroll %></td>                                
                                   <td><%= person.smartphone_number %></td>                                
                                   <td><%= person.category.description %></td>
+                                  <td align="center">
+                                    <% if person.fingerprint.nil? %>
+                                      <i class="material-icons">fingerprint</i>
+                                    <% else %>
+                                      <i class="material-icons" style="color:green">fingerprint</i>
+                                    <% end %>                                       
+                                  </td>
                                   <td class="btn-group">
                                     <%= link_to raw('<i class="material-icons">edit</i>'),
                                                 edit_admin_person_path(person), :style => 'color: gray; heigth: 100%; width: 100%;' %>

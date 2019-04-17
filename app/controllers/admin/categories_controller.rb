@@ -1,5 +1,5 @@
 class Admin::CategoriesController < Admin::AdminController
-  protect_from_forgery with: :null_session
+
   
   layout "admin"
 
@@ -11,8 +11,7 @@ class Admin::CategoriesController < Admin::AdminController
   def index
     @q = Category.ransack(params[:q])
     @q.sorts = 'id' if @q.sorts.blank?
-    @categories = @q.result.paginate(:page => params[:page], :per_page => 10)    
-    
+    @categories = @q.result.paginate(:page => params[:page], :per_page => 10)        
   end
 
   # GET /categories/1

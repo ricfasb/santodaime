@@ -7,17 +7,17 @@
     <div class="row">
       <div class="col">
 
-      <% if @tuition.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@tuition.errors.count, "error") %> impediram criar esta mensalidade:</h2>
+        <% if @tuition.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@tuition.errors.count, "error") %> impediram criar esta mensalidade:</h2>
 
-          <ul>
-          <% @tuition.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-          </ul>
-        </div>
-      <% end %>
+            <ul>
+            <% @tuition.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
 
         <div class="row">
           <div class="col-lg-6">   

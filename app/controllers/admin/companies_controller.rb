@@ -1,5 +1,4 @@
 class Admin::CompaniesController < Admin::AdminController
-  protect_from_forgery with: :null_session
   
   layout "admin"
 
