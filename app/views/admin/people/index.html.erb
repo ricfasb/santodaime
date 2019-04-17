@@ -74,7 +74,7 @@
                                   <td><%= person.smartphone_number %></td>                                
                                   <td><%= person.category.description %></td>
                                   <td align="center">
-                                    <% if person.fingerprint.nil? %>
+                                    <% if person.fingerprint.empty? %>
                                       <i class="material-icons">fingerprint</i>
                                     <% else %>
                                       <i class="material-icons" style="color:green">fingerprint</i>
