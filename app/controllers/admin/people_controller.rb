@@ -73,7 +73,7 @@ class Admin::PeopleController < Admin::AdminController
   # GET /people.json
   def index
     @q = Person.ransack(params[:q])
-    @people = @q.result.paginate(:page => params[:page], :per_page => 5)
+    @people = @q.result.paginate(:page => params[:page], :per_page => 10)
   end
 
   # GET /people/1
