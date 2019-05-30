@@ -66,24 +66,30 @@
                             <p>Pessoas</p>
                         </a>
                     </li>
-                    <!--<li id="liProduto">
-                        <a href="#">
-                            <i class="material-icons disabled">shopping_cart</i>
-                            <p>Produtos</p>
-                        </a>
-                    </li>
-                    <li id="liEmprestimo">
-                        <a href="#">
-                            <i class="material-icons">shopping_cart</i>
-                            <p>Empréstimos</p>
-                        </a>
-                    </li>-->
                     <li id="liEmail" class="<%= active_class(admin_emails_path) %>">
                         <a href="/admin/emails">
                             <i class="material-icons">mailn</i>
                             <p>Envio de e-mails</p>
                         </a>
-                    </li>                      
+                    </li>      
+                    <li id="liCaixa">
+                        <a href="/admin/cash/index">
+                            <i class="material-icons">library_books</i>
+                            <p>Livro Caixa</p>
+                        </a>
+                    </li>   
+                    <li id="liEntrada">
+                        <a href="#">
+                            <i class="material-icons">archive</i>
+                            <p>Entrada</p>
+                        </a>
+                    </li>                    
+                    <li id="liSaida">
+                        <a href="#">
+                            <i class="material-icons">unarchive</i>
+                            <p>Saída</p>
+                        </a>
+                    </li>                                                                         
                     <li id="liCheckIn" class="<%= active_class(admin_checkins_path) %>">
                         <a href="/admin/checkins">
                             <i class="material-icons">fingerprint</i>

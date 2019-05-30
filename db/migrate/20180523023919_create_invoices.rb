@@ -6,6 +6,9 @@ class CreateInvoices < ActiveRecord::Migration[5.0]
       t.string :description
       t.date :due_date
       t.float :amount
+      t.datetime :pay_day
+      t.float :discount
+      t.string :amount_paied  
 
       t.timestamps
     end

@@ -152,7 +152,7 @@
       var person_id =  $('#person_id_id').val();
 
       $.ajax({
-        url: "/admin/payments/" + person_id +"/get_debits/",
+        url: "/admin/payments/" + person_id +"/get_all_debits/",
         type: "GET",
         data: {"person_id" : person_id},
         success: function(data, status, jqXHR){

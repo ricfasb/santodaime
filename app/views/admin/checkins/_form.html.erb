@@ -1,31 +1,24 @@
-<%= form_for [:admin, @checkin], :html => { :class => "form-horizontal checkin" } do |f| %>
+<%= form_for [:admin, @checkin], :html => { remote: true, :class => "form-horizontal checkin" } do |f| %>
 
   <div class="content">  
     <div class="container-fluid">
       <div class="row justify-content-center d-flex align-items-center">
         <div class="col-12">
 
-           <div class="row">
+          <div class="row justify-content-center d-flex align-items-center">            
             <div class="col-2">
-              <div class="img-raised rounded img-fluid" id="divImagemFoto" align="center"> 
-                
-              </div>
+              <div id="divImagemFoto"></div>
             </div>
-            <div class="col-5" style="padding: 25px">
-              <div class="row nome"></div>
-
-              <div class="row categoria"></div>
-
-              <div class="row mensagem"></div>
-            </div>
-
-            <div class="col-5" id="divPendencias" style="padding-top: 25px" align="center"></div>
-
-          </div>
+            <div class="col-4">              
+              <div class="row"><div class="col nome"></div></div>
+              <div class="row"><div class="col categoria"></div></div>
+              <div class="row"><div class="col mensagem"></div></div>
+            </div> 
+          </div> 
 
           <div class="row">
             <div class="col-12" align="center">
-              <applet name="NitgenApplet" codebase="/" code="br.com.sistemabinario.biometria.NitgenApplet.class" archive="NitgenApplet.jar?v=1" width="360" height="170">
+              <applet id="NitgenApplet" name="NitgenApplet" codebase="/" code="br.com.sistemabinario.biometria.NitgenApplet.class" archive="NitgenApplet.jar?v=1" width="360" height="170">
                 <param name="Caller-Allowable-Codebase" value = "*">
                     <param name="Permissions" value="all-permissions" />
                     <param name="separate_jvm" value="true"/>
@@ -33,19 +26,24 @@
             </div>
           </div>
 
-           <div class="row">
-            <div class="col-12" align="center">                 
-              <button type="button" class="btn btn-warning btn-round" id="btnLimpar">Limpar Tela</button>                            
-              <button type="button" class="btn btn-success btn-round" id="btnIniciarApplet">Iniciar checkin</button>                            
+          <div class="row justify-content-center d-flex align-items-center">
+            <div class="col-4 togglebutton" align="left">              
+                <label>
+                  <%= check_box  'auto', 'bio' %>                                  
+                    <span class="toggle"></span>Ative para modo automático
+                </label>              
+            </div>
+          </div>
+          <br/>
+          <div class="row">
+            <div class="col" align="center">
+              <div class="btn-group">                 
+                <button type="button" class="btn btn-warning" id="btnLimpar">Limpar Tela</button>                            
+                <button type="button" class="btn btn-success" id="btnIniciarApplet">Iniciar checkin</button>                            
+              </div>
             </div>
           </div> 
         
-          <div class="row">
-            <div class="col-lg-12" align="center">
-              
-            </div>
-          </div>        
-
           <%= f.hidden_field :person_id %>
           <%= f.hidden_field :company_id %>
 
@@ -58,23 +56,112 @@
 <input type="text" id="fingerprint" style="visibility: hidden">
 
 <script> 
+
+  var people = [];
+
   jQuery(function($){
     $('#liCheckIn').addClass("active"); 
 
-    $("#btnLimpar").on("click", function(event) {
-      event.preventDefault();
+    function float2moeda(num) {
+	    x = 0;
+
+	    if(num<0) {
+	      num = Math.abs(num);
+	      x = 1;
+	    }   if(isNaN(num)) num = "0";
+	      cents = Math.floor((num*100+0.5)%100);
+
+	    num = Math.floor((num*100+0.5)/100).toString();
+
+	    if(cents < 10) cents = "0" + cents;
+	      for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+	         num = num.substring(0,num.length-(4*i+3))+'.'
+	               +num.substring(num.length-(4*i+3));   ret = num + ',' + cents;   if (x == 1) ret = ' - ' + ret;return ret;
+	  }
+
+    function moeda2float(moeda){
+      moeda = moeda.replace(".","");
+      moeda = moeda.replace(",",".");
+      return parseFloat(moeda);
+    }    
+
+    $.ajax({
+      url: "/admin/people/search_fingerprint/",
+      type: "GET",
+      data: {},
+      success: function(data, status, jqXHR){
+        var json = jqXHR.responseJSON;  
+        var p = JSON.parse(json.people);          
+
+        $.each(p, function(i, item) {               
+          people.push( p[i] );                          
+        });                 
+      }
+    });
+
+    $("#btnLimpar").on("click", function(event) {      
       $('#divImagemFoto').html("");
       $('.nome').html("");
       $('.categoria').html("");
-      $('.mensagem').html("");
-      $('#divPendencias').html("");
-    }); 
+      $('.mensagem').html("");      
+      event.preventDefault();
+    });     
+
+    var paymentScreen = "<div class=\"modal fade\" id=\"paymentModal\">"+
+                        "  <div class=\"modal-dialog modal-lg\">"+
+                        "    <div class=\"modal-content\" style=\"width:780px;\">"+
+                        "      <div class=\"modal-header\">"+
+                        "          <h4 class=\"modal-title\">Títulos a receber</h4>"+
+                        "          <button type=\"button\" class=\"close\" id=\"closeModal\" data-dismiss=\"modal\"><span>×</span></button>"+                        
+                        "      </div>"+
+                        "      <div class=\"modal-body\" align=\"center\">"+
+                        "        <table width=\"100%\" id=\"tableDebitos\">"+
+                        "          <thead>"+
+                        "            <tr>"+
+                        "              <th width=\"10%\" align=\"center\">"+
+                        "                <div class=\"form-check\">"+   
+                        "                  <label class=\"form-check-label\">"+      
+                        "                    <input class=\"form-check-input\" type=\"checkbox\" id=\"chkAll\" value=\"\">&nbsp;"+      
+                        "                    <span class=\"form-check-sign\">"+   
+                        "                      <span class=\"check\"></span>"+ 
+                        "                    </span>"+     
+                        "                  </label>"+  
+                        "                </div>"+
+                        "              </th>"+
+                        "              <th width=\"20%\">Cobrança</th>"+
+                        "              <th width=\"30%\">Descrição</th>"+
+                        "              <th width=\"20%\">Vencimento</th>"+
+                        "              <th width=\"20%\">Valor</th>"+
+                        "            </tr>"+
+                        "          </thead>"+
+                        "        </table>"+                        
+                        "        <div align=\"right\">"+
+                        "          <p style=\"font-weight: bold; padding-right:35px\" id=\"vlrTotal\"><p>"+
+                        "        </div>"+                                              
+                        "      </div>"+                        
+                        "      <div class=\"modal-footer btn-group\">"+                        
+                        "          <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" id=\"btnCloseInvoices\">Fechar</button>"+
+                        "          <button type=\"button\" class=\"btn btn-success\" id=\"btnPay\">Efetuar Pagamento</button>"+
+                        "      </div>"+
+                        "    </div>"+
+                        "  </div>"+
+                        "</div>";                          
 
     $("#fingerprint").on("change", function(event) {       
       if( $(this).val().length > 0) {
         search_fingerprint(event);
+        event.preventDefault();      
       }
     }); 
+
+    $("#btnCloseInvoices").on("click", function(event) {                 
+      $(paymentScreen).detach(); 
+      $(paymentScreen).modal('hide');                    
+      $('.modal-backdrop').remove();    
+      alert("Tamita");    
+      event.preventDefault();              
+    });
+    
 
     var checkin = function(event) {
       event.preventDefault();
@@ -86,76 +173,213 @@
         type: "POST",
         data: {"checkin" : { "person_id" : checkin_person_id, "company_id" : "1" } },
         success: function(data, status, jqXHR){
-          var json = jqXHR.responseJSON;
+          return jqXHR.responseJSON;
         },
         error: function(o, status, error) {
           var json = o.responseJSON;
           alert('Erro ao registrar entrada');
         }
       });
-    };
+    };    
 
-    function search_fingerprint(event){
-      event.preventDefault();      
-      var fingerprint = $('#fingerprint').val();
+    var invoices = function(event) {           
+      var person_id =  $('#checkin_person_id').val();
+      var total = 0.0;
 
       $.ajax({
-        url: "/admin/people/search_fingerprint/",
+        url: "/admin/payments/" + person_id +"/get_all_debits/",
         type: "GET",
-        data: {},
+        data: {"person_id" : person_id},
         success: function(data, status, jqXHR){
-          var json = jqXHR.responseJSON;  
-          var people = JSON.parse(json.people);
-          var found = new Boolean(false);
-          var person = null;
+          var json = jqXHR.responseJSON;                  
+          var tuitions = json.tuitions;
+          var invoices = json.invoices;
+          var person   = json.person_id;
+          var hasOne   = false;
+          var tfoot    = "<tfoot>"+ 
+                         " <tr>"+
+                         "  <th colspan=\"9\" class=\"tfoot_empty\" style=\"text-align: center; height: 50px;\">"+
+                         "   Nenhum registro encontrado!"+
+                         "  </th>"+
+                         " </tr>"
+                         "</tfoot>";  
+          var tbody    = "<tbody>"+                          
+                         "</tbody>";                        
 
-          $.each(people, function(i, item) {            
-            if(buscaBiometria(people[i].fingerprint, fingerprint) ){
-              found = true;
-              person = people[i];                          
-              return false;              
-            }             
-          });    
+          if( invoices.length > 0 || tuitions.length > 0){
+            hasOne = true;
+            $('#chkAll').prop('checked', true);
+          }
 
-          if(found === true){
-            $('#checkin_person_id').val(person.id);  
-            checkin(event);
+          $('#tableDebitos > tbody').remove();
+          $('#tableDebitos > tfoot').remove();              
 
-            var htmlPessoa = "<h4 style=\"font-weight:bold; font-size: x-large\">"+person.name+"</h4>";
-            $('.nome').html(htmlPessoa);
+          if( hasOne ){    
+            $('#NitgenApplet').css("visibility", "hidden");
+            $('#auto_bio').prop("checked", false);
 
-            var htmlCategoria = "<span>Categoria: "+person.category.description+"</span>";   
-            $('.categoria').html(htmlCategoria);
+            $(paymentScreen).appendTo("body");   
+            document.getElementById('btnPay').addEventListener("click", payment);         
+            $( '#tableDebitos').append(tbody);
 
-            if(json.message === "OK"){
-              var htmlMensagem = "<span class=\"text-success\" style=\"font-weight:bold\">Entrada realizada com sucesso.</span>";
-            } else {
-              var htmlMensagem = "<span class=\"text-danger\" style=\"font-weight:bold\">Entrada não realizada.</span>";
+            for (var i = 0; i < tuitions.length; i++) {
+              total += tuitions[i].tuition.amount;
+              var linha = "<tr>"+
+                            "<td>"+
+                            "  <div class=\"form-check\">"+
+                            "    <label class=\"form-check-label\">"+
+                            "      <input class=\"form-check-input\" type=\"checkbox\" checked value="+ tuitions[i].id +">&nbsp;"+                          
+                            "      <span class=\"form-check-sign\">"+
+                            "        <span class=\"check\"></span>"+
+                            "      </span>"+
+                            "    </label>"+
+                            "  </div>"+ 
+                            "</td>"+
+                            "<td>Mensalidade</td>"+
+                            "<td>"+ tuitions[i].tuition.description +"</td>"+
+                            "<td>"+ tuitions[i].due_date.substring(8, 10) + "/" + tuitions[i].due_date.substring(5, 7) + "/" + tuitions[i].due_date.substring(0, 4) +"</td>"+
+                            "<td>"+ float2moeda(tuitions[i].tuition.amount) +"</td>"+                                                      
+                          "</tr>";
+              $('#tableDebitos > tbody').append(linha);
             }
-            $('.mensagem').html(htmlMensagem);
-            
-            var htmlPendencias = "<div class=\"row\"><div class=\"col-1\" align=\"right\"><i class=\"material-icons\" data-notify=\"icon\" style=\"color: #dc3545\">add_alert</i></div>";
-            htmlPendencias += "<div class=\"col-10\" align=\"left\"><h4 class=\"text-danger\" style=\"font-weight:bold\">Pendências</h4></div></div>";
-            $('#divPendencias').html(htmlPendencias);
-            
-            var htmlPhoto = "<img class=\"img_capa_zk\" id=\"image-output\" src=" + person.photo + " />"
 
-            $('#divImagemFoto').html(htmlPhoto);            
+            for (var i = 0; i < invoices.length; i++) {
+              total += invoices[i].amount;
+              var linha = "<tr>"+
+                            "<td>"+
+                            "  <div class=\"form-check\">"+
+                            "    <label class=\"form-check-label\">"+
+                            "      <input class=\"form-check-input\" type=\"checkbox\" checked value="+ invoices[i].id +">&nbsp;"+                          
+                            "      <span class=\"form-check-sign\">"+
+                            "        <span class=\"check\"></span>"+
+                            "      </span>"+
+                            "    </label>"+
+                            "  </div>"+ 
+                            "</td>"+
+                            "<td>"+ invoices[i].invoice_type.description +"</td>"+
+                            "<td>"+ invoices[i].description +"</td>"+                            
+                            "<td>"+ invoices[i].due_date.substring(8, 10) + "/" + invoices[i].due_date.substring(5, 7) + "/" + invoices[i].due_date.substring(0, 4) + "</td>"+
+                            "<td>"+ float2moeda(invoices[i].amount) +"</td>"+                            
+                          "</tr>";
+              $('#tableDebitos > tbody').append(linha);                        
+            }                
+            $("#vlrTotal").text("Total R$ " + float2moeda(total) );
+            $("#paymentModal").modal();             
           }else{
-            $('#checkin_person_id').val("");  
-            $("#btnLimpar").click();
-            alert('Biometria não localizada');            
-          }   
+            $('#tableDebitos > tbody').html(""); 
+            if( $( '#tableDebitos > tfoot' ).length === 0 )
+              $( '#tableDebitos').append(tfoot);
+          }
+
+          if( $('#auto_bio').is(":checked") ){
+            setTimeout(function() {
+              try{                                          
+                $("#btnLimpar").trigger("click");
+              } catch(ex){
+                return false;
+              }
+            }, 500);
+            
+            setTimeout(function() {
+              try{                            
+                $("#btnIniciarApplet").trigger("click");              
+              } catch(ex){
+                return false;
+              }
+            }, 5000);           
+          }
         },
         error: function(o, status, error) {
           var json = o.responseJSON;
-          alert('Erro ao buscar cadastro');
+          alert(json);
         }
       });
+    };    
+    
+    var payment = function(event) {
+      var table = $('#tableDebitos');
+      var payments = [];
+
+      table.find('tr').each(function(indice){
+        var row = $(this);
+        if(row.find('input[type="checkbox"]').is(':checked')) {
+          var payment = new Object();
+          payment["id"]       = $(this).find("td").eq(0).find('input[type="checkbox"]').val();
+          payment["cobranca"] = $(this).find("td").eq(1).text();             
+          payment["valor"]    = moeda2float($(this).find("td").eq(4).text());
+          payment["desconto"] = 0.0;
+          if($(this).find("td").eq(5).text() !== ""){
+            payment["desconto"] = moeda2float($(this).find("td").eq(5).text());
+          }
+          payment["observacao"] = $(this).find("td").eq(6).text();
+          payments.push(payment);
+        }
+      });
+      $.ajax({
+        url: "/admin/payments",
+        type: "POST",
+        data: {"payments" : payments },
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON;
+          var status = json.status;       
+          if(status === "ok"){
+            alert('Pagamento realizado com sucesso!');
+            $("#btnCloseInvoices").trigger("click");
+            setTimeout(function() {
+              try{                            
+                $('#NitgenApplet').css("visibility", "visible"); 
+              } catch(ex){
+                return false;
+              }
+            }, 1000); 
+          }
+        },
+        error: function(o, status, error) {
+          var json = o.responseJSON;             
+        }
+      });    
     }
 
+    function search_fingerprint(event){      
+      var fingerprint = $('#fingerprint').val();
+
+      var found = new Boolean(false);
+      var person = null;
+
+      $.each(people, function(i, item) {               
+        if(buscaBiometria(people[i].fingerprint, fingerprint) ){
+          found = true;
+          person = people[i];                          
+          return false;              
+        }             
+      });    
+
+      if(found === true){
+        $('#checkin_person_id').val(person.id);  
+        var json = checkin(event);
+        invoices(event);                 
+
+        var htmlPessoa = "<h4 style=\"font-weight:bold; font-size: x-large\">"+person.name+"</h4>";
+        $('.nome').html(htmlPessoa);
+
+        var htmlCategoria = "<span>Categoria: "+person.category.description+"</span>";   
+        $('.categoria').html(htmlCategoria);
+        
+        var htmlMensagem = "<span class=\"text-success\" style=\"font-weight:bold\">Entrada realizada com sucesso.</span>";
+        $('.mensagem').html(htmlMensagem);            
+        
+        var htmlPhoto = "<img class=\"img_capa_zk responsive\" id=\"image-output\" src=" + person.photo + " />"
+
+        $('#divImagemFoto').html(htmlPhoto);            
+      }else{
+        $('#checkin_person_id').val("");  
+        $("#btnLimpar").click();
+        alert('Biometria não localizada');            
+      }                  
+    }    
+
     //busca no banco a pessoa    
-    $("#btnIniciarApplet").on("click", function(event) { 
+    $("#btnIniciarApplet").on("click", function(event) {             
       iniciarApplet(); 
       autenticacaoBiometrica();      
       event.preventDefault();             
@@ -177,7 +401,7 @@
     function iniciarApplet(){
       var myApplet = $("#appletBiometria");
       var retorno = new Boolean(false);
-
+      
       setTimeout(function() {
         try{
           myApplet.init();

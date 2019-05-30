@@ -1,4 +1,4 @@
-Rails.application.routes.draw do
+Rails.application.routes.draw do  
 
   namespace :admin do
     resources :invoice_types
@@ -32,7 +32,10 @@ Rails.application.routes.draw do
     resources :invoices    
     resources :payments do
       get 'get_debits'
+      get 'get_all_debits'
     end
+
+    get 'cash/index'
 
     resources :companies do
       get 'get_cep'

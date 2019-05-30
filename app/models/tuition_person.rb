@@ -8,9 +8,9 @@ class TuitionPerson < ApplicationRecord
   
   def as_json(options={})
     #super(:only => [ ApplicationController.helpers.format_date(:due_date) ],
-    super(:only => [ :due_date ],
+    super(:only => [ :id, :due_date, :amount ],
           :include => {
-            :tuition => {:only => [:id, :amount]},
+            :tuition => {:only => [:id, :description, :amount]},
             :person => {:only => [:id]}
           }
     )

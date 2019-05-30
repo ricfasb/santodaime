@@ -8,6 +8,10 @@ module ApplicationHelper
         Date.parse(date).strftime("%d de %m %Y - %H:%M")
     end
 
+    def format_date_only(date)
+        Date.parse(date).strftime("%d/%m/%Y")
+    end
+
     def code_completion(code)
         "0000"+code.to_s
     end

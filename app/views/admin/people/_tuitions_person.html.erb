@@ -5,6 +5,7 @@
         <tr>
             <th>Data de vencimento</th>
             <th>Valor</th>
+            <th>Situação</th>
         </tr>
         </thead>
         <tbody>
@@ -12,6 +13,13 @@
         <tr>                                
             <td><%= tuition.due_date.strftime("%d/%m/%Y") %></td>
             <td><%= tuition.tuition.amount %></td>
+            <td>
+                <% if tuition.pay_day.nil? %>
+                <%= "Pago" %>
+                <% else %>            
+                <%= "Pendente" %>
+                <% end %>            
+            </td>
         </tr>
         <% end %>
         </tbody>

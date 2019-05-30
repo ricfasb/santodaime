@@ -59,15 +59,17 @@
                           <td><%= invoice.due_date %></td>
                           <td><%= invoice.amount %></td>
                           <td>       
-                            <div class="btn-group">
-                              <%= link_to raw('<i class="material-icons">edit</i>'),
-                                          edit_admin_invoice_path(invoice), :style => 'color: gray; heigth: 100%; width: 100%;' %>
-                              <%= link_to raw('<i class="material-icons">delete</i>'),
-                                          admin_person_path(invoice),
-                                          :method => :delete,
-                                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },                                            
-                                          :style => 'color: #cf1a1a; font-size: 32px;' %>
-                            </div>
+                            <% if invoice.pay_day.nil? %>
+                              <div class="btn-group">
+                                <%= link_to raw('<i class="material-icons">edit</i>'),
+                                            edit_admin_invoice_path(invoice), :style => 'color: gray; heigth: 100%; width: 100%;' %>
+                                <%= link_to raw('<i class="material-icons">delete</i>'),
+                                            admin_person_path(invoice),
+                                            :method => :delete,
+                                            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },                                            
+                                            :style => 'color: #cf1a1a; font-size: 32px;' %>
+                              </div>
+                            <% end %>
                           </td>
                         </tr>
                       <% end %>

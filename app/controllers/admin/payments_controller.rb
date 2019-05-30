@@ -5,10 +5,21 @@ class Admin::PaymentsController < Admin::AdminController
 
   before_action :set_payment, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+
+  def get_all_debits
+    @invoices = Invoice.where(pay_day: nil).where(person_id: params[:person_id])
+    @tuitions = TuitionPerson.where(pay_day: nil).where(person_id: params[:person_id])
+    @person_id = params[:person_id]
+    if request.xhr?
+      render :json => { :person => @person_id, :invoices => @invoices, :tuitions => @tuitions }
+    else
+      render json: {}, status: :false
+    end
+  end
  
   def get_debits
-    @invoices = Invoice.where(person_id: params[:person_id])
-    @tuitions = TuitionPerson.where(person_id: params[:person_id])
+    @invoices = Invoice.where("due_date < ?", Date.today).where(pay_day: nil).where(person_id: params[:person_id])
+    @tuitions = TuitionPerson.where("due_date < ?", Date.today).where(pay_day: nil).where(person_id: params[:person_id])
     @person_id = params[:person_id]
     if request.xhr?
       render :json => { :person => @person_id, :invoices => @invoices, :tuitions => @tuitions }
@@ -49,17 +60,28 @@ class Admin::PaymentsController < Admin::AdminController
   # POST /payments
   # POST /payments.json
   def create
-    @payment = Payment.new(payment_params)
-
-    respond_to do |format|
-      if @payment.save
-        format.html { redirect_to admin_payment_url, notice: 'Payment was successfully created.' }
-        format.json { render :show, status: :created, location: @payment }
-      else
-        format.html { render :new }
-        format.json { render json: @payment.errors, status: :unprocessable_entity }
+    params[:payments].each { |payment|  
+      if params[:payments][payment][:cobranca] == "Multa"        
+        @id = params[:payments][payment][:id]
+        Invoice.update(@id, pay_day: DateTime.now)
+      elsif params[:payments][payment][:cobranca] == "Mensalidade"        
+        @id = params[:payments][payment][:id]
+        TuitionPerson.update(@id, pay_day: DateTime.now)
       end
-    end
+    }
+    
+    render :json => { :status => :ok }
+    #@payment = Payment.new(payment_params)
+
+    # respond_to do |format|
+    #   if @payment.save
+    #     format.html { redirect_to admin_payment_url, notice: 'Payment was successfully created.' }
+    #     format.json { render :show, status: :created, location: @payment }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @payment.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /payments/1
@@ -94,6 +116,6 @@ class Admin::PaymentsController < Admin::AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def payment_params
-      params.require(:payment).permit(:person_id, :invoice_id, :pay_day, :pay_amount, :discount, :obs_discount)
+      params.require(:payment).permit(:person_id, :invoice_id, :due_date, :pay_day, :pay_amount, :discount, :obs_discount)
     end
 end

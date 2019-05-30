@@ -24,7 +24,7 @@ class Admin::PeopleController < Admin::AdminController
   end
   
   def search_fingerprint    
-    @people = Person.all
+    @people = Person.all.where("fingerprint IS NOT NULL")
 
     if request.xhr?      
       unless @people.nil?
