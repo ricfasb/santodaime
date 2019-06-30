@@ -96,17 +96,6 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 
-#production:
-# adapter: postgresql
-# encoding: UTF-8
-# port: 5432
-# pool: 5
-# host: ec2-50-19-221-38.compute-1.amazonaws.com
-# database: db4t6qkg07tb60
-# username: dsbbwmncnkgaue
-# password: efc1a56c8866dbccf87de1618b25140a81d1da631fdff34eee3d860651855ef8
-
-#heroku pg:backups restore heroku pg:backups public-url --app PRODUCTION DATABASE --app STAGING
 production:
  adapter: postgresql
  encoding: UTF-8
