@@ -346,9 +346,13 @@
       var found = new Boolean(false);
       var person = null;
 
-      $.each(people, function(i, item) {               
-        if(buscaBiometria(people[i].fingerprint, fingerprint) ){
-          found = true;
+      $.each(people, function(i, item) {      
+        var verificaBiometria = buscaBiometria(people[i].fingerprint, fingerprint);          
+        verificaBiometria.done(function(result) {
+          found = result;
+        });
+        
+        if( found === true ){          
           person = people[i];                          
           return false;              
         }             
@@ -386,8 +390,14 @@
     });
 
     function buscaBiometria(biometria, template){
+      var deferred = $.Deferred();
+	    var result = false;
+
       var isBiometria = iniciarApplet();
-      return document.NitgenApplet.buscaBiometria(biometria, template);      
+      result = document.NitgenApplet.buscaBiometria(biometria, template);      
+
+      deferred.resolve(result);
+      return deferred.promise();
     }
     
     function autenticacaoBiometrica(){
