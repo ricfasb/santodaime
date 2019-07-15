@@ -1,4 +1,8 @@
 
+
+
+heroku pg:backups:restore b001 postgres://bfxbfdiopextop:67d4f450e8ff92a3493add1230a9d305171d286261f969291e958abaf17453e7@ec2-54-83-50-174.compute-1.amazonaws.com:5432/d85e3hmtaf0p8k --app santodaime
+
 #production:
 # adapter: postgresql
 # encoding: UTF-8

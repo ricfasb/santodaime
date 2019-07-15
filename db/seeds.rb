@@ -7,9 +7,9 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
     #Categoria
-    Category.create(description: 'Fardado')
-    Category.create(description: 'Visitante')
-    Category.create(description: 'On-line')
+    #Category.create(description: 'Fardado')
+    #Category.create(description: 'Visitante')
+    #Category.create(description: 'On-line')
 
     #Estado civil
     MaritalState.create(description: 'Solteiro')
