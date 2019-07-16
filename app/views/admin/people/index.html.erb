@@ -31,14 +31,14 @@
 	                </div>
                   
                   <div class="card-content">                    
-                    <%= search_form_for [:admin, @q] do |f| %>
+                    <%= search_form_for [:admin, @q], remote: true do |f| %>
                       <div class="row">   
                         <div class="col-md-1"></div>
                         <div class="col-md-2 justify-content-center d-flex align-items-center">
                           <%= f.label :name_start, :class => 'form-control' %>                                                    
                         </div>
                         <div class="col-md-7 justify-content-center d-flex align-items-center" align="right">			   
-                          <%= f.search_field :name_start, :placeholder => 'Valor a ser pesquisado', :class => 'form-control' %>
+                          <%= f.search_field :name_start, :placeholder => 'Valor a ser pesquisado', :class => 'form-control', onchange: 'submit();' %>
                         </div> 
                         <div class="col-md-2" align="center">                           
                           <%= link_to raw('<i class="now-ui-icons ui-1_zoom-bold"></i>'),
