@@ -63,7 +63,7 @@
                     <div class="row">             
                       <div class="col-md-5">
                         <%= f.collection_select(:category_id, Category.all.order(:description), :id, :description,
-                            {:prompt => 'Categoria'}, {:class => 'selectpicker', data: {style: "btn btn-primary"}}) %>
+                            {:prompt => 'Categoria'}, {:class => 'btn btn-primary custom-select', data: {style: "btn btn-primary"}}) %>
                       </div>
 
                       <div class="col-md-4">
@@ -167,11 +167,11 @@
                   <div class="row">
                     <div class="col-md-4">
                       <%= ad.collection_select(:state_id, State.all.order(:name).all, :id, :name,
-                        {:prompt => 'Estado'}, {:class => 'selectpicker', data: {style: "btn btn-success"}}) %>
+                        {:prompt => 'Estado'}, {:class => 'btn btn-success custom-select', data: {style: "btn btn-success"}}) %>
                     </div>
                     <div class="col-md-8">
                       <%= ad.select(:city_id, City.where(:state_id => ad.object.state_id ).collect{|s| [s.name, s.id]}, 
-                        {:prompt => 'Cidade'}, {:class => 'selectpicker', data: {style: "btn btn-primary"}} ) %>  
+                        {:prompt => 'Cidade'}, {:class => 'btn btn-primary custom-select', data: {style: "btn btn-primary"}} ) %>  
                     </div>
                   </div> 
 
@@ -211,7 +211,7 @@
                 <div class="row">					                        	
                   <div class="col-md-5">
                     <%= f.collection_select(:marital_state_id, MaritalState.all.order(:description), :id, :description,
-                        {:prompt => 'Estado Civil'}, {:class => 'selectpicker', data: {style: "btn btn-warning"}}) %>
+                        {:prompt => 'Estado Civil'}, {:class => 'btn btn-warning custom-select', data: {style: "select-with-transition"}}) %>
                   </div>
                   <div class="col-md-5">                    
                     <%= f.text_field :wifes_name, :placeholder => model_class.human_attribute_name(:wifes_name), :class => 'form-control' %>
@@ -224,7 +224,7 @@
                 <div class="row">					                        	
                   <div class="col-md-5">
                      <%= f.collection_select(:degree_education_id, DegreeEducation.all.order(:description), :id, :description,
-                        {:prompt => 'Grau de escolaridade'}, {:class => 'selectpicker', data: {style: "btn btn-default"}}) %>
+                        {:prompt => 'Grau de escolaridade'}, {:class => 'btn btn-default custom-select', data: {style: "select-with-transition"}}) %>
                   </div>
                   <div class="col-md-7">                    
                     <%= f.text_field :course, :placeholder => model_class.human_attribute_name(:course), :class => 'form-control' %>
@@ -301,11 +301,11 @@
                     <div class="row">
                       <div class="col-md-4">
                         <%= adp.collection_select(:state_id, State.all.order(:name).all, :id, :name,
-                          {:prompt => 'Estado'}, {:class => 'selectpicker', data: {style: "btn btn-success"}}) %>
+                          {:prompt => 'Estado'}, {:class => 'btn btn-success custom-select', data: {style: "select-with-transition"}}) %>
                       </div>
                       <div class="col-md-8">
                         <%= adp.select(:city_id, City.where(:state_id => adp.object.state_id ).collect{|s| [s.name, s.id]}, 
-                          {:prompt => 'Cidade'}, {:class => 'selectpicker', data: {style: "btn btn-primary"}} ) %>  
+                          {:prompt => 'Cidade'}, {:class => 'btn btn-primary custom-select', data: {style: "select-with-transition"}} ) %>  
                       </div>
                     </div>
                   <% end %>

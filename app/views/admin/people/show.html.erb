@@ -42,13 +42,21 @@
                 <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:driver_license_id) %>:</strong></dt>
                 <dd class="col-3"><%= @person.driver_license_id %></dd>
                 <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:marital_state_id) %>:</strong></dt>
-                <dd class="col-3"><%= @person.marital_state.description %></dd>
+                <% unless @person.marital_state.blank? %>
+                  <dd class="col-3"><%= @person.marital_state.description %></dd>
+                <% else %>
+                  <dd class="col-3"></dd>
+                <% end %>
                 <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:wifes_name) %>:</strong></dt>
                 <dd class="col-3"><%= @person.wifes_name %></dd>
                 <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:among_sun) %>:</strong></dt>
                 <dd class="col-3"><%= @person.among_sun %></dd>
                 <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:degree_education_id) %>:</strong></dt>
-                <dd class="col-3"><%= @person.degree_education.description %></dd>
+                <% unless @person.marital_state.blank? %>
+                  <dd class="col-3"><%= @person.degree_education.description %></dd>
+                <% else %>
+                  <dd class="col-3"></dd>
+                <% end %>
                 <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:course) %>:</strong></dt>
                 <dd class="col-3"><%= @person.course %></dd>
                 <dt class="col-3" style="text-align: right"><strong><%= model_class.human_attribute_name(:occupation_id) %>:</strong></dt>
