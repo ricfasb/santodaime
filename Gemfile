@@ -34,19 +34,17 @@ gem 'trix'
 # gem active_admin
 
 ## Bootstrap 4
-gem 'bootstrap', '~> 4.1.3'
+gem 'bootstrap', '~> 4.2.1'
 gem 'popper_js', '~> 1.11', '>= 1.11.1'
 gem 'rails-assets-tether', '>= 1.3.3', source: 'https://rails-assets.org'
+gem 'momentjs-rails'
 
-#gem 'bootstrap-sass', '~> 3.3.7'
 gem 'jquery-ui-rails', '~> 5.0', '>= 5.0.5'
-
-gem 'bootstrap-select-rails'
-gem 'bootstrap-datepicker-rails', '>= 0.6.21'
 
 gem 'material-sass', '~> 4.0.0'
 gem 'material_icons'
 gem 'font-awesome-rails'
+
 gem 'chartkick'
 gem 'maskedinput-rails', '~> 1.4.1.0'
 gem 'maskmoney-rails'
@@ -66,15 +64,20 @@ gem 'ransack'
 gem 'enumerize'
 #gem 'hairtrigger'
 
+
+gem 'bootstrap-select-rails'
+gem 'bootstrap-datepicker-rails', '>= 0.6.21'
+
 gem "devise"
 gem 'devise-i18n', '~> 1.1.2'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
-  gem 'sqlite3'
+  #gem 'sqlite3'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'faker'

@@ -4,80 +4,79 @@
   <% content_for :head do %>
     <%= javascript_include_tag 'notify' %>
   <% end %>
-
-    <div class="row justify-content-center d-flex align-items-center">
-      <div class="col-11">        
-        <div class="row">
-          <div class="col-lg-8">             
-            <%= f.text_field :name, :placeholder => model_class.human_attribute_name(:name), :class => 'form-control' %>            
-          </div>
-          <div class="col-lg-4">                      
-            <%= f.text_field :telephone, :placeholder => model_class.human_attribute_name(:telephone), :class => 'form-control' %>            
-          </div>
-        </div>
-
-        <%= f.fields_for :address do |a| %>
-          <div class="row">
-              <div class="col-lg-4">                             
-                <%= a.text_field :zip_code, :placeholder => model_class.human_attribute_name(:zip_code), :class => 'form-control' %>                
-              </div>
-              <div class="col-lg-8">                
-                <%= a.text_field :street, :placeholder => model_class.human_attribute_name(:street), :class => 'form-control' %>                
-              </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-4">              
-              <%= a.text_field :number, :placeholder => model_class.human_attribute_name(:number), :class => 'form-control' %>              
-            </div>
-            <div class="col-lg-8">              
-                <%= a.text_field :complement, :placeholder => model_class.human_attribute_name(:complement), :class => 'form-control' %>              
-            </div>
-          </div>
-          
-          <div class="row">
-            <div class="col-lg-4">                             
-              <%= a.text_field :reference, :placeholder => model_class.human_attribute_name(:reference), :class => 'form-control' %>
-            </div>
-
-            <div class="col-lg-8">                          
-              <%= a.text_field :neighbourhood, :placeholder => model_class.human_attribute_name(:neighbourhood), :class => 'form-control' %>              
-            </div>
-          </div>
-          
-          <div class="row">
-            <div class="col-lg-4">
-              <%= a.collection_select(:state_id, State.all, :id, :name,
-              {:prompt => 'Estado'}, {:class => 'selectpicker', data: {style: "btn btn-success"}}) %>
-            </div>
-            <div class="col-lg-8">
-              <%= a.select(:city_id, City.where(:state_id => a.object.state_id ).collect{|s| [s.name, s.id]}, 
-                {:prompt => 'Cidade'}, {:class => 'selectpicker', data: {style: "btn btn-default"}} ) %>                          
-            </div>
-          </div>      
-        <% end %>   
-
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="btn-group pull-right" style="padding-top: 10px">
-              <%= f.submit nil, :class => 'btn btn-success' %>
-              <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                        admin_companies_path, :class => 'btn btn-danger' %>
-            </div>
-          </div>
-        </div> 
-
-      </div>    
+   
+  <div class="row">
+    <div class="col-8 form-group">               
+      <%= f.label :name, :class => 'control-label' %>
+      <%= f.text_field :name, :class => 'form-control' %>            
     </div>
+    <div class="col-4 form-group">            
+      <%= f.label :telephone, :class => 'control-label' %>          
+      <%= f.text_field :telephone, :class => 'form-control' %>            
+    </div>
+  </div>
+
+  <%= f.fields_for :address do |a| %>
+    <div class="row">
+        <div class="col-4 form-group">     
+          <%= f.label :zip_code, :class => 'control-label' %>       
+          <%= a.text_field :zip_code, :class => 'form-control' %>                
+        </div>
+        <div class="col-8 form-group">         
+          <%= f.label :street, :class => 'control-label' %>       
+          <%= a.text_field :street, :class => 'form-control' %>                
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="col-4 form-group">
+        <%= f.label :number, :class => 'control-label' %>              
+        <%= a.text_field :number, :class => 'form-control' %>              
+      </div>
+      <div class="col-8 form-group">        
+        <%= f.label :complement, :class => 'control-label' %>      
+        <%= a.text_field :complement, :class => 'form-control' %>              
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-4 form-group">    
+        <%= f.label :reference, :class => 'control-label' %>                         
+        <%= a.text_field :reference, :class => 'form-control' %>
+      </div>
+
+      <div class="col-8 form-group">  
+        <%= f.label :neighbourhood, :class => 'control-label' %>                        
+        <%= a.text_field :neighbourhood, :class => 'form-control' %>              
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-4">
+        <%= a.collection_select(:state_id, State.all, :id, :name,
+        {:prompt => 'Estado'}, {:class => 'btn btn-success custom-select'}) %>
+      </div>
+      <div class="col-8">
+        <%= a.select(:city_id, City.where(:state_id => a.object.state_id ).collect{|s| [s.name, s.id]}, 
+          {:prompt => 'Cidade'}, {:class => 'btn btn-default custom-select'} ) %>                          
+      </div>
+    </div>      
+  <% end %>   
+
+  <div class="row">
+    <div class="col-12">
+      <div class="btn-group pull-right" style="padding-top: 10px">
+        <%= f.submit nil, :class => 'btn btn-success' %>
+        <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                  admin_companies_path, :class => 'btn btn-danger' %>
+      </div>
+    </div>
+  </div> 
 
 <% end %>
 
 <script> 
-  jQuery(function($){
-    $('.selectpicker').selectpicker({
-        width: '100%',
-        noneSelectedText : 'Selecione uma opção'
-    });
+  jQuery(function($){    
 
     var city_id;
     var state_id;
@@ -123,9 +122,7 @@
             options += '<option value="' + json[i].id + '">' + json[i].name + '</option>';
           }
           $("#company_address_attributes_city_id").append(options);
-          $('#company_address_attributes_city_id').selectpicker('refresh');
-
-          $("#company_address_attributes_city_id").selectpicker('val', city_id);          
+          $("#company_address_attributes_city_id").val(city_id);          
         },
         error: function(o, status, error) {
           var json = o.responseJSON;
@@ -185,10 +182,9 @@
           for (var i = 0; i < cities.length; i++) {
             options += '<option value="' + cities[i].id + '">' + cities[i].name + '</option>';
           }
-          $("#company_address_attributes_city_id").append(options);
-          $('#company_address_attributes_city_id').selectpicker('refresh');
-          $("#company_address_attributes_city_id").selectpicker('val', city_id);
-          $("#company_address_attributes_state_id").selectpicker('val', state_id);
+          $("#company_address_attributes_city_id").append(options);          
+          $("#company_address_attributes_city_id").val(city_id);
+          $("#company_address_attributes_state_id").val(state_id);
 
           $('#company_address_attributes_street').val(json.address.response.logradouro);          
           $('#company_address_attributes_neighbourhood').val(json.address.response.bairro);          

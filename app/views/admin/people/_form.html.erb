@@ -31,12 +31,14 @@
                   <div class="col-md-9">                        							
                     <div class="row">                        
                       <div class="col-md-7">
-                        <%= f.text_field :name, :placeholder => model_class.human_attribute_name(:name), :class => 'form-control' %>
+                        <%= f.label :name, :class => 'control-label' %>
+                        <%= f.text_field :name, :class => 'form-control' %>
                       </div>
 
-                      <div class="col-md-5">                                                                  
-                        <div class="input-group">                       
-                          <%= f.text_field :date_born, placeholder: model_class.human_attribute_name(:date_born), :data => {:provide => "datepicker", "date-format" => "dd/mm/yyyy", "datepicker-color" => "primary"}, class: 'form-control date-picker' %>
+                      <div class="col-md-5">        
+                        <%= f.label :date_born, :class => 'control-label' %>                                                                              
+                        <div class="input-group">                             
+                          <%= f.text_field :date_born, placeholder: 'dd/mm/yyyy', :data => {"date-format" => "DD/MM/YYYY"}, class: 'form-control datepicker' %>
                           <span class="input-group-addon">
                             <i class="fa fa-calendar btnCalendar btnCalendarDateBorn"></i>
                           </span>
@@ -47,12 +49,14 @@
 
                     <div class="row">             
                       <div class="col-md-7">
-                        <%= f.text_field :email, :placeholder => model_class.human_attribute_name(:email), :class => 'form-control' %>
+                        <%= f.label :email, :class => 'control-label' %>
+                        <%= f.text_field :email, :class => 'form-control' %>
                       </div>
 
                       <div class="col-md-5">
+                        <%= f.label :date_enroll, :class => 'control-label' %>
                         <div class="input-group">                      
-                          <%= f.text_field :date_enroll, placeholder: model_class.human_attribute_name(:date_enroll), :data => {:provide => "datepicker", "date-format" => "dd/mm/yyyy", "datepicker-color" => "primary"}, class: 'form-control date-picker' %>
+                          <%= f.text_field :date_enroll, :data => {"date-format" => "DD/MM/YYYY"}, class: 'form-control datepicker' %>                          
                           <span class="input-group-addon">
                             <i class="fa fa-calendar btnCalendar btnCalendarDateEnroll"></i>
                           </span>
@@ -63,15 +67,17 @@
                     <div class="row">             
                       <div class="col-md-5">
                         <%= f.collection_select(:category_id, Category.all.order(:description), :id, :description,
-                            {:prompt => 'Categoria'}, {:class => 'btn btn-primary custom-select', data: {style: "btn btn-primary"}}) %>
+                            {:prompt => 'Categoria'}, {:class => 'btn btn-primary custom-select'}) %>
                       </div>
 
                       <div class="col-md-4">
-                        <%= f.text_field :rg, :placeholder => model_class.human_attribute_name(:rg), :class => 'form-control' %>
+                        <%= f.label :rg, :class => 'control-label' %>
+                        <%= f.text_field :rg, :class => 'form-control' %>
                       </div>
 
                       <div class="col-md-3">
-                        <%= f.text_field :cpf, :placeholder => model_class.human_attribute_name(:cpf), :class => 'form-control' %>                        
+                        <%= f.label :cpf, :class => 'control-label' %>
+                        <%= f.text_field :cpf, :class => 'form-control' %>                        
                         
                         <%= hidden_field_tag :data_uri, "" %>
                       </div>
@@ -103,75 +109,88 @@
                 </div>   
 
                 <div class="row">            
-                  <div class="col-md-3">
-                    <%= f.text_field :telephone_residence, :placeholder => model_class.human_attribute_name(:telephone_residence), :class => 'form-control' %>
+                  <div class="col-md-3">  
+                    <%= f.label :telephone_residence, :class => 'control-label' %>
+                    <%= f.text_field :telephone_residence, :class => 'form-control' %>
                   </div>
 
                   <div class="col-md-3">
-                    <%= f.text_field :smartphone_number, :placeholder => model_class.human_attribute_name(:smartphone_number), :class => 'form-control' %>
+                    <%= f.label :smartphone_number, :class => 'control-label' %>
+                    <%= f.text_field :smartphone_number, :class => 'form-control' %>
                   </div>
 
                   <div class="col-md-3">
-                    <%= f.text_field :telephone_message, :placeholder => model_class.human_attribute_name(:telephone_message), :class => 'form-control' %>
+                    <%= f.label :telephone_message, :class => 'control-label' %>
+                    <%= f.text_field :telephone_message, :class => 'form-control' %>
                   </div>
 
                   <div class="col-md-3">
-                    <%= f.text_field :message_person, :placeholder => model_class.human_attribute_name(:message_person), :class => 'form-control' %>
+                    <%= f.label :message_person, :class => 'control-label' %>
+                    <%= f.text_field :message_person, :class => 'form-control' %>
                   </div>
                 </div>
 
                 <div class="row">             
                   <div class="col-md-4">
-                    <%= f.text_field :facebook, :placeholder => model_class.human_attribute_name(:facebook), :class => 'form-control' %>
+                    <%= f.label :facebook, :class => 'control-label' %>
+                    <%= f.text_field :facebook, :class => 'form-control' %>
                   </div>
 
                   <div class="col-md-4">
-                    <%= f.text_field :father_name, :placeholder => model_class.human_attribute_name(:father_name), :class => 'form-control' %>
+                    <%= f.label :father_name, :class => 'control-label' %>
+                    <%= f.text_field :father_name, :class => 'form-control' %>
                   </div>
 
                   <div class="col-md-4">
-                    <%= f.text_field :mother_name, :placeholder => model_class.human_attribute_name(:mother_name), :class => 'form-control' %>
+                    <%= f.label :mother_name, :class => 'control-label' %>
+                    <%= f.text_field :mother_name, :class => 'form-control' %>
                   </div>
                 </div>
 
                 <%= f.fields_for :address do |ad| %>
                   <div class="row">
                     <div class="col-md-4">
-                      <%= ad.text_field :zip_code, :placeholder => model_class.human_attribute_name(:zip_code), :class => 'form-control' %>
+                      <%= f.label :zip_code, :class => 'control-label' %>
+                      <%= ad.text_field :zip_code, :class => 'form-control' %>
                     </div>
                     <div class="col-md-8">
-                      <%= ad.text_field :street, :placeholder => model_class.human_attribute_name(:street), :class => 'form-control' %>
+                      <%= f.label :street, :class => 'control-label' %>
+                      <%= ad.text_field :street, :class => 'form-control' %>
                     </div>
                   </div>
 
                   <div class="row">
                     <div class="col-md-4">
-                      <%= ad.text_field :number, :placeholder => model_class.human_attribute_name(:number), :class => 'form-control' %>
+                      <%= f.label :number, :class => 'control-label' %>
+                      <%= ad.text_field :number, :class => 'form-control' %>
                     </div>
 
                     <div class="col-md-8">
-                      <%= ad.text_field :complement, :placeholder => model_class.human_attribute_name(:complement), :class => 'form-control' %>
+                      <%= f.label :complement, :class => 'control-label' %>
+                      <%= ad.text_field :complement, :class => 'form-control' %>
                     </div>
                   </div>
                   
                   <div class="row">
                     <div class="col-md-4">
-                      <%= ad.text_field :reference, :placeholder => model_class.human_attribute_name(:reference), :class => 'form-control' %>
+                      <%= f.label :reference, :class => 'control-label' %>
+                      <%= ad.text_field :reference, :class => 'form-control' %>
                     </div>
 
                     <div class="col-md-8">
-                      <%= ad.text_field :neighbourhood, :placeholder => model_class.human_attribute_name(:neighbourhood), :class => 'form-control' %>
+                      <%= f.label :neighbourhood, :class => 'control-label' %>
+                      <%= ad.text_field :neighbourhood, :class => 'form-control' %>
                     </div>
                   </div>
                   
                   <div class="row">
                     <div class="col-md-4">
                       <%= ad.collection_select(:state_id, State.all.order(:name).all, :id, :name,
-                        {:prompt => 'Estado'}, {:class => 'btn btn-success custom-select', data: {style: "btn btn-success"}}) %>
+                        {:prompt => 'Estado'}, {:class => 'btn btn-success custom-select'}) %>
                     </div>
                     <div class="col-md-8">
                       <%= ad.select(:city_id, City.where(:state_id => ad.object.state_id ).collect{|s| [s.name, s.id]}, 
-                        {:prompt => 'Cidade'}, {:class => 'btn btn-primary custom-select', data: {style: "btn btn-primary"}} ) %>  
+                        {:prompt => 'Cidade'}, {:class => 'btn btn-primary custom-select'} ) %>  
                     </div>
                   </div> 
 
@@ -184,22 +203,26 @@
                 <%= f.fields_for :driver_license do |d| %>
                   <div class="row">					                        	
                     <div class="col-md-3">
-                      <%= d.text_field :number_cnh, :placeholder => 'Número CNH', :class => 'form-control' %>                    
+                      <%= f.label :number_cnh, :class => 'control-label' %>
+                      <%= d.text_field :number_cnh, autocomplete: "off", :class => 'form-control' %>                    
                     </div>
                     <div class="col-md-3">
-                      <%= d.text_field :category_cnh, :placeholder => 'Categoria CNH', :class => 'form-control' %>                    
+                      <%= f.label :category_cnh, :class => 'control-label' %>
+                      <%= d.text_field :category_cnh, autocomplete: "off", :class => 'form-control' %>                    
                     </div>
                     <div class="col-md-3">
+                      <%= f.label :date_issue, :class => 'control-label' %>
                       <div class="input-group">
-                        <%= d.text_field :date_issue, :placeholder => model_class.human_attribute_name(:date_issue), :data => {:provide => "datepicker", "date-format" => "dd/mm/yyyy", "datepicker-color" => "primary"}, class: 'form-control date-picker' %>
+                        <%= d.text_field :date_issue, :data => {"date-format" => "DD/MM/YYYY"}, class: 'form-control datepicker' %>
                         <span class="input-group-addon">
                           <i class="fa fa-calendar btnCalendar btnCalendarDateIssue"></i>
                         </span>
                       </div>
                     </div>
                     <div class="col-md-3">
+                      <%= f.label :expering_date, :class => 'control-label' %>
                       <div class="input-group">
-                        <%= d.text_field :expering_date, :placeholder => model_class.human_attribute_name(:expering_date), :data => {:provide => "datepicker", "date-format" => "dd/mm/yyyy", "datepicker-color" => "primary"}, class: 'form-control date-picker' %>
+                        <%= d.text_field :expering_date, :data => {"date-format" => "DD/MM/YYYY"}, class: 'form-control datepicker' %>
                         <span class="input-group-addon">
                           <i class="fa fa-calendar btnCalendar btnCalendarDateExpering"></i>
                         </span>
@@ -211,36 +234,42 @@
                 <div class="row">					                        	
                   <div class="col-md-5">
                     <%= f.collection_select(:marital_state_id, MaritalState.all.order(:description), :id, :description,
-                        {:prompt => 'Estado Civil'}, {:class => 'btn btn-warning custom-select', data: {style: "select-with-transition"}}) %>
+                        {:prompt => 'Estado Civil'}, {:class => 'btn btn-warning custom-select'}) %>
                   </div>
-                  <div class="col-md-5">                    
-                    <%= f.text_field :wifes_name, :placeholder => model_class.human_attribute_name(:wifes_name), :class => 'form-control' %>
+                  <div class="col-md-5">     
+                    <%= f.label :wifes_name, :class => 'control-label' %>               
+                    <%= f.text_field :wifes_name, autocomplete: "off", :class => 'form-control' %>
                   </div>
                   <div class="col-md-2">
-                    <%= f.number_field :among_sun, input_html: {value: '0', step:'1'}, :placeholder => model_class.human_attribute_name(:among_sun), :class => 'form-control' %>                                               
+                    <%= f.label :among_sun, :class => 'control-label' %>
+                    <%= f.number_field :among_sun, input_html: {value: '0', step:'1'}, :class => 'form-control' %>                                               
                   </div>
                 </div>
 
                 <div class="row">					                        	
                   <div class="col-md-5">
                      <%= f.collection_select(:degree_education_id, DegreeEducation.all.order(:description), :id, :description,
-                        {:prompt => 'Grau de escolaridade'}, {:class => 'btn btn-default custom-select', data: {style: "select-with-transition"}}) %>
+                        {:prompt => 'Grau de escolaridade'}, {:class => 'btn btn-default custom-select'}) %>
                   </div>
-                  <div class="col-md-7">                    
-                    <%= f.text_field :course, :placeholder => model_class.human_attribute_name(:course), :class => 'form-control' %>
+                  <div class="col-md-7">  
+                    <%= f.label :course, :class => 'control-label' %>                  
+                    <%= f.text_field :course, :class => 'form-control' %>
                   </div>
                 </div>
 
                 <%= f.fields_for :deficiency_person do |dp| %>
                   <div class="row">
                     <div class="col-md-4">
-                      <%= dp.text_area :chronic_disease, :placeholder => model_class.human_attribute_name(:chronic_disease), :class => 'form-control', :size => "40x2" %>                                        
+                      <%= f.label :chronic_disease, :class => 'control-label' %>
+                      <%= dp.text_area :chronic_disease, :class => 'form-control', :size => "40x2" %>                                        
                     </div>	
                     <div class="col-md-4">
-                      <%= dp.text_area :controlled_medication, :placeholder => model_class.human_attribute_name(:controlled_medication), :class => 'form-control', :size => "40x2" %>                                                              
+                      <%= f.label :controlled_medication, :class => 'control-label' %>
+                      <%= dp.text_area :controlled_medication, :class => 'form-control', :size => "40x2" %>                                                              
                     </div>          
                     <div class="col-md-4">
-                      <%= f.text_area :motive, :placeholder => model_class.human_attribute_name(:motive), :class => 'form-control', :size => "40x2" %>                                        
+                      <%= f.label :motive, :class => 'control-label' %>
+                      <%= f.text_area :motive, :class => 'form-control', :size => "40x2" %>                                        
                     </div>          
                   </div>
                 <% end %>
@@ -248,16 +277,20 @@
                 <%= f.fields_for :occupation do |o| %>
                   <div class="row">                            
                     <div class="col-md-4">
-                      <%= o.text_field :description, :placeholder => model_class.human_attribute_name(:description), :class => 'form-control' %>                      
+                      <%= f.label :description, :class => 'control-label' %>
+                      <%= o.text_field :description, :class => 'form-control' %>                      
                     </div>	
                     <div class="col-md-2">
-                      <%= o.text_field :experience_time, :placeholder => model_class.human_attribute_name(:experience_time), :class => 'form-control' %>                      
+                      <%= f.label :experience_time, :class => 'control-label' %>
+                      <%= o.text_field :experience_time, :class => 'form-control' %>                      
                     </div>  
                     <div class="col-md-2">	 
-                      <%= f.text_field :height, :placeholder => model_class.human_attribute_name(:height), :class => 'form-control' %>                           
+                      <%= f.label :height, :class => 'control-label' %>
+                      <%= f.text_field :height, :class => 'form-control' %>                           
                     </div> 
                     <div class="col-md-4">
-                      <%= f.text_field :complementary_information, :placeholder => model_class.human_attribute_name(:complementary_information), :class => 'form-control' %>                                                              
+                      <%= f.label :complementary_information, :class => 'control-label' %>
+                      <%= f.text_field :complementary_information, :class => 'form-control' %>                                                              
                     </div>                 
                   </div>
 
@@ -271,30 +304,36 @@
                   <%= o.fields_for :address do |adp| %>
                     <div class="row">
                       <div class="col-md-4">
-                        <%= adp.text_field :zip_code, :placeholder => model_class.human_attribute_name(:zip_code), :class => 'form-control' %>
+                        <%= f.label :zip_code, :class => 'control-label' %>
+                        <%= adp.text_field :zip_code, :class => 'form-control' %>
                       </div>
                       <div class="col-md-8">
-                        <%= adp.text_field :street, :placeholder => model_class.human_attribute_name(:street), :class => 'form-control' %>
+                        <%= f.label :street, :class => 'control-label' %>
+                        <%= adp.text_field :street, :class => 'form-control' %>
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-md-4">
-                        <%= adp.text_field :number, :placeholder => model_class.human_attribute_name(:number), :class => 'form-control' %>
+                        <%= f.label :number, :class => 'control-label' %>
+                        <%= adp.text_field :number, :class => 'form-control' %>
                       </div>
 
                       <div class="col-md-8">
-                        <%= adp.text_field :complement, :placeholder => model_class.human_attribute_name(:complement), :class => 'form-control' %>
+                        <%= f.label :complement, :class => 'control-label' %>
+                        <%= adp.text_field :complement, :class => 'form-control' %>
                       </div>
                     </div>
                       
                     <div class="row">
                       <div class="col-md-4">
-                        <%= adp.text_field :reference, :placeholder => model_class.human_attribute_name(:reference), :class => 'form-control' %>
+                        <%= f.label :reference, :class => 'control-label' %>
+                        <%= adp.text_field :reference, :class => 'form-control' %>
                       </div>
 
                       <div class="col-md-8">
-                        <%= adp.text_field :neighbourhood, :placeholder => model_class.human_attribute_name(:neighbourhood), :class => 'form-control' %>
+                        <%= f.label :neighbourhood, :class => 'control-label' %>
+                        <%= adp.text_field :neighbourhood, :class => 'form-control' %>
                       </div>
                     </div>
 
@@ -358,7 +397,7 @@
 
 <script> 
   jQuery(function($){
-    //
+    md.initFormExtendedDatetimepickers();
 
     var videoStream = null;
 
@@ -580,18 +619,6 @@
     $('#liPessoa').addClass("active");
     
     $("#person_name").focus();
-
-    $(".datepicker").datepicker({
-      dateFormat: 'dd/mm/yy',
-      days: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-      daysMin: ['D','S','T','Q','Q','S','S','D'],
-      dayShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
-      months: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-      monthsShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-      today: "Hoje",
-      nextText: '>>',
-      prevText: '<<'
-    });
 
     $("#btnFecharBiometria").on("click", function(event) {
       event.preventDefault();   

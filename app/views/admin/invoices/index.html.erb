@@ -5,32 +5,31 @@
 	        <div class="card-header card-header-success" data-background-color="green">
             <div class="row">
               <div class="col-md-8">
-                <h4 class="title">Cobranças</h4>
-                <p class="category">Listagem de cobranças</p>
+                <h4 class="title">Cobranças</h4>                
               </div>
               <div class="col" align="right">
-                    <%= link_to raw('<i class="now-ui-icons ui-1_simple-add"></i>'),
+                    <%= link_to raw('<i class="material-icons">add</i>'),
                       new_admin_invoice_path, 
                       :style => "margin-left: 35px",
-                      :class => 'btn btn-lg btn-success btn-round btn-icon' %>
+                      :class => 'btn btn-success btn-round btn-fab' %>
               </div>
             </div>
 	        </div>  
           <div class="card-content">            
             <%= search_form_for [:admin, @q] do |f| %>
             <div class="row">  
-              <div class="col-md-1"></div>
-              <div class="col-md-2 justify-content-center d-flex align-items-center">
+              <div class="col-1"></div>
+              <div class="col-2">
                 <%= f.label :person_name_cont, :class => 'form-control' %>                                                    
               </div>
-              <div class="col-md-7 justify-content-center d-flex align-items-center" align="right">			   
+              <div class="col-7" align="right">			   
                 <%= f.search_field :person_name_cont, :placeholder => 'Valor a ser pesquisado', :class => 'form-control' %>
               </div> 
-              <div class="col-md-2" align="center">                           
-                <%= link_to raw('<i class="now-ui-icons ui-1_zoom-bold"></i>'),
+              <div class="col-2" align="center">                           
+                <%= link_to raw('<i class="material-icons">search</i>'),
                   "", :onclick => "$('#invoice_search').submit()",
                   :style => "margin-left: 35px",
-                  :class => 'btn btn-lg btn-warning btn-round btn-icon' %>
+                  :class => 'btn btn-warning btn-round btn-fab' %>
               </div>  
             </div> 
             <% end %>                                  

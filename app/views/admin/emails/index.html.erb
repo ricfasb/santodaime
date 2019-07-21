@@ -6,18 +6,17 @@
 	          
             <div class="row">  
                 <div class="col-md-8"> 
-                  <h4 class="title">Envio de E-mail</h4>
-	                <p class="category">Agendamento de envio de e-mails</p>
+                  <h4 class="title">Envio de e-mails</h4>	                
                 </div>
                 <div class="col" align="right">                            
-                  <%= link_to raw('<i class="now-ui-icons ui-1_simple-add"></i>'),
+                  <%= link_to raw('<i class="material-icons">add</i>'),
                       new_admin_email_path, 
                       :style => "margin-left: 35px",
-                      :class => 'btn btn-lg btn-success btn-round btn-icon' %>
+                      :class => 'btn btn-success btn-round btn-fab' %>
                           
-                  <%= link_to raw('<i class="now-ui-icons ui-1_email-85"></i>'),
+                  <%= link_to raw('<i class="material-icons">email</i>'),
                       admin_email_send_mail_path("-1"),                       
-                      :class => 'btn btn-lg btn-warning btn-round btn-icon' %>
+                      :class => 'btn btn-warning btn-round btn-fab' %>
                 </div>  
             </div> 
 	        </div> 

@@ -11,25 +11,27 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery3
+//= require jquery-ui   
+//= require jquery_ujs
 //= require popper
+//= require moment
 //= require bootstrap
 //= require bootstrap-sprockets
-//= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-//= require now-ui-kit
-//= require bootstrap/alert
-//= require bootstrap/dropdown
-//= require bootstrap-select
-//= require Chart.bundle
-//= require chartkick
+//= require material-dashboard
+//= require bootstrap-material-design.min
+//= require bootstrap-selectpicker
+//= require nouislider.min
+//= require bootstrap-datetimepicker.min
 //= require material
 //= require material-kit
-//= require bootstrap-datepicker
 //= require maskedinput
 //= require maskmoney   
 //= require notify
+//= require jquery.tagsinput
+//= require Chart.bundle
+//= require chartkick
 //= require trix
 
 $(document).ready(function($) {

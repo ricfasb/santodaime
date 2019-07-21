@@ -22,7 +22,7 @@
           <div class="row">
             <div class="col-lg-10">
               <%= f.collection_select(:invoice_type_id, InvoiceType.all.order(:description), :id, :description,
-                  {:prompt => 'Tipo de cobrança'}, {:class => 'selectpicker', data: {style: "btn btn-primary"}}) %>
+                  {:prompt => 'Tipo de cobrança'}, {:class => 'btn btn-primary custom-select'}) %>
             </div>
           </div>
 

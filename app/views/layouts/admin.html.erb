@@ -77,17 +77,11 @@
                             <i class="material-icons">library_books</i>
                             <p>Livro Caixa</p>
                         </a>
-                    </li>   
-                    <li id="liEntrada">
-                        <a href="#">
-                            <i class="material-icons">archive</i>
-                            <p>Entrada</p>
-                        </a>
-                    </li>                    
+                    </li>                  
                     <li id="liSaida">
                         <a href="#">
                             <i class="material-icons">unarchive</i>
-                            <p>Saída</p>
+                            <p>Saídas</p>
                         </a>
                     </li>                                                                         
                     <li id="liCheckIn" class="<%= active_class(new_admin_checkin_path) %>">
@@ -137,7 +131,7 @@
         </div>        
 
         <div class="main-panel">           
-            <div class="container-fluid">
+            <div class="container">
                 <%= yield.force_encoding("UTF-8")  %>
             </div>
         </div>
@@ -145,3 +139,15 @@
     </div>
   </body>
 </html>
+
+<script>
+$(document).ready(function() {
+    var win = $(this);
+    var actualHeight = win.height();
+    
+    $(window).scroll(function() {                
+        $('.sidebar').css("min-height", actualHeight);  
+        $('.sidebar').css("height", actualHeight); 
+    });
+});
+</script>

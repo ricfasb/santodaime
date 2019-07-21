@@ -2771,7 +2771,6 @@ output {
 .form-control,
 .form-group .form-control {
     border: 0;
-    background-image: linear-gradient(#9c27b0, #9c27b0), linear-gradient(#D2D2D2, #D2D2D2);
     background-size: 0 2px, 100% 1px;
     background-repeat: no-repeat;
     background-position: center bottom, center calc(100% - 1px);
@@ -2845,7 +2844,6 @@ fieldset[disabled] .form-group .form-control {
 
 .form-group.is-focused .form-control {
     outline: none;
-    background-image: linear-gradient(#9c27b0, #9c27b0), linear-gradient(#D2D2D2, #D2D2D2);
     background-size: 100% 2px, 100% 1px;
     box-shadow: none;
     transition-duration: 0.3s;
@@ -3480,8 +3478,7 @@ select.form-control[multiple],
 .table>tfoot>tr>th,
 .table>thead>tr>td,
 .table>tbody>tr>td,
-.table>tfoot>tr>td {
-    padding: 5px 5px;
+.table>tfoot>tr>td {    
     vertical-align: middle;
 }
 
@@ -3972,7 +3969,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
     min-width: 30px;
     height: 30px;
     line-height: 30px;
-    color: #FFFFFF;
+    color: #999999;
     font-weight: 400;
     font-size: 12px;
     text-transform: uppercase;
@@ -5159,7 +5156,6 @@ footer .btn {
 }
 
 .card .card-header {
-    box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
     margin: -20px 5px 5px;
     border-radius: 3px;
     background-color: #999;

@@ -9,7 +9,8 @@
 
         <div class="row">
           <div class="col">            
-                <%= f.text_field :description, :placeholder => model_class.human_attribute_name(:description), :class => 'form-control' %>            
+            <%= f.label :description, :class => 'control-label' %>
+            <%= f.text_field :description, :class => 'form-control' %>            
           </div>
           <div class="col-4">
             <div class="togglebutdton">
@@ -26,7 +27,7 @@
           <div class="col-6 divMensalidade">
             <div class="label-floating">                
                 <%= f.collection_select(:tuition_id, Tuition.order('description desc').all, :id, :description,
-     	              {:prompt => 'Selecione a mensalidade'}, {:class => 'selectpicker', data: {style: "btn btn-primary"}}) %>
+                     {:prompt => 'Selecione a mensalidade'}, {:class => 'btn btn-primary custom-select'}) %>                     
             </div>
           </div>
         </div>

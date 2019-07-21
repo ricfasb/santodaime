@@ -4,28 +4,23 @@
 	            <div class="card">
 	                <div class="card-header card-header-success" data-background-color="green">
                     <div class="row">
-                      <div class="col-md-8">
+                      <div class="col-10">
                         <h4 class="title">Pessoas</h4>
-                        <p class="category">Listagem de pessoas</p>
                       </div>
                       <div class="col" align="right">
-                        <span class="dropdown">
-                          <a class="btn btn-lg btn-success btn-round btn-icon dropdown-toggle" href="/admin/people/birthdays_month" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="now-ui-icons files_paper"></i>
-                            <div class="ripple-container"></div>
-                          </a>
-                          <ul class="dropdown-menu">
-                              <li>
-                                  <a target="_blank" href="/admin/people/birthday">Aniversariantes do dia</a>
-                                  <a target="_blank" href="/admin/people/exportar_pdf">Aniversariantes do mês</a>
-                                  <a target="_blank" href="/admin/people/birthdays_month">Mensalidades Pendentes</a>
-                              </li>
-                          </ul>
-                        </span>
-                        <%= link_to raw('<i class="now-ui-icons ui-1_simple-add"></i>'),
-                            new_admin_person_path,                             
-                            :class => 'btn btn-lg btn-success btn-round btn-icon' %>
-                        
+                        <span class="dropup" style="float: left">                         
+                          <button type="button" class="btn btn-success btn-round btn-fab" data-toggle="dropdown">
+                            <i class="material-icons">printer</i>
+                          </button>
+                          <span class="dropdown-menu">
+                            <a class="dropdown-item" target="_blank" href="/admin/people/birthday">Aniversariantes do dia</a>
+                            <a class="dropdown-item" target="_blank" href="/admin/people/exportar_pdf">Aniversariantes do mês</a>
+                            <a class="dropdown-item" target="_blank" href="/admin/people/birthdays_month">Mensalidades Pendentes</a>
+                          </span>
+                        </span>                                         
+                        <%= link_to raw('<i class="material-icons">add</i>'),
+                          new_admin_person_path,                             
+                          :class => 'btn btn-success btn-round btn-fab' %>                        
                       </div>
                     </div>
 	                </div>
@@ -33,18 +28,18 @@
                   <div class="card-content">                    
                     <%= search_form_for [:admin, @q], remote: true do |f| %>
                       <div class="row">   
-                        <div class="col-md-1"></div>
-                        <div class="col-md-2 justify-content-center d-flex align-items-center">
+                        <div class="col-1"></div>
+                        <div class="col-2">
                           <%= f.label :name_start, :class => 'form-control' %>                                                    
                         </div>
-                        <div class="col-md-7 justify-content-center d-flex align-items-center" align="right">			   
+                        <div class="col-7" align="right">			   
                           <%= f.search_field :name_start, :placeholder => 'Valor a ser pesquisado', :class => 'form-control', onchange: 'submit();' %>
                         </div> 
-                        <div class="col-md-2" align="center">                           
-                          <%= link_to raw('<i class="now-ui-icons ui-1_zoom-bold"></i>'),
+                        <div class="col-2" align="center">                           
+                          <%= link_to raw('<i class="material-icons">search</i>'),
                             "", :onclick => "$('#person_search').submit()",
                             :style => "margin-left: 35px",
-                            :class => 'btn btn-lg btn-warning btn-round btn-icon' %>
+                            :class => 'btn btn-warning btn-round btn-fab' %>
                         </div>   
                       </div>
                     <% end %>                                          
