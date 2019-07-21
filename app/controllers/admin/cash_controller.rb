@@ -5,8 +5,8 @@ class  Admin::CashController <  Admin::AdminController
   def index
     @cashes = []
 
-    @tuitionPeople = TuitionPerson.all
-    @invoces = Invoice.all
+    @tuitionPeople = TuitionPerson.where.not(pay_day: nil)
+    @invoces = Invoice.where.not(pay_day: nil)
 
     @totInput = 0.0
 
