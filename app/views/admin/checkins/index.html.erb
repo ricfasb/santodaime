@@ -1,97 +1,112 @@
 <%- model_class = Checkin -%>
 
-	    <div class="row">
-	        <div class="col-12">
-	            <div class="card">
-	                <div class="card-header card-header-success" data-background-color="green">
-                    <div class="row">
-                      <div class="col-8">
-                        <h4 class="title">Listagem de Checkins</h4>
-                      </div>
-                      <div class="col" align="right">
-                        <%= link_to raw('<i class="material-icons">add</i>'),
-                          new_admin_checkin_path, 
-                          :style => "margin-left: 35px",
-                          :class => 'btn btn-success btn-round btn-fab' %>
-                      </div>
-                    </div>
-	                </div>
-                  
-                  <div class="card-content">
-                    <%= search_form_for [:admin, @q] do |f| %>
-                    <div class="row">                        
-                      <div class="col-2">
-                        <%= f.label 'Busca:' %>                                                    
-                      </div>
-                      <div class="col-4" align="right">			   
-                        <%= f.search_field :person_name_start, :placeholder => 'Nome da pessoa', :class => 'form-control' %>
-                      </div> 
-                      <div class="col-2" align="right">			                           
-                        <%= f.label 'Data inicial', :class => 'control-label' %>   
-                        <div class="input-group">  
-                          <%= f.search_field :created_at_gteq, :placeholder => 'Data inicial', :data => {"date-format" => "DD/MM/YYYY"}, class: 'form-control datepicker btnCalendarI' %>
-                          <span class="input-group-addon">
-                            <i class="fa fa-calendar btnCalendarI"></i>
-                          </span>
-                        </div>
-                      </div> 
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header card-header-success" data-background-color="green">
+              <div class="row">
+                <div class="col-8">
+                  <h4 class="title">Listagem de Checkins</h4>
+                </div>
+                <div class="col" align="right">
 
-                      <div class="col-2" align="right">			                                                   
-                        <%= f.label 'Data final', :class => 'control-label' %>   
-                        <div class="input-group">  
-                          <%= f.search_field :created_at_lteq, :placeholder => 'Data final', :data => {"date-format" => "DD/MM/YYYY"}, class: 'form-control datepicker btnCalendarF' %>
-                          <span class="input-group-addon">
-                            <i class="fa fa-calendar btnCalendarF"></i>
-                          </span>
-                        </div>
-                      </div> 
-                      <div class="col-md-2" align="center">                           
-                        <%= link_to raw('<i class="material-icons">search</i>'),
-                          "", :onclick => "$('#checkin_search').submit()",
-                          :style => "margin-left: 35px",
-                          :class => 'btn btn-warning btn-round btn-fab' %>
-                      </div>  
-                    </div> 
-                    <% end %>   
-                    <div class="row">
-                      <div class="col">
-                        <div class="card-content table-responsive">
-                          <table class="table table-striped">
-                            <thead>
-                              <tr>
-                                <th><%= model_class.human_attribute_name(:company_id) %></th>
-                                <th><%= model_class.human_attribute_name(:person_id) %></th>                              
-                                <th><%= model_class.human_attribute_name(:created_at) %></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <% @checkins.each do |checkin| %>
-                                <tr>
-                                  <td><%= checkin.company.name %></td>
-                                  <td><%= checkin.person.name %></td>                                
-                                  <td><%= checkin.created_at.strftime("%d/%m/%Y %H:%M:%S") %></td>
-                                </tr>
-                              <% end %>
-                            </tbody>
-                            <% if @checkins.blank? %> 
-                              <tfoot> 
-                                <th colspan="3" class="tfoot_empty" style="text-align: center; height: 50px;">
-                                  Nenhum check-in realizado
-                                </th>
-                              </tfoot>
-                            <% elsif @checkins.count > 10 %>
-                              <tfoot> 
-                                <th colspan="3" style="text-align: left; height: 50px;">
-                                  <%= will_paginate @checkins  %>
-                                </th>
-                              </tfoot>
-                            <% end %>  
-                          </table>
-                        </div>
-                      </div>
-                    </div>                       
+                  <%= link_to raw('<i class="material-icons">thumb_down</i>'),
+                    new_admin_checkin_path, 
+                    :style => "margin-left: 35px",
+                    :class => 'btn btn-success btn-round btn-fab' %>
+
+                  <%= link_to raw('<i class="material-icons">thumb_up</i>'),
+                    new_admin_checkin_path, 
+                    :style => "margin-left: 35px",
+                    :class => 'btn btn-success btn-round btn-fab' %>
+
+                  <%= link_to raw('<i class="material-icons">add</i>'),
+                    new_admin_checkin_path, 
+                    :style => "margin-left: 35px",
+                    :class => 'btn btn-success btn-round btn-fab' %>
+                    
+                </div>
+              </div>
+            </div>
+            
+            <div class="card-content">
+              <%= search_form_for [:admin, @q] do |f| %>
+              <div class="row">                        
+                <div class="col-2">
+                  <%= f.label 'Busca:' %>                                                    
+                </div>
+                <div class="col-4" align="right">			   
+                  <%= f.search_field :person_name_start, :placeholder => 'Nome da pessoa', :class => 'form-control' %>
+                </div> 
+                <div class="col-2" align="right">			                                                   
+                  <div class="input-group">  
+                    <%= f.search_field :created_at_gteq, :placeholder => 'Data inicial', :data => {"date-format" => "DD/MM/YYYY"}, class: 'form-control datepicker btnCalendarI' %>
+                    <span class="input-group-addon">
+                      <i class="fa fa-calendar btnCalendarI"></i>
+                    </span>
                   </div>
-            </div->
-          </div>
-      </div>      
+                </div> 
 
+                <div class="col-2" align="right">			                                                                           
+                  <div class="input-group">  
+                    <%= f.search_field :created_at_lteq, :placeholder => 'Data final', :data => {"date-format" => "DD/MM/YYYY"}, class: 'form-control datepicker btnCalendarF' %>
+                    <span class="input-group-addon">
+                      <i class="fa fa-calendar btnCalendarF"></i>
+                    </span>
+                  </div>
+                </div> 
+                <div class="col-2" align="center">                                              
+                  <%= link_to raw('<i class="material-icons">search</i>'),
+                    "", :onclick => "$('#checkin_search').submit()",
+                    :style => "margin-left: 15px",
+                    :class => 'btn btn-warning btn-round btn-fab' %>
+                </div>  
+              </div> 
+              <% end %>   
+              <div class="row">
+                <div class="col">
+                  <div class="card-content table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th><%= model_class.human_attribute_name(:company_id) %></th>
+                          <th><%= model_class.human_attribute_name(:person_id) %></th>                              
+                          <th><%= model_class.human_attribute_name(:created_at) %></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% @checkins.each do |checkin| %>
+                          <tr>
+                            <td><%= checkin.company.name %></td>
+                            <td><%= checkin.person.name %></td>                                
+                            <td><%= checkin.created_at.strftime("%d/%m/%Y %H:%M:%S") %></td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                      <% if @checkins.blank? %> 
+                        <tfoot> 
+                          <th colspan="3" class="tfoot_empty" style="text-align: center; height: 50px;">
+                            Nenhum check-in realizado
+                          </th>
+                        </tfoot>
+                      <% elsif @checkins.count > 10 %>
+                        <tfoot> 
+                          <th colspan="3" style="text-align: left; height: 50px;">
+                            <%= will_paginate @checkins  %>
+                          </th>
+                        </tfoot>
+                      <% end %>  
+                    </table>
+                  </div>
+                </div>
+              </div>                       
+            </div>
+      </div->
+    </div>
+</div>      
+
+<script>
+jQuery(function($){
+  md.initFormExtendedDatetimepickers();
+});    
+</script>

@@ -1650,7 +1650,6 @@ pre code {
 
 /* line 6, vendor/assets/stylesheets/bootstrap.min.css */
 .table td, .table th {
-  padding: .75rem;
   vertical-align: top;
   border-top: 1px solid #dee2e6;
 }
@@ -9862,7 +9861,7 @@ a.text-dark:focus, a.text-dark:hover {
 
 /* line 146, vendor/assets/stylesheets/material-dashboard.scss */
 .table > thead {
-  color: #9c27b0;
+  color: #FFFFFF;
   border-radius: 10px 10px 0px 0px;
   height: 40px;
   box-shadow: 0 12px 20px -10px rgba(156, 39, 176, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(156, 39, 176, 0.2);
@@ -15695,61 +15694,64 @@ footer .btn {
 /* line 5318, vendor/assets/stylesheets/material-dashboard.scss */
 .card .table {
   width: 100%;
+  border-radius: 10px 10px 0px 0px;
+  box-shadow: 0 12px 20px -10px rgba(156, 39, 176, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(156, 39, 176, 0.2);
   height: 40px;
+  background: linear-gradient(60deg, #66bb6a, #43a047);
 }
 
-/* line 5323, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5326, vendor/assets/stylesheets/material-dashboard.scss */
 .card .table tr:first-child td {
   border-top: none;
 }
 
-/* line 5327, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5330, vendor/assets/stylesheets/material-dashboard.scss */
 .card [data-background-color="purple"] {
   background: linear-gradient(60deg, #ab47bc, #8e24aa);
   box-shadow: 0 12px 20px -10px rgba(156, 39, 176, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(156, 39, 176, 0.2);
 }
 
-/* line 5332, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5335, vendor/assets/stylesheets/material-dashboard.scss */
 .card [data-background-color="blue"] {
   background: linear-gradient(60deg, #26c6da, #00acc1);
   box-shadow: 0 12px 20px -10px rgba(0, 188, 212, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(0, 188, 212, 0.2);
 }
 
-/* line 5337, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5340, vendor/assets/stylesheets/material-dashboard.scss */
 .card [data-background-color="green"] {
   background: linear-gradient(60deg, #66bb6a, #43a047);
   box-shadow: 0 12px 20px -10px rgba(76, 175, 80, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(76, 175, 80, 0.2);
 }
 
-/* line 5342, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5345, vendor/assets/stylesheets/material-dashboard.scss */
 .card [data-background-color="orange"] {
   background: linear-gradient(60deg, #ffa726, #fb8c00);
   box-shadow: 0 12px 20px -10px rgba(255, 152, 0, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(255, 152, 0, 0.2);
 }
 
-/* line 5347, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5350, vendor/assets/stylesheets/material-dashboard.scss */
 .card [data-background-color="red"] {
   background: linear-gradient(60deg, #ef5350, #e53935);
   box-shadow: 0 12px 20px -10px rgba(244, 67, 54, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(244, 67, 54, 0.2);
 }
 
-/* line 5352, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5355, vendor/assets/stylesheets/material-dashboard.scss */
 .card [data-background-color] {
   color: #FFFFFF;
 }
 
-/* line 5356, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5359, vendor/assets/stylesheets/material-dashboard.scss */
 .card-stats .title {
   margin: 0;
 }
 
-/* line 5360, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5363, vendor/assets/stylesheets/material-dashboard.scss */
 .card-stats .card-header {
   float: left;
   text-align: center;
 }
 
-/* line 5365, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5368, vendor/assets/stylesheets/material-dashboard.scss */
 .card-stats .card-header i {
   font-size: 450%;
   line-height: 56px;
@@ -15758,66 +15760,66 @@ footer .btn {
   padding-top: 15px;
 }
 
-/* line 5373, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5376, vendor/assets/stylesheets/material-dashboard.scss */
 .card-stats .card-content {
   text-align: right;
   padding-top: 10px;
   min-height: 110px;
 }
 
-/* line 5379, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5382, vendor/assets/stylesheets/material-dashboard.scss */
 .card-nav-tabs .header-raised {
   margin-top: -30px;
 }
 
-/* line 5383, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5386, vendor/assets/stylesheets/material-dashboard.scss */
 .card-nav-tabs .nav-tabs {
   background: transparent;
   padding: 0;
 }
 
-/* line 5388, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5391, vendor/assets/stylesheets/material-dashboard.scss */
 .card-nav-tabs .nav-tabs-title {
   float: left;
   padding: 10px 10px 10px 0;
   line-height: 24px;
 }
 
-/* line 5394, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5397, vendor/assets/stylesheets/material-dashboard.scss */
 .card-plain {
   background: transparent;
   box-shadow: none;
 }
 
-/* line 5399, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5402, vendor/assets/stylesheets/material-dashboard.scss */
 .card-plain .card-header {
   margin-left: 0;
   margin-right: 0;
 }
 
-/* line 5404, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5407, vendor/assets/stylesheets/material-dashboard.scss */
 .card-plain .content {
   padding-left: 5px;
   padding-right: 5px;
 }
 
-/* line 5409, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5412, vendor/assets/stylesheets/material-dashboard.scss */
 .card-plain .card-image {
   margin: 0;
   border-radius: 3px;
 }
 
-/* line 5414, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5417, vendor/assets/stylesheets/material-dashboard.scss */
 .card-plain .card-image img {
   border-radius: 3px;
 }
 
-/* line 5418, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5421, vendor/assets/stylesheets/material-dashboard.scss */
 .iframe-container {
   margin: 0 -20px 0;
 }
 
-/* line 5422, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5425, vendor/assets/stylesheets/material-dashboard.scss */
 .iframe-container iframe {
   width: 100%;
   height: 500px;
@@ -15825,21 +15827,21 @@ footer .btn {
   box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
-/* line 5429, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5432, vendor/assets/stylesheets/material-dashboard.scss */
 .card-profile,
 .card-testimonial {
   margin-top: 30px;
   text-align: center;
 }
 
-/* line 5435, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5438, vendor/assets/stylesheets/material-dashboard.scss */
 .card-profile .btn-just-icon.btn-raised,
 .card-testimonial .btn-just-icon.btn-raised {
   margin-left: 6px;
   margin-right: 6px;
 }
 
-/* line 5441, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5444, vendor/assets/stylesheets/material-dashboard.scss */
 .card-profile .card-avatar,
 .card-testimonial .card-avatar {
   max-width: 130px;
@@ -15850,19 +15852,19 @@ footer .btn {
   box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
-/* line 5451, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5454, vendor/assets/stylesheets/material-dashboard.scss */
 .card-profile .card-avatar + .content,
 .card-testimonial .card-avatar + .content {
   margin-top: 15px;
 }
 
-/* line 5456, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5459, vendor/assets/stylesheets/material-dashboard.scss */
 .card-profile.card-plain .card-avatar,
 .card-testimonial.card-plain .card-avatar {
   margin-top: 0;
 }
 
-/* line 5461, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5464, vendor/assets/stylesheets/material-dashboard.scss */
 .nav-tabs {
   background: #9c27b0;
   border: 0;
@@ -15870,7 +15872,7 @@ footer .btn {
   padding: 0 15px;
 }
 
-/* line 5468, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5471, vendor/assets/stylesheets/material-dashboard.scss */
 .nav-tabs > li > a {
   color: #FFFFFF;
   border: 0;
@@ -15881,13 +15883,13 @@ footer .btn {
   font-size: 12px;
 }
 
-/* line 5478, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5481, vendor/assets/stylesheets/material-dashboard.scss */
 .nav-tabs > li > a:hover {
   background-color: transparent;
   border: 0;
 }
 
-/* line 5483, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5486, vendor/assets/stylesheets/material-dashboard.scss */
 .nav-tabs > li > a,
 .nav-tabs > li > a:hover,
 .nav-tabs > li > a:focus {
@@ -15897,18 +15899,18 @@ footer .btn {
   font-weight: 500;
 }
 
-/* line 5492, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5495, vendor/assets/stylesheets/material-dashboard.scss */
 .nav-tabs > li.disabled > a,
 .nav-tabs > li.disabled > a:hover {
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* line 5497, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5500, vendor/assets/stylesheets/material-dashboard.scss */
 .nav-tabs > li .material-icons {
   margin: -1px 5px 0 0;
 }
 
-/* line 5501, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5504, vendor/assets/stylesheets/material-dashboard.scss */
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
@@ -15916,7 +15918,7 @@ footer .btn {
   transition: background-color .1s .2s;
 }
 
-/* line 5508, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5511, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-label {
   fill: rgba(0, 0, 0, 0.4);
   color: rgba(0, 0, 0, 0.4);
@@ -15924,14 +15926,14 @@ footer .btn {
   line-height: 1;
 }
 
-/* line 5515, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5518, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-chart-line .ct-label,
 .ct-chart-bar .ct-label {
   display: block;
   display: flex;
 }
 
-/* line 5525, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5528, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-label.ct-horizontal.ct-start {
   align-items: flex-end;
   justify-content: flex-start;
@@ -15939,7 +15941,7 @@ footer .btn {
   text-anchor: start;
 }
 
-/* line 5538, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5541, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-label.ct-horizontal.ct-end {
   align-items: flex-start;
   justify-content: flex-start;
@@ -15947,7 +15949,7 @@ footer .btn {
   text-anchor: start;
 }
 
-/* line 5551, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5554, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-label.ct-vertical.ct-start {
   align-items: flex-end;
   justify-content: flex-end;
@@ -15955,7 +15957,7 @@ footer .btn {
   text-anchor: end;
 }
 
-/* line 5564, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5567, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-label.ct-vertical.ct-end {
   align-items: flex-end;
   justify-content: flex-start;
@@ -15963,7 +15965,7 @@ footer .btn {
   text-anchor: start;
 }
 
-/* line 5577, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5580, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-chart-bar .ct-label.ct-horizontal.ct-start {
   align-items: flex-end;
   justify-content: center;
@@ -15971,7 +15973,7 @@ footer .btn {
   text-anchor: start;
 }
 
-/* line 5590, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5593, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-chart-bar .ct-label.ct-horizontal.ct-end {
   align-items: flex-start;
   justify-content: center;
@@ -15979,7 +15981,7 @@ footer .btn {
   text-anchor: start;
 }
 
-/* line 5603, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5606, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-chart-bar.ct-horizontal-bars .ct-label.ct-horizontal.ct-start {
   align-items: flex-end;
   justify-content: flex-start;
@@ -15987,7 +15989,7 @@ footer .btn {
   text-anchor: start;
 }
 
-/* line 5616, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5619, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-chart-bar.ct-horizontal-bars .ct-label.ct-horizontal.ct-end {
   align-items: flex-start;
   justify-content: flex-start;
@@ -15995,7 +15997,7 @@ footer .btn {
   text-anchor: start;
 }
 
-/* line 5629, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5632, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-chart-bar.ct-horizontal-bars .ct-label.ct-vertical.ct-start {
   align-items: center;
   justify-content: flex-end;
@@ -16003,7 +16005,7 @@ footer .btn {
   text-anchor: end;
 }
 
-/* line 5642, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5645, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-chart-bar.ct-horizontal-bars .ct-label.ct-vertical.ct-end {
   align-items: center;
   justify-content: flex-start;
@@ -16011,44 +16013,44 @@ footer .btn {
   text-anchor: end;
 }
 
-/* line 5655, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5658, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-grid {
   stroke: rgba(0, 0, 0, 0.2);
   stroke-width: 1px;
   stroke-dasharray: 2px;
 }
 
-/* line 5661, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5664, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-point {
   stroke-width: 8px;
   stroke-linecap: round;
 }
 
-/* line 5666, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5669, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-line {
   fill: none;
   stroke-width: 3px;
 }
 
-/* line 5671, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5674, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-area {
   stroke: none;
   fill-opacity: 0.8;
 }
 
-/* line 5676, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5679, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-bar {
   fill: none;
   stroke-width: 10px;
 }
 
-/* line 5681, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5684, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-slice-donut {
   fill: none;
   stroke-width: 60px;
 }
 
-/* line 5686, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5689, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-a .ct-point,
 .ct-series-a .ct-line,
 .ct-series-a .ct-bar,
@@ -16056,13 +16058,13 @@ footer .btn {
   stroke: #00bcd4;
 }
 
-/* line 5693, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5696, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-a .ct-slice-pie,
 .ct-series-a .ct-area {
   fill: #00bcd4;
 }
 
-/* line 5698, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5701, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-b .ct-point,
 .ct-series-b .ct-line,
 .ct-series-b .ct-bar,
@@ -16070,13 +16072,13 @@ footer .btn {
   stroke: #f44336;
 }
 
-/* line 5705, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5708, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-b .ct-slice-pie,
 .ct-series-b .ct-area {
   fill: #f44336;
 }
 
-/* line 5710, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5713, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-c .ct-point,
 .ct-series-c .ct-line,
 .ct-series-c .ct-bar,
@@ -16084,13 +16086,13 @@ footer .btn {
   stroke: #ff9800;
 }
 
-/* line 5717, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5720, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-c .ct-slice-pie,
 .ct-series-c .ct-area {
   fill: #ff9800;
 }
 
-/* line 5722, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5725, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-d .ct-point,
 .ct-series-d .ct-line,
 .ct-series-d .ct-bar,
@@ -16098,13 +16100,13 @@ footer .btn {
   stroke: #9c27b0;
 }
 
-/* line 5729, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5732, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-d .ct-slice-pie,
 .ct-series-d .ct-area {
   fill: #9c27b0;
 }
 
-/* line 5734, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5737, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-e .ct-point,
 .ct-series-e .ct-line,
 .ct-series-e .ct-bar,
@@ -16112,13 +16114,13 @@ footer .btn {
   stroke: #4caf50;
 }
 
-/* line 5741, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5744, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-e .ct-slice-pie,
 .ct-series-e .ct-area {
   fill: #4caf50;
 }
 
-/* line 5746, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5749, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-f .ct-point,
 .ct-series-f .ct-line,
 .ct-series-f .ct-bar,
@@ -16126,13 +16128,13 @@ footer .btn {
   stroke: #9C9B99;
 }
 
-/* line 5753, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5756, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-f .ct-slice-pie,
 .ct-series-f .ct-area {
   fill: #9C9B99;
 }
 
-/* line 5758, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5761, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-g .ct-point,
 .ct-series-g .ct-line,
 .ct-series-g .ct-bar,
@@ -16140,13 +16142,13 @@ footer .btn {
   stroke: #999999;
 }
 
-/* line 5765, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5768, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-g .ct-slice-pie,
 .ct-series-g .ct-area {
   fill: #999999;
 }
 
-/* line 5770, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5773, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-h .ct-point,
 .ct-series-h .ct-line,
 .ct-series-h .ct-bar,
@@ -16154,13 +16156,13 @@ footer .btn {
   stroke: #dd4b39;
 }
 
-/* line 5777, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5780, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-h .ct-slice-pie,
 .ct-series-h .ct-area {
   fill: #dd4b39;
 }
 
-/* line 5782, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5785, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-i .ct-point,
 .ct-series-i .ct-line,
 .ct-series-i .ct-bar,
@@ -16168,13 +16170,13 @@ footer .btn {
   stroke: #35465c;
 }
 
-/* line 5789, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5792, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-i .ct-slice-pie,
 .ct-series-i .ct-area {
   fill: #35465c;
 }
 
-/* line 5794, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5797, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-j .ct-point,
 .ct-series-j .ct-line,
 .ct-series-j .ct-bar,
@@ -16182,13 +16184,13 @@ footer .btn {
   stroke: #e52d27;
 }
 
-/* line 5801, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5804, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-j .ct-slice-pie,
 .ct-series-j .ct-area {
   fill: #e52d27;
 }
 
-/* line 5806, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5809, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-k .ct-point,
 .ct-series-k .ct-line,
 .ct-series-k .ct-bar,
@@ -16196,13 +16198,13 @@ footer .btn {
   stroke: #55acee;
 }
 
-/* line 5813, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5816, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-k .ct-slice-pie,
 .ct-series-k .ct-area {
   fill: #55acee;
 }
 
-/* line 5818, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5821, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-l .ct-point,
 .ct-series-l .ct-line,
 .ct-series-l .ct-bar,
@@ -16210,13 +16212,13 @@ footer .btn {
   stroke: #cc2127;
 }
 
-/* line 5825, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5828, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-l .ct-slice-pie,
 .ct-series-l .ct-area {
   fill: #cc2127;
 }
 
-/* line 5830, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5833, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-m .ct-point,
 .ct-series-m .ct-line,
 .ct-series-m .ct-bar,
@@ -16224,13 +16226,13 @@ footer .btn {
   stroke: #1769ff;
 }
 
-/* line 5837, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5840, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-m .ct-slice-pie,
 .ct-series-m .ct-area {
   fill: #1769ff;
 }
 
-/* line 5842, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5845, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-n .ct-point,
 .ct-series-n .ct-line,
 .ct-series-n .ct-bar,
@@ -16238,13 +16240,13 @@ footer .btn {
   stroke: #6188e2;
 }
 
-/* line 5849, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5852, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-n .ct-slice-pie,
 .ct-series-n .ct-area {
   fill: #6188e2;
 }
 
-/* line 5854, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5857, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-o .ct-point,
 .ct-series-o .ct-line,
 .ct-series-o .ct-bar,
@@ -16252,20 +16254,20 @@ footer .btn {
   stroke: #a748ca;
 }
 
-/* line 5861, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5864, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-series-o .ct-slice-pie,
 .ct-series-o .ct-area {
   fill: #a748ca;
 }
 
-/* line 5866, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5869, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-square {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 5872, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5875, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-square:before {
   display: block;
   float: left;
@@ -16275,14 +16277,14 @@ footer .btn {
   padding-bottom: 100%;
 }
 
-/* line 5881, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5884, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-square:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 5887, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5890, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-square > svg {
   display: block;
   position: absolute;
@@ -16290,14 +16292,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 5894, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5897, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-second {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 5900, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5903, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-second:before {
   display: block;
   float: left;
@@ -16307,14 +16309,14 @@ footer .btn {
   padding-bottom: 93.75%;
 }
 
-/* line 5909, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5912, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-second:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 5915, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5918, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-second > svg {
   display: block;
   position: absolute;
@@ -16322,14 +16324,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 5922, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5925, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-second {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 5928, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5931, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-second:before {
   display: block;
   float: left;
@@ -16339,14 +16341,14 @@ footer .btn {
   padding-bottom: 88.88889%;
 }
 
-/* line 5937, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5940, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-second:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 5943, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5946, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-second > svg {
   display: block;
   position: absolute;
@@ -16354,14 +16356,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 5950, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5953, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-third {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 5956, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5959, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-third:before {
   display: block;
   float: left;
@@ -16371,14 +16373,14 @@ footer .btn {
   padding-bottom: 83.33333%;
 }
 
-/* line 5965, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5968, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-third:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 5971, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5974, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-third > svg {
   display: block;
   position: absolute;
@@ -16386,14 +16388,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 5978, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5981, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-third {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 5984, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5987, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-third:before {
   display: block;
   float: left;
@@ -16403,14 +16405,14 @@ footer .btn {
   padding-bottom: 80%;
 }
 
-/* line 5993, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 5996, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-third:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 5999, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6002, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-third > svg {
   display: block;
   position: absolute;
@@ -16418,14 +16420,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 6006, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6009, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-perfect-fourth {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 6012, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6015, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-perfect-fourth:before {
   display: block;
   float: left;
@@ -16435,14 +16437,14 @@ footer .btn {
   padding-bottom: 75%;
 }
 
-/* line 6021, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6024, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-perfect-fourth:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 6027, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6030, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-perfect-fourth > svg {
   display: block;
   position: absolute;
@@ -16450,14 +16452,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 6034, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6037, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-perfect-fifth {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 6040, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6043, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-perfect-fifth:before {
   display: block;
   float: left;
@@ -16467,14 +16469,14 @@ footer .btn {
   padding-bottom: 66.66667%;
 }
 
-/* line 6049, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6052, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-perfect-fifth:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 6055, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6058, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-perfect-fifth > svg {
   display: block;
   position: absolute;
@@ -16482,14 +16484,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 6062, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6065, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-sixth {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 6068, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6071, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-sixth:before {
   display: block;
   float: left;
@@ -16499,14 +16501,14 @@ footer .btn {
   padding-bottom: 62.5%;
 }
 
-/* line 6077, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6080, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-sixth:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 6083, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6086, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-sixth > svg {
   display: block;
   position: absolute;
@@ -16514,14 +16516,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 6090, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6093, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-golden-section {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 6096, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6099, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-golden-section:before {
   display: block;
   float: left;
@@ -16531,14 +16533,14 @@ footer .btn {
   padding-bottom: 61.8047%;
 }
 
-/* line 6105, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6108, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-golden-section:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 6111, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6114, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-golden-section > svg {
   display: block;
   position: absolute;
@@ -16546,14 +16548,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 6118, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6121, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-sixth {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 6124, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6127, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-sixth:before {
   display: block;
   float: left;
@@ -16563,14 +16565,14 @@ footer .btn {
   padding-bottom: 60%;
 }
 
-/* line 6133, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6136, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-sixth:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 6139, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6142, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-sixth > svg {
   display: block;
   position: absolute;
@@ -16578,14 +16580,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 6146, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6149, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-seventh {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 6152, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6155, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-seventh:before {
   display: block;
   float: left;
@@ -16595,14 +16597,14 @@ footer .btn {
   padding-bottom: 56.25%;
 }
 
-/* line 6161, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6164, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-seventh:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 6167, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6170, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-minor-seventh > svg {
   display: block;
   position: absolute;
@@ -16610,14 +16612,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 6174, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6177, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-seventh {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 6180, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6183, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-seventh:before {
   display: block;
   float: left;
@@ -16627,14 +16629,14 @@ footer .btn {
   padding-bottom: 53.33333%;
 }
 
-/* line 6189, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6192, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-seventh:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 6195, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6198, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-seventh > svg {
   display: block;
   position: absolute;
@@ -16642,14 +16644,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 6202, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6205, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-octave {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 6208, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6211, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-octave:before {
   display: block;
   float: left;
@@ -16659,14 +16661,14 @@ footer .btn {
   padding-bottom: 50%;
 }
 
-/* line 6217, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6220, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-octave:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 6223, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6226, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-octave > svg {
   display: block;
   position: absolute;
@@ -16674,14 +16676,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 6230, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6233, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-tenth {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 6236, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6239, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-tenth:before {
   display: block;
   float: left;
@@ -16691,14 +16693,14 @@ footer .btn {
   padding-bottom: 40%;
 }
 
-/* line 6245, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6248, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-tenth:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 6251, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6254, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-tenth > svg {
   display: block;
   position: absolute;
@@ -16706,14 +16708,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 6258, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6261, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-eleventh {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 6264, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6267, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-eleventh:before {
   display: block;
   float: left;
@@ -16723,14 +16725,14 @@ footer .btn {
   padding-bottom: 37.5%;
 }
 
-/* line 6273, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6276, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-eleventh:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 6279, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6282, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-eleventh > svg {
   display: block;
   position: absolute;
@@ -16738,14 +16740,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 6286, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6289, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-twelfth {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 6292, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6295, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-twelfth:before {
   display: block;
   float: left;
@@ -16755,14 +16757,14 @@ footer .btn {
   padding-bottom: 33.33333%;
 }
 
-/* line 6301, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6304, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-twelfth:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 6307, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6310, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-major-twelfth > svg {
   display: block;
   position: absolute;
@@ -16770,14 +16772,14 @@ footer .btn {
   left: 0;
 }
 
-/* line 6314, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6317, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-double-octave {
   display: block;
   position: relative;
   width: 100%;
 }
 
-/* line 6320, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6323, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-double-octave:before {
   display: block;
   float: left;
@@ -16787,14 +16789,14 @@ footer .btn {
   padding-bottom: 25%;
 }
 
-/* line 6329, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6332, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-double-octave:after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* line 6335, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6338, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-double-octave > svg {
   display: block;
   position: absolute;
@@ -16802,84 +16804,84 @@ footer .btn {
   left: 0;
 }
 
-/* line 6342, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6345, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-blue {
   stroke: #9c27b0 !important;
 }
 
-/* line 6346, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6349, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-azure {
   stroke: #00bcd4 !important;
 }
 
-/* line 6350, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6353, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-green {
   stroke: #4caf50 !important;
 }
 
-/* line 6354, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6357, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-orange {
   stroke: #ff9800 !important;
 }
 
-/* line 6358, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6361, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-red {
   stroke: #f44336 !important;
 }
 
-/* line 6362, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6365, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-white {
   stroke: #FFFFFF !important;
 }
 
-/* line 6366, vendor/assets/stylesheets/material-dashboard.scss */
+/* line 6369, vendor/assets/stylesheets/material-dashboard.scss */
 .ct-rose {
   stroke: #e91e63 !important;
 }
 
 @media (min-width: 992px) {
-  /* line 6371, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6374, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-form {
     margin-top: 21px;
     margin-bottom: 21px;
     padding-left: 5px;
     padding-right: 5px;
   }
-  /* line 6377, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6380, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-nav.navbar-right > li > .dropdown-menu:before {
     left: auto;
     right: 12px;
   }
-  /* line 6381, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6384, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-nav.navbar-right > li > .dropdown-menu:after {
     left: auto;
     right: 12px;
   }
-  /* line 6385, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6388, vendor/assets/stylesheets/material-dashboard.scss */
   .footer:not(.footer-big) nav > ul li:first-child {
     margin-left: 0;
   }
-  /* line 6388, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6391, vendor/assets/stylesheets/material-dashboard.scss */
   body > .navbar-collapse.collapse {
     display: none !important;
   }
-  /* line 6391, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6394, vendor/assets/stylesheets/material-dashboard.scss */
   .card form [class*="col-"] {
     padding: 6px;
   }
-  /* line 6394, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6397, vendor/assets/stylesheets/material-dashboard.scss */
   .card form [class*="col-"]:first-child {
     padding-left: 15px;
   }
-  /* line 6397, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6400, vendor/assets/stylesheets/material-dashboard.scss */
   .card form [class*="col-"]:last-child {
     padding-right: 15px;
   }
-  /* line 6400, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6403, vendor/assets/stylesheets/material-dashboard.scss */
   .sidebar .navbar-form {
     display: none !important;
   }
-  /* line 6403, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6406, vendor/assets/stylesheets/material-dashboard.scss */
   .sidebar .nav-mobile-menu {
     display: none;
   }
@@ -16887,26 +16889,26 @@ footer .btn {
 
 /*          Changes for small display      */
 @media (max-width: 991px) {
-  /* line 6412, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6415, vendor/assets/stylesheets/material-dashboard.scss */
   .sidebar {
     display: none;
     box-shadow: none;
   }
-  /* line 6416, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6419, vendor/assets/stylesheets/material-dashboard.scss */
   .sidebar .sidebar-wrapper {
     padding-bottom: 60px;
   }
-  /* line 6419, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6422, vendor/assets/stylesheets/material-dashboard.scss */
   .sidebar .nav-mobile-menu {
     margin-top: 0;
   }
-  /* line 6422, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6425, vendor/assets/stylesheets/material-dashboard.scss */
   .sidebar .nav-mobile-menu .notification {
     float: left;
     line-height: 30px;
     margin-right: 8px;
   }
-  /* line 6427, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6430, vendor/assets/stylesheets/material-dashboard.scss */
   .sidebar .nav-mobile-menu .open .dropdown-menu {
     position: static;
     float: none;
@@ -16916,23 +16918,23 @@ footer .btn {
     border: 0;
     box-shadow: none;
   }
-  /* line 6437, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6440, vendor/assets/stylesheets/material-dashboard.scss */
   html,
   body {
     overflow-x: hidden;
   }
-  /* line 6441, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6444, vendor/assets/stylesheets/material-dashboard.scss */
   .nav-open .menu-on-left .main-panel,
   .nav-open .menu-on-left .wrapper-full-page,
   .nav-open .menu-on-left .navbar-fixed > div {
     -webkit-transform: translate3d(260px, 0, 0);
     transform: translate3d(260px, 0, 0);
   }
-  /* line 6450, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6453, vendor/assets/stylesheets/material-dashboard.scss */
   .menu-on-left .main-panel {
     position: initial;
   }
-  /* line 6453, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6456, vendor/assets/stylesheets/material-dashboard.scss */
   .menu-on-left .sidebar,
   .menu-on-left .off-canvas-sidebar {
     left: 0;
@@ -16940,46 +16942,46 @@ footer .btn {
     -webkit-transform: translate3d(-260px, 0, 0);
     transform: translate3d(-260px, 0, 0);
   }
-  /* line 6463, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6466, vendor/assets/stylesheets/material-dashboard.scss */
   .menu-on-left #bodyClick {
     left: 260px;
     right: auto;
   }
-  /* line 6467, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6470, vendor/assets/stylesheets/material-dashboard.scss */
   .main-panel {
     width: 100%;
   }
-  /* line 6470, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6473, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-transparent {
     padding-top: 15px;
     background-color: rgba(0, 0, 0, 0.45);
   }
-  /* line 6474, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6477, vendor/assets/stylesheets/material-dashboard.scss */
   body,
   html {
     position: relative;
     overflow-x: hidden;
   }
-  /* line 6479, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6482, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar .container {
     left: 0;
     width: 100%;
     transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
     position: relative;
   }
-  /* line 6489, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6492, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar .navbar-collapse.collapse,
   .navbar .navbar-collapse.collapse.in,
   .navbar .navbar-collapse.collapsing {
     display: none !important;
   }
-  /* line 6494, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6497, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-nav > li {
     float: none;
     position: relative;
     display: block;
   }
-  /* line 6499, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6502, vendor/assets/stylesheets/material-dashboard.scss */
   .sidebar,
   .off-canvas-sidebar {
     position: fixed;
@@ -17001,7 +17003,7 @@ footer .btn {
     transform: translate3d(260px, 0, 0);
     transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
   }
-  /* line 6527, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6530, vendor/assets/stylesheets/material-dashboard.scss */
   .sidebar > ul,
   .off-canvas-sidebar > ul {
     position: relative;
@@ -17010,7 +17012,7 @@ footer .btn {
     height: calc(100vh - 61px);
     width: 100%;
   }
-  /* line 6535, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6538, vendor/assets/stylesheets/material-dashboard.scss */
   .sidebar::before,
   .off-canvas-sidebar::before {
     top: 0;
@@ -17023,13 +17025,13 @@ footer .btn {
     content: "";
     z-index: 1;
   }
-  /* line 6547, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6550, vendor/assets/stylesheets/material-dashboard.scss */
   .sidebar .logo,
   .off-canvas-sidebar .logo {
     position: relative;
     z-index: 4;
   }
-  /* line 6552, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6555, vendor/assets/stylesheets/material-dashboard.scss */
   .sidebar .navbar-form,
   .off-canvas-sidebar .navbar-form {
     margin: 10px 15px;
@@ -17037,7 +17039,7 @@ footer .btn {
     padding-top: 1px;
     padding-bottom: 1px;
   }
-  /* line 6559, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6562, vendor/assets/stylesheets/material-dashboard.scss */
   .sidebar .table-responsive,
   .off-canvas-sidebar .table-responsive {
     width: 100%;
@@ -17047,43 +17049,43 @@ footer .btn {
     -ms-overflow-style: -ms-autohiding-scrollbar;
     -webkit-overflow-scrolling: touch;
   }
-  /* line 6568, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6571, vendor/assets/stylesheets/material-dashboard.scss */
   .form-group .form-control {
     font-size: 16px;
     height: 37px;
   }
-  /* line 6572, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6575, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-form .btn {
     position: absolute;
     top: 27px;
     right: 15px;
   }
-  /* line 6577, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6580, vendor/assets/stylesheets/material-dashboard.scss */
   .nav-open .navbar-collapse {
     -webkit-transform: translate3d(0px, 0, 0);
     transform: translate3d(0px, 0, 0);
   }
-  /* line 6584, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6587, vendor/assets/stylesheets/material-dashboard.scss */
   .nav-open .navbar .container {
     left: -250px;
   }
-  /* line 6587, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6590, vendor/assets/stylesheets/material-dashboard.scss */
   .nav-open .main-panel {
     left: 0;
     -webkit-transform: translate3d(-260px, 0, 0);
     transform: translate3d(-260px, 0, 0);
   }
-  /* line 6595, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6598, vendor/assets/stylesheets/material-dashboard.scss */
   .nav-open .sidebar {
     box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
   }
-  /* line 6598, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6601, vendor/assets/stylesheets/material-dashboard.scss */
   .nav-open .off-canvas-sidebar,
   .nav-open .sidebar {
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
   }
-  /* line 6606, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6609, vendor/assets/stylesheets/material-dashboard.scss */
   .close-layer {
     height: 100%;
     width: 100%;
@@ -17096,11 +17098,11 @@ footer .btn {
     overflow-x: hidden;
     transition: all 370ms ease-in;
   }
-  /* line 6622, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6625, vendor/assets/stylesheets/material-dashboard.scss */
   .close-layer.visible {
     opacity: 1;
   }
-  /* line 6625, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6628, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-toggle .icon-bar {
     display: block;
     position: relative;
@@ -17110,13 +17112,13 @@ footer .btn {
     border-radius: 1px;
     margin: 0 auto;
   }
-  /* line 6634, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6637, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-header .navbar-toggle {
     margin: 10px 15px 10px 0;
     width: 40px;
     height: 40px;
   }
-  /* line 6639, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6642, vendor/assets/stylesheets/material-dashboard.scss */
   .bar1,
   .bar2,
   .bar3 {
@@ -17138,27 +17140,27 @@ footer .btn {
       opacity: 1;
     }
   }
-  /* line 6668, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6671, vendor/assets/stylesheets/material-dashboard.scss */
   .dropdown-menu .divider {
     background-color: rgba(229, 229, 229, 0.15);
   }
-  /* line 6671, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6674, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-nav {
     margin: 1px 0;
   }
-  /* line 6674, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6677, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-nav .open .dropdown-menu > li > a {
     padding: 15px 15px 5px 50px;
   }
-  /* line 6677, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6680, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-nav .open .dropdown-menu > li:first-child > a {
     padding: 5px 15px 5px 50px;
   }
-  /* line 6680, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6683, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-nav .open .dropdown-menu > li:last-child > a {
     padding: 15px 15px 25px 50px;
   }
-  /* line 6683, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6686, vendor/assets/stylesheets/material-dashboard.scss */
   [class*="navbar-"] .navbar-nav > li > a,
   [class*="navbar-"] .navbar-nav > li > a:hover,
   [class*="navbar-"] .navbar-nav > li > a:focus,
@@ -17171,7 +17173,7 @@ footer .btn {
   [class*="navbar-"] .navbar-nav .navbar-nav .open .dropdown-menu > li > a:active {
     color: white;
   }
-  /* line 6695, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6698, vendor/assets/stylesheets/material-dashboard.scss */
   [class*="navbar-"] .navbar-nav > li > a,
   [class*="navbar-"] .navbar-nav > li > a:hover,
   [class*="navbar-"] .navbar-nav > li > a:focus,
@@ -17181,29 +17183,29 @@ footer .btn {
     opacity: .7;
     background: transparent;
   }
-  /* line 6704, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6707, vendor/assets/stylesheets/material-dashboard.scss */
   [class*="navbar-"] .navbar-nav.navbar-nav .open .dropdown-menu > li > a:active {
     opacity: 1;
   }
-  /* line 6707, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6710, vendor/assets/stylesheets/material-dashboard.scss */
   [class*="navbar-"] .navbar-nav .dropdown > a:hover .caret {
     border-bottom-color: #777;
     border-top-color: #777;
   }
-  /* line 6711, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6714, vendor/assets/stylesheets/material-dashboard.scss */
   [class*="navbar-"] .navbar-nav .dropdown > a:active .caret {
     border-bottom-color: white;
     border-top-color: white;
   }
-  /* line 6715, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6718, vendor/assets/stylesheets/material-dashboard.scss */
   .dropdown-menu {
     display: none;
   }
-  /* line 6718, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6721, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-fixed-top {
     -webkit-backface-visibility: hidden;
   }
-  /* line 6721, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6724, vendor/assets/stylesheets/material-dashboard.scss */
   #bodyClick {
     height: 100%;
     width: 100%;
@@ -17216,73 +17218,73 @@ footer .btn {
     z-index: 9999;
     overflow-x: hidden;
   }
-  /* line 6733, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6736, vendor/assets/stylesheets/material-dashboard.scss */
   .social-line .btn {
     margin: 0 0 10px 0;
   }
-  /* line 6736, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6739, vendor/assets/stylesheets/material-dashboard.scss */
   .subscribe-line .form-control {
     margin: 0 0 10px 0;
   }
-  /* line 6739, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6742, vendor/assets/stylesheets/material-dashboard.scss */
   .social-line.pull-right {
     float: none;
   }
-  /* line 6742, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6745, vendor/assets/stylesheets/material-dashboard.scss */
   .footer:not(.footer-big) nav > ul li {
     float: none;
   }
-  /* line 6745, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6748, vendor/assets/stylesheets/material-dashboard.scss */
   .social-area.pull-right {
     float: none !important;
   }
-  /* line 6748, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6751, vendor/assets/stylesheets/material-dashboard.scss */
   .form-control + .form-control-feedback {
     margin-top: -8px;
   }
-  /* line 6751, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6754, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-toggle:hover,
   .navbar-toggle:focus {
     background-color: transparent !important;
   }
-  /* line 6755, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6758, vendor/assets/stylesheets/material-dashboard.scss */
   .btn.dropdown-toggle {
     margin-bottom: 0;
   }
-  /* line 6758, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6761, vendor/assets/stylesheets/material-dashboard.scss */
   .media-post .author {
     width: 20%;
     float: none !important;
     display: block;
     margin: 0 auto 10px;
   }
-  /* line 6764, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6767, vendor/assets/stylesheets/material-dashboard.scss */
   .media-post .media-body {
     width: 100%;
   }
-  /* line 6767, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6770, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-collapse.collapse {
     height: 100% !important;
   }
-  /* line 6770, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6773, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-collapse.collapse.in {
     display: block;
   }
-  /* line 6773, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6776, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-header .collapse,
   .navbar-toggle {
     display: block !important;
   }
-  /* line 6777, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6780, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-header {
     float: none;
   }
-  /* line 6780, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6783, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-collapse .nav p {
     font-size: 14px;
     margin: 0;
   }
-  /* line 6784, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6787, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-collapse [class^="pe-7s-"] {
     float: left;
     font-size: 20px;
@@ -17291,25 +17293,25 @@ footer .btn {
 }
 
 @media (min-width: 768px) {
-  /* line 6792, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6795, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar > .container-fluid .navbar-brand {
     margin-left: 0;
   }
 }
 
 @media (max-width: 480px), (max-width: 767px) {
-  /* line 6799, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6802, vendor/assets/stylesheets/material-dashboard.scss */
   .form-group .form-control {
     width: 83%;
   }
-  /* line 6802, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6805, vendor/assets/stylesheets/material-dashboard.scss */
   .navbar-form .form-group {
     margin-bottom: 0;
   }
 }
 
 @media (min-width: 992px) {
-  /* line 6808, vendor/assets/stylesheets/material-dashboard.scss */
+  /* line 6811, vendor/assets/stylesheets/material-dashboard.scss */
   .table-full-width {
     margin-left: -20px;
     margin-right: -20px;
@@ -27835,7 +27837,6 @@ a.text-dark:focus, a.text-dark:hover {
 /* line 14, vendor/assets/stylesheets/material-dashboard.min.css */
 .form-check .form-check-sign:before {
   display: block;
-  position: absolute;
   left: 0;
   content: "";
   background-color: rgba(0, 0, 0, 0.84);
@@ -28255,7 +28256,7 @@ form {
   background: no-repeat bottom, 50% calc(100% - 1px);
   background-size: 0 100%,100% 100%;
   border: 0;
-  height: 25px;
+  height: 35px;
   transition: background 0s ease-out;
   padding-left: 0;
   padding-right: 0;
@@ -32138,7 +32139,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 
 /* line 14, vendor/assets/stylesheets/material-dashboard.min.css */
 .table .form-check .form-check-sign {
-  top: -13px;
+  top: -19px;
   left: 0;
   padding-right: 0;
 }
@@ -32170,7 +32171,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 
 /* line 14, vendor/assets/stylesheets/material-dashboard.min.css */
 .table thead tr th {
-  font-size: 1.063rem;
+  font-size: 1em;
 }
 
 /* line 14, vendor/assets/stylesheets/material-dashboard.min.css */
@@ -34805,11 +34806,6 @@ a .material-icons {
 }
 
 /* line 14, vendor/assets/stylesheets/material-dashboard.min.css */
-.sidebar .nav li:first-child > a {
-  margin: 0 15px;
-}
-
-/* line 14, vendor/assets/stylesheets/material-dashboard.min.css */
 .sidebar .nav li.active > [data-toggle=collapse], .sidebar .nav li .dropdown-menu a:focus, .sidebar .nav li .dropdown-menu a:hover, .sidebar .nav li:hover > a {
   background-color: rgba(199, 199, 199, 0.2);
   color: #3c4858;
@@ -34870,7 +34866,6 @@ a .material-icons {
 
 /* line 14, vendor/assets/stylesheets/material-dashboard.min.css */
 .sidebar .nav li .dropdown-menu a, .sidebar .nav li a {
-  margin: 10px 15px 0;
   border-radius: 3px;
   color: #3c4858;
   padding-left: 10px;

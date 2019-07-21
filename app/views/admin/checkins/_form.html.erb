@@ -266,6 +266,9 @@
             if( $( '#tableDebitos > tfoot' ).length === 0 )
               $( '#tableDebitos').append(tfoot);
           }
+          $(".form-check-input").on("change", function(event){
+            calculaValor();
+          });
 
           if( $('#auto_bio').is(":checked") ){
             setTimeout(function() {
@@ -291,6 +294,20 @@
         }
       });
     };    
+
+    var calculaValor = function(event){
+      var table = $('#tableDebitos');
+      var total = 0.0;
+
+      table.find('tbody').find('tr').each(function(indice){
+        var row = $(this);
+        if(row.find('input[type="checkbox"]').is(':checked')) {
+          total += moeda2float($(this).find("td").eq(4).text());
+        }
+      });
+
+      $("#vlrTotal").text("Total R$ " + float2moeda(total) );
+    }
     
     var payment = function(event) {
       var table = $('#tableDebitos');

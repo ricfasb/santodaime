@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180820131744) do
+ActiveRecord::Schema.define(version: 20190721131359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,14 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.index ["addressable_type"], name: "index_addresses_on_addressable_type", using: :btree
     t.index ["city_id"], name: "index_addresses_on_city_id", using: :btree
     t.index ["state_id"], name: "index_addresses_on_state_id", using: :btree
+  end
+
+  create_table "cashes", force: :cascade do |t|
+    t.string   "type"
+    t.string   "person"
+    t.float    "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -129,6 +137,9 @@ ActiveRecord::Schema.define(version: 20180820131744) do
     t.float    "amount"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.datetime "pay_day"
+    t.float    "discount"
+    t.string   "amount_paied"
     t.index ["invoice_type_id"], name: "index_invoices_on_invoice_type_id", using: :btree
     t.index ["person_id"], name: "index_invoices_on_person_id", using: :btree
   end

@@ -16,7 +16,7 @@
                   </div>
                   <div class="col-8">              
                     <%= collection_select(:person_id, :id, Person.all.order(:name), :id, :name,
-                      {:prompt => 'Selecione a pessoa'}, {:class => 'selectpicker', 'data-live-search'=>"true", 'data-size'=>"2", data: {style: "btn btn-primary"}}) %>                    
+                      {:prompt => 'Selecione a pessoa'}, {:class => 'custom-select', 'data-live-search'=>"true", 'data-size'=>"2", data: {style: "btn btn-primary"}}) %>                    
                   </div>  
                   <div class="col-2">
                     <button class="btn btn-success">Pagar</button>
@@ -73,7 +73,9 @@
                         </tfoot>
                       <% end %> 
                     </table>
-                    <p></p>
+                    <div align="right">
+                      <p style="margin-top: 15px; font-size: x-large; font-weight: bold; padding-right:35px" id="vlrTotal">Total: R$ 0,00<p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -85,9 +87,6 @@
 
 <script> 
   jQuery(function($){
-    $('.selectpicker').selectpicker({
-        width: '100%'
-    });
 
     $(".mask-person-id").on("change", function(event) {
       var codPessoa = $(".mask-person-id").val();
@@ -125,11 +124,10 @@
           var person = json.person;       
           //this.val(<%= code_completion(escape_javascript( '5' )) %>)
           if(person.length > 0){
-            $('#person_id_id').selectpicker('val', person[0].id );                
+            $('#person_id_id').val(person[0].id );                
           }else{
-            $('#person_id_id').selectpicker('val', 0 ); 
-          }   
-          $('.selectpicker').selectpicker('refresh'); 
+            $('#person_id_id').val( 0 ); 
+          }             
         },
         error: function(o, status, error) {
           var json = o.responseJSON;
@@ -140,14 +138,55 @@
 
     $("#chkAll").on("change", function(event) {      
       if($("#chkAll").is(":checked")){
-        $('.form-check-input').prop( "checked", true );
+        $('.form-check-input').prop( "checked", true );        
       }else{
-        $('.form-check-input').prop( "checked", false );        
-      }
+        $('.form-check-input').prop( "checked", false );                
+      }      
     });
+
+    function float2moeda(num) {
+	    x = 0;
+
+	    if(num<0) {
+	      num = Math.abs(num);
+	      x = 1;
+	    }   if(isNaN(num)) num = "0";
+	      cents = Math.floor((num*100+0.5)%100);
+
+	    num = Math.floor((num*100+0.5)/100).toString();
+
+	    if(cents < 10) cents = "0" + cents;
+	      for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+	         num = num.substring(0,num.length-(4*i+3))+'.'
+                 +num.substring(num.length-(4*i+3));   ret = num + ',' + cents;   
+        if (x == 1) 
+          ret = ' - ' + ret;
+      return ret;
+	  }
+
+    function moeda2float(moeda){
+      //moeda = moeda.replace(".","");
+      //moeda = moeda.replace(",",".");
+      return parseFloat(moeda);
+    }    
+
+    var calculaValor = function(event){
+      var table = $('#tableDebitos');
+      var total = 0.0;
+
+      table.find('tbody').find('tr').each(function(indice){
+        var row = $(this);
+        if(row.find('input[type="checkbox"]').is(':checked')) {
+          total += moeda2float($(this).find("td").eq(4).text());
+        }
+      });
+
+      $("#vlrTotal").text("Total R$ " + float2moeda(total) );
+    }
 
     $('#person_id_id').change(function () {            
       var person_id =  $('#person_id_id').val();
+      var total = 0.0;
 
       $.ajax({
         url: "/admin/payments/" + person_id +"/get_all_debits/",
@@ -181,6 +220,7 @@
             $( '#tableDebitos').append(tbody);
 
             for (var i = 0; i < tuitions.length; i++) {
+              total += tuitions[i].tuition.amount;
               var linha = "<tr>"+
                             "<td>"+
                             "  <div class=\"form-check\">"+
@@ -203,6 +243,7 @@
             }
 
             for (var i = 0; i < invoices.length; i++) {
+              total += invoices[i].amount;
               var linha = "<tr>"+
                             "<td>"+
                             "  <div class=\"form-check\">"+
@@ -228,6 +269,11 @@
             if( $( '#tableDebitos > tfoot' ).length === 0 )
               $( '#tableDebitos').append(tfoot);
           }
+          $("#vlrTotal").text("Total R$ " + float2moeda(total) );
+          $(".form-check-input").on("change", function(event){
+            calculaValor();
+          });
+          
         },
         error: function(o, status, error) {
           var json = o.responseJSON;
