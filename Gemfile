@@ -48,6 +48,7 @@ gem 'material_icons'
 gem 'font-awesome-rails'
 
 gem 'chartkick'
+gem 'money-rails'
 gem 'maskedinput-rails', '~> 1.4.1.0'
 gem 'maskmoney-rails'
 gem 'paperclip',  '~> 4.2'

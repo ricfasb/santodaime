@@ -13,7 +13,7 @@
           <div class="row">
             <div class="col-lg-10">
               <%= f.collection_select(:person_id, Person.all.order(:name), :id, :name,
-                  {:prompt => 'Selecione a pessoa'}, {:class => 'selectpicker', 'data-live-search'=>"true", 'data-size'=>"2", data: {style: "btn btn-primary"}}) %>
+                  {:prompt => 'Selecione a pessoa'}, {:class => 'custom-select', 'data-live-search'=>"true", 'data-size'=>"2"}) %>
             </div>
             <div class="col-lg-2">
             </div>
@@ -35,13 +35,13 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="input-group">                
-                <%= f.text_field :due_date, placeholder: model_class.human_attribute_name(:due_date), :data => {:provide => "datepicker", "date-format" => "dd/mm/yyyy", "datepicker-color" => "primary"}, class: 'form-control date-picker' %>
+                <%= f.text_field :due_date, placeholder: model_class.human_attribute_name(:due_date), :data => {"date-format" => "DD/MM/YYYY"}, class: 'form-control datepicker btnCalendar' %>
                 <span class="input-group-addon">
                   <i class="fa fa-calendar btnCalendar"></i>
                 </span>
               </div>
             </div>
-
+            
             <div class="col-lg-6">                             
               <%= f.text_field :amount, :placeholder => model_class.human_attribute_name(:amount), value: sprintf('%.2f', f.object.amount.to_f).gsub(/\./, ','), class: "mask-money form-control" %>                            
             </div>
@@ -62,11 +62,13 @@
 
 <script> 
   jQuery(function($){
-    $('.selectpicker').selectpicker({
-        width: '100%'
-    });
-    
+    md.initFormExtendedDatetimepickers();  
+
     $('#liCobranca').addClass("active"); 
+
+    $(".btnCalendar").on("click", function() {
+      $('#invoice_due_date').focus();
+    });
 
     $(".mask-money").maskMoney(
       { 

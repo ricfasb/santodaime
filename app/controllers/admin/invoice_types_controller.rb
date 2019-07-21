@@ -1,12 +1,13 @@
-class Admin::InvoiceTypesController < ApplicationController
+class Admin::InvoiceTypesController < Admin::AdminController
   protect_from_forgery with: :null_session
   
   before_action :set_admin_invoice_type, only: [:show, :edit, :update, :destroy]
 
+  layout 'admin'
   # GET /admin/invoice_types
   # GET /admin/invoice_types.json
   def index
-    @admin_invoice_types = Admin::InvoiceType.all
+    @admin_invoice_types = InvoiceType.all
   end
 
   # GET /admin/invoice_types/1
@@ -16,7 +17,7 @@ class Admin::InvoiceTypesController < ApplicationController
 
   # GET /admin/invoice_types/new
   def new
-    @admin_invoice_type = Admin::InvoiceType.new
+    @admin_invoice_type = InvoiceType.new
   end
 
   # GET /admin/invoice_types/1/edit
@@ -26,7 +27,7 @@ class Admin::InvoiceTypesController < ApplicationController
   # POST /admin/invoice_types
   # POST /admin/invoice_types.json
   def create
-    @admin_invoice_type = Admin::InvoiceType.new(admin_invoice_type_params)
+    @admin_invoice_type = InvoiceType.new(admin_invoice_type_params)
 
     respond_to do |format|
       if @admin_invoice_type.save
@@ -66,7 +67,7 @@ class Admin::InvoiceTypesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_admin_invoice_type
-      @admin_invoice_type = Admin::InvoiceType.find(params[:id])
+      @admin_invoice_type = InvoiceType.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

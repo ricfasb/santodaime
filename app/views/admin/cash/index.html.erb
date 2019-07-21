@@ -18,15 +18,24 @@
                 <th width="10%">Valor</th>
             </tr>
             </thead>
-            <tbody>            
+            <tbody> 
+                <% @cashes.each do |cash| %>           
                 <tr>
-                <td>1</td>
-                <td style="word-break: break-all;">2</td>
-                <td>3</td>                                                                    
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                </tr>            
+                    <td><%= cash.type %></td>
+                    <td style="word-break: break-all;"><%= cash.person %></td>
+                    <td>R$ <%= humanized_money cash.amount %></td>                                                                    
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr> 
+                <% end %>  
+                <tr>                    
+                    <td colspan="3" align="center" style="font-size: large; font-weight: bold">Total R$ <%= humanized_money @totInput %></td>
+                    <td colspan="3" align="center" style="font-size: large; font-weight: bold">R$ 0,00</td>
+                </tr>     
+                <tr>                    
+                    <td colspan="6" align="center" style="color: green; font-size: large; font-weight: bold">Total R$ <%= humanized_money @totInput %></td>                    
+                </tr>     
             </tbody>        
         </table>                          
     </div>

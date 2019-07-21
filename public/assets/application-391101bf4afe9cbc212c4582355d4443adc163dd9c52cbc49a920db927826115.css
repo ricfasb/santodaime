@@ -19418,7 +19418,7 @@ select.form-control:focus::-ms-value {
 
 /* line 14, vendor/assets/stylesheets/material-dashboard.min.css */
 .form-check {
-  position: relative;
+  position: absolute;
   display: block;
   padding-left: 1.25rem;
 }
@@ -27835,9 +27835,9 @@ a.text-dark:focus, a.text-dark:hover {
 }
 
 /* line 14, vendor/assets/stylesheets/material-dashboard.min.css */
-.form-check .form-check-sign:before {display: block;
+.form-check .form-check-sign:before {
+  display: block;
   left: 0;
-  content: "";
   background-color: rgba(0, 0, 0, 0.84);
   height: 20px;
   width: 20px;
@@ -27865,7 +27865,6 @@ a.text-dark:focus, a.text-dark:hover {
 /* line 14, vendor/assets/stylesheets/material-dashboard.min.css */
 .form-check .form-check-sign .check:before {
   position: absolute;
-  content: "";
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
   display: block;

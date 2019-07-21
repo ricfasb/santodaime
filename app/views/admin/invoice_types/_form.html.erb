@@ -1,4 +1,5 @@
-<%= form_for(admin_invoice_type) do |f| %>
+<%= form_for [:admin, @admin_invoice_type], :html => { remote: true, :class => "form-horizontal company" } do |f| %>
+  
   <% if admin_invoice_type.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(admin_invoice_type.errors.count, "error") %> prohibited this admin_invoice_type from being saved:</h2>

@@ -9,7 +9,7 @@ class Admin::InvoicesController < Admin::AdminController
   # GET /invoices
   # GET /invoices.json
   def index
-    @q = Invoice.ransack(params[:q])
+    @q = Invoice.where(pay_day: [nil]).ransack(params[:q])
     @invoices = @q.result.paginate(:page => params[:page], :per_page => 10).order('created_at DESC')
   end
 

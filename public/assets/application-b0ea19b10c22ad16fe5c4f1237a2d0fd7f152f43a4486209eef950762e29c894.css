@@ -27835,9 +27835,9 @@ a.text-dark:focus, a.text-dark:hover {
 }
 
 /* line 14, vendor/assets/stylesheets/material-dashboard.min.css */
-.form-check .form-check-sign:before {display: block;
+.form-check .form-check-sign:before {
+  display: block;
   left: 0;
-  content: "";
   background-color: rgba(0, 0, 0, 0.84);
   height: 20px;
   width: 20px;
@@ -32138,7 +32138,6 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 
 /* line 14, vendor/assets/stylesheets/material-dashboard.min.css */
 .table .form-check .form-check-sign {
-  top: -19px;
   left: 0;
   padding-right: 0;
 }

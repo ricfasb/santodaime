@@ -13,10 +13,9 @@
   <tbody>
     <% @admin_invoice_types.each do |admin_invoice_type| %>
       <tr>
-        <td><%= admin_invoice_type.description %></td>
-        <td><%= link_to 'Show', admin_invoice_type %></td>
+        <td><%= admin_invoice_type.description %></td>        
         <td><%= link_to 'Edit', edit_admin_invoice_type_path(admin_invoice_type) %></td>
-        <td><%= link_to 'Destroy', admin_invoice_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', admin_invoice_type_path(admin_invoice_type), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

@@ -19,7 +19,7 @@
                       {:prompt => 'Selecione a pessoa'}, {:class => 'custom-select', 'data-live-search'=>"true", 'data-size'=>"2", data: {style: "btn btn-primary"}}) %>                    
                   </div>  
                   <div class="col-2">
-                    <button class="btn btn-success">Pagar</button>
+                    <button class="btn btn-success" id="btnPay">Pagar</button>
                   </div>
                 </div> 
 
@@ -95,21 +95,47 @@
       $(".mask-person-id").val(codPessoaCompleto);
     });
 
-    $(".btnPagamento").on("click", function(event) {
-      event.preventDefault();
-      var person_id = $("#txtCodigo").val();
-      $.ajax({
-        url: "/admin/payments/" + person_id +"/pay/",
-        type: "POST",        
-        success: function(data, status, jqXHR){
-          var json = jqXHR.responseJSON;
-          alert('tamita');
-        },
-        error: function(o, status, error) {
-          var json = o.responseJSON;
-          alert(json);
+    $("#btnPay").on("click", function(event) {
+      var table = $('#tableDebitos');
+      var payments = [];
+
+      table.find('tbody').find('tr').each(function(indice){
+        var row = $(this);
+        if(row.find('input[type="checkbox"]').is(':checked')) {
+          var payment = new Object();
+          payment["id"]       = $(this).find("td").eq(0).find('input[type="checkbox"]').val();
+          payment["cobranca"] = $(this).find("td").eq(1).text();             
+          payment["valor"]    = moeda2float($(this).find("td").eq(4).text());
+          payment["desconto"] = 0.0;
+          if($(this).find("td").eq(5).text() !== ""){
+            payment["desconto"] = moeda2float($(this).find("td").eq(5).text());
+          }
+          payment["observacao"] = $(this).find("td").eq(6).text();
+          payments.push(payment);
         }
       });
+      $.ajax({
+        url: "/admin/payments",
+        type: "POST",
+        data: {"payments" : payments },
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON;
+          var status = json.status;       
+          if(status === "ok"){
+            alert('Pagamento realizado com sucesso!');            
+            setTimeout(function() {
+              try{                            
+                $('#person_id_id').trigger("change");
+              } catch(ex){
+                return false;
+              }
+            }, 10); 
+          }
+        },
+        error: function(o, status, error) {
+          var json = o.responseJSON;             
+        }
+      });   
     });
 
     $("#txtCodigo").on("blur", function(event) {
@@ -184,8 +210,29 @@
       $("#vlrTotal").text("Total R$ " + float2moeda(total) );
     }
 
+    function limpar(){
+      var tfoot    = "<tfoot>"+ 
+                      " <tr>"+
+                      "  <th colspan=\"9\" class=\"tfoot_empty\" style=\"text-align: center; height: 50px;\">"+
+                      "   Nenhum registro encontrado!"+
+                      "  </th>"+
+                      " </tr>"
+                      "</tfoot>";  
+      var tbody    = "<tbody>"+                          
+                      "</tbody>"; 
+      $('#tableDebitos > tbody').remove();
+      $('#tableDebitos > tfoot').remove();
+      $('#tableDebitos').append(tbody);
+      $('#tableDebitos').append(tfoot);
+      $("#vlrTotal").text("Total: R$ 0,00");
+    }
+
     $('#person_id_id').change(function () {            
       var person_id =  $('#person_id_id').val();
+      if(person_id === ''){
+        limpar();
+        return false;
+      } 
       var total = 0.0;
 
       $.ajax({
@@ -225,7 +272,7 @@
                             "<td>"+
                             "  <div class=\"form-check\">"+
                             "    <label class=\"form-check-label\">"+
-                            "      <input class=\"form-check-input\" type=\"checkbox\" checked value=\"\">&nbsp;"+                          
+                            "      <input class=\"form-check-input\" type=\"checkbox\" checked value="+ tuitions[i].id +">&nbsp;"+                          
                             "      <span class=\"form-check-sign\">"+
                             "        <span class=\"check\"></span>"+
                             "      </span>"+
@@ -248,7 +295,7 @@
                             "<td>"+
                             "  <div class=\"form-check\">"+
                             "    <label class=\"form-check-label\">"+
-                            "      <input class=\"form-check-input\" type=\"checkbox\" checked value=\"\">&nbsp;"+                          
+                            "      <input class=\"form-check-input\" type=\"checkbox\" checked value="+ invoices[i].id +">&nbsp;"+                          
                             "      <span class=\"form-check-sign\">"+
                             "        <span class=\"check\"></span>"+
                             "      </span>"+
