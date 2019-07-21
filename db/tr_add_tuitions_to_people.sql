@@ -13,7 +13,7 @@ DECLARE
   person  RECORD;
   cur_people CURSOR 
        FOR SELECT id, category_id
-       FROM people where id <> 1;
+       FROM people;
 BEGIN
 
     OPEN cur_people;

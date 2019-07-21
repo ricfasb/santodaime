@@ -1,19 +1,18 @@
 <%- model_class = Checkin -%>
 
 	    <div class="row">
-	        <div class="col-md-12">
+	        <div class="col-12">
 	            <div class="card">
 	                <div class="card-header card-header-success" data-background-color="green">
                     <div class="row">
-                      <div class="col-md-8">
-                        <h4 class="title">Checkins</h4>
-                        <p >Listagem de checkins efetuados</p>
+                      <div class="col-8">
+                        <h4 class="title">Listagem de Checkins</h4>
                       </div>
                       <div class="col" align="right">
-                        <%= link_to raw('<i class="now-ui-icons ui-1_simple-add"></i>'),
+                        <%= link_to raw('<i class="material-icons">add</i>'),
                           new_admin_checkin_path, 
                           :style => "margin-left: 35px",
-                          :class => 'btn btn-lg btn-success btn-round btn-icon' %>
+                          :class => 'btn btn-success btn-round btn-fab' %>
                       </div>
                     </div>
 	                </div>
@@ -25,7 +24,7 @@
                         <%= f.label 'Busca:' %>                                                    
                       </div>
                       <div class="col-md-4 justify-content-center d-flex align-items-center" align="right">			   
-                        <%= f.search_field :person_name_cont, :placeholder => 'Nome da pessoa', :class => 'form-control' %>
+                        <%= f.search_field :person_name_start, :placeholder => 'Nome da pessoa', :class => 'form-control' %>
                       </div> 
                       <div class="col-md-2 justify-content-center d-flex align-items-center" align="right">			                           
                         <%= f.search_field :created_at_gteq, :placeholder => 'Data inicial', class: 'form-control date-picker', 'datepicker' => true %>
@@ -34,10 +33,10 @@
                         <%= f.search_field :created_at_lteq, :placeholder => 'Data final', class: 'form-control input-sm', 'datepicker' => true %>
                       </div> 
                       <div class="col-md-2" align="center">                           
-                        <%= link_to raw('<i class="now-ui-icons ui-1_zoom-bold"></i>'),
+                        <%= link_to raw('<i class="material-icons">search</i>'),
                           "", :onclick => "$('#checkin_search').submit()",
                           :style => "margin-left: 35px",
-                          :class => 'btn btn-lg btn-warning btn-round btn-icon' %>
+                          :class => 'btn btn-warning btn-round btn-fab' %>
                       </div>  
                     </div> 
                     <% end %>   

@@ -33,6 +33,8 @@ gem 'trix'
 # gem active_scaffold
 # gem active_admin
 
+gem 'date_validator'
+
 ## Bootstrap 4
 gem 'bootstrap', '~> 4.2.1'
 gem 'popper_js', '~> 1.11', '>= 1.11.1'

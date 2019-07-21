@@ -1,11 +1,24 @@
 <%- model_class = Checkin -%>
-<div class="content">	
-  <div class="container-fluid">
 	    <div class="row">
-	        <div class="col-md-12">
+	        <div class="col-12">
 	            <div class="card">
-	                <div class="card-header card-header-success" data-background-color="green">
-                      <h4><%=t '.title', :default => [:'helpers.titles.edit', 'Checkin Biométrico'], :model => model_class.model_name.human.titleize %></h4>	                    
+                  <div class="card-header card-header-success" data-background-color="green">
+                    <div class="row">
+                      <div class="col-8">
+                        <h4 class="title"><%=t '.title', :default => [:'helpers.titles.edit', 'Checkin Biométrico'], :model => model_class.model_name.human.titleize %></h4>	                    
+                      </div>
+                      <div class="col" align="right">                        
+                        <%= link_to raw('<i class="material-icons">person</i>'),
+                          admin_people_path, 
+                          :style => "margin-left: 35px",
+                          :target => "_blank",
+                          :class => 'btn btn-success btn-round btn-fab' %>
+                        <%= link_to raw('<i class="material-icons">format_list_numbered</i>'),
+                          admin_checkins_path, 
+                          :style => "margin-left: 35px",
+                          :class => 'btn btn-success btn-round btn-fab' %>                        
+                      </div>
+                    </div>
 	                </div>
 
                   <div class="card-content">
@@ -18,5 +31,3 @@
               </div>
           </div>
       </div>
-  </div>
-</div>

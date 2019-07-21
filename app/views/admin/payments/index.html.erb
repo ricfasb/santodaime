@@ -8,21 +8,18 @@
 	        </div> 
 
           <div class="card-content">            
-            <div >
+            <div>
               <div class="card-content table-responsive">
-
                 <div class="row d-flex justify-content-center" style="padding: 10px">  
                   <div class="col-2">    
                     <input type="text" id="txtCodigo" class="form-control mask-person-id" placeholder="Insira o código" />                      
                   </div>
-                  <div class="col-8 d-flex justify-content-center">              
+                  <div class="col-8">              
                     <%= collection_select(:person_id, :id, Person.all.order(:name), :id, :name,
                       {:prompt => 'Selecione a pessoa'}, {:class => 'selectpicker', 'data-live-search'=>"true", 'data-size'=>"2", data: {style: "btn btn-primary"}}) %>                    
                   </div>  
-                  <div class="col-2 d-flex justify-content-center">
-                    <%= link_to raw('<i class="material-icons">check</i>'),
-                            "", :onclick => "btnPagamento",
-                            :class => 'btn btn-success btn-round btn-fab' %>
+                  <div class="col-2">
+                    <button class="btn btn-success">Pagar</button>
                   </div>
                 </div> 
 
@@ -76,6 +73,7 @@
                         </tfoot>
                       <% end %> 
                     </table>
+                    <p></p>
                   </div>
                 </div>
               </div>
