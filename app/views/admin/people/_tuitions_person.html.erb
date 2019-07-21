@@ -1,5 +1,5 @@
 <div id="mensalidade" class="tab-pane fade">
-    <div class="col-lg-12 box-shadow">   
+    <div class="col-12 box-shadow">   
     <table class="table table-striped">
         <thead>
         <tr>
@@ -14,7 +14,7 @@
             <td><%= tuition.due_date.strftime("%d/%m/%Y") %></td>
             <td><%= tuition.tuition.amount %></td>
             <td>
-                <% if tuition.pay_day.nil? %>
+                <% unless tuition.pay_day.nil? %>
                 <%= "Pago" %>
                 <% else %>            
                 <%= "Pendente" %>

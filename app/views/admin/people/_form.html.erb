@@ -766,10 +766,8 @@
           city_id_profissional = json.city[0].id;
 
           $('#person_occupation_attributes_address_attributes_street').val(json.address.response.logradouro);
-          $('#person_occupation_attributes_address_attributes_neighbourhood').val(json.address.response.bairro);
-          
-          $("#person_occupation_attributes_address_attributes_state_id").selectpicker('val', state_id );
-          $('.selectpicker').selectpicker('refresh');
+          $('#person_occupation_attributes_address_attributes_neighbourhood').val(json.address.response.bairro);          
+          $("#person_occupation_attributes_address_attributes_state_id").val(state_id );          
         },
         error: function(o, status, error) {
           var json = o.responseJSON;
@@ -792,10 +790,8 @@
             city_id = json.city[0].id;
 
             $('#person_address_attributes_street').val(json.address.response.logradouro);
-            $('#person_address_attributes_neighbourhood').val(json.address.response.bairro);
-            
-            $("#person_address_attributes_state_id").selectpicker('val', state_id );
-            $('.selectpicker').selectpicker('refresh');
+            $('#person_address_attributes_neighbourhood').val(json.address.response.bairro);            
+            $("#person_address_attributes_state_id").val(state_id );            
           },
           error: function(o, status, error) {
             var json = o.responseJSON;
@@ -822,9 +818,7 @@
           options += '<option value="' + json[i].id + '">' + json[i].name + '</option>';
         }
         $("#person_address_attributes_city_id").append(options);
-        $('#person_address_attributes_city_id').selectpicker('refresh');
-
-        $("#person_address_attributes_city_id").selectpicker('val', city_id);
+        $("#person_address_attributes_city_id").val(city_id);
         
       },
       error: function(o, status, error) {
@@ -850,10 +844,9 @@
         for (var i = 0; i < json.length; i++) {
           options += '<option value="' + json[i].id + '">' + json[i].name + '</option>';
         }
-        $("#person_occupation_attributes_address_attributes_city_id").append(options);
-        $('#person_occupation_attributes_address_attributes_city_id').selectpicker('refresh');
+        $("#person_occupation_attributes_address_attributes_city_id").append(options);        
 
-        $("#person_occupation_attributes_address_attributes_city_id").selectpicker('val', city_id_profissional);
+        $("#person_occupation_attributes_address_attributes_city_id").val(city_id_profissional);
         
       },
       error: function(o, status, error) {
