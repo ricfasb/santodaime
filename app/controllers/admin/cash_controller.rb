@@ -15,7 +15,7 @@ class  Admin::CashController <  Admin::AdminController
       @cash.type = 'Mensalidade'
       @cash.person = t.person.name
       @cash.amount = t.tuition.amount
-      @totInput = @totInput + t.amount
+      @totInput = @totInput + t.tuition.amount
       @cashes.push(@cash)
     end
     
