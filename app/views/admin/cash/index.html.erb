@@ -6,10 +6,31 @@
             </div> 
 
             <div class="row">
-                <div class="col" align="right">
-                    <button class="btn btn-success"><i class="material-icons">printer</i> Inadimplentes</button>
+                <div class="col-1"></div>
+                <div class="col-3">
+                    <div class="input-group">  
+                        <input type="text " placeholder="Data inicial" data-date-format="DD/MM/YYYY" class="form-control datepicker btnCalendarI" >
+                        <span class="input-group-addon">
+                        <i class="fa fa-calendar btnCalendarI"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="input-group">  
+                        <input type="text " placeholder="Data inicial" data-date-format="DD/MM/YYYY" class="form-control datepicker btnCalendarI" >
+                        <span class="input-group-addon">
+                        <i class="fa fa-calendar btnCalendarI"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-2" align="right">
+                    <button class="btn btn-success"><i class="material-icons">printer</i> Inadimplentes</button>                    
+                </div>
+                <div class="col-2" align="right" style="margin-right: 15px">
                     <button class="btn btn-success"><i class="material-icons">printer</i> Pagamentos</button>
                 </div>
+                <div class="col-1"></div>
             </div>
             <div class="card-content table-responsive">                        
                 <table class="table table-striped">
@@ -51,3 +72,9 @@
         </div>    
     </div>
 </div>
+
+<script>
+jQuery(function($){
+  md.initFormExtendedDatetimepickers();
+});    
+</script>s

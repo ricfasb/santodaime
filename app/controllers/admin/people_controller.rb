@@ -104,16 +104,17 @@ class Admin::PeopleController < Admin::AdminController
 
     if data.present?
       image_data = Base64.decode64(data['data:image/png;base64,'.length .. -1])
-
-      IO.binwrite("#{Rails.root}/public/system/people/photos/photo.png", image_data)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-      File.open("#{Rails.root}/public/system/people/photos/photo.png", 'wb') do |f|
-        f.write image_data
-      end    
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-      file = File.open("#{Rails.root}/public/system/people/photos/photo.png")
       @person.photo = file
-      file.close
+
+#      IO.binwrite("#{Rails.root}/public/system/people/photos/photo.png", image_data)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+#      File.open("#{Rails.root}/public/system/people/photos/photo.png", 'wb') do |f|
+#        f.write image_data
+#      end    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+#      file = File.open("#{Rails.root}/public/system/people/photos/photo.png")
+#      @person.photo = file
+#      file.close
     end
 
     @person.address.addressable = @person #<<<<<<<< Necessario
@@ -152,16 +153,17 @@ class Admin::PeopleController < Admin::AdminController
 
       if data.present?
         image_data = Base64.decode64(data['data:image/png;base64,'.length .. -1])
+        @person.photo = image_data
 
-        IO.binwrite("#{Rails.root}/public/system/people/photos/photo.png", image_data)
+#        IO.binwrite("#{Rails.root}/public/system/people/photos/photo.png", image_data)
       
-        File.open("#{Rails.root}/public/system/people/photos/photo.png", 'wb') do |f|
-          f.write image_data
-        end    
+#        File.open("#{Rails.root}/public/system/people/photos/photo.png", 'wb') do |f|
+#          f.write image_data
+#        end    
 
-        file = File.open("#{Rails.root}/public/system/people/photos/photo.png")
-        @person.photo = file
-        file.close
+#        file = File.open("#{Rails.root}/public/system/people/photos/photo.png")
+#        @person.photo = file
+#        file.close
       end
 
       if @person.update(person_params)
