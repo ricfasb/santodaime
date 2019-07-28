@@ -86,7 +86,7 @@
 
                   <div class="col-md-3"> 
                     <div class="divImagemFoto2" id="divImagemFoto" align="center">
-                      <%= image_tag(@person.photo.url(:thumb), :class => "img_capa_zk", id:"image-output") %>
+                        <%= image_tag url_for(:action => "show_image", :id => @person.id), class: "img_capa_zk", id: 'image-output' %>
                       </img>
                       
                       <div>
@@ -94,7 +94,7 @@
                           <label for="file-input">
                             <span class="fa fa-upload" style="color:#036; font-size: 20px; background: #fff; border: none;"></span>
                           </label>
-                          <%= f.file_field :photo, id:"file-input" %>
+                          <%= f.file_field :photo_file, id:"file-input" %>
 
                           <button class="fa fa-camera"	id="btnWebcam"
                             style="color: #888; font-size: 20px; border: none; background: #FFF;"/>
@@ -349,7 +349,7 @@
                     </div>
                   <% end %>
                 <% end %>                
-                <%= f.hidden_field :fingerprint, value: '' %>                                                                            
+                <%= f.hidden_field :fingerprint %>                                                                            
               </div>
             </div> <!-- fim tab documentos -->
             <div id="biometria" class="tab-pane fade">

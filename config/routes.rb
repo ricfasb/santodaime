@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :people do
       get :search_person           
       get :get_cep
+      get 'show_image',         :on => :collection
       get "search_fingerprint", to: "people#search_fingerprint",  on: :collection
       get "birthdays_month",    to: "people#birthdays_month",     on: :collection
       get "birthday",           to: "people#birthday",            on: :collection

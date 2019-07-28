@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190721131359) do
+ActiveRecord::Schema.define(version: 20190728113614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -211,6 +211,7 @@ ActiveRecord::Schema.define(version: 20190721131359) do
     t.integer  "on_line"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.binary   "photo_file"
     t.index ["address_id"], name: "index_people_on_address_id", using: :btree
     t.index ["category_id"], name: "index_people_on_category_id", using: :btree
     t.index ["cpf"], name: "index_people_on_cpf", using: :btree
@@ -226,6 +227,12 @@ ActiveRecord::Schema.define(version: 20190721131359) do
     t.string   "days"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "photos", force: :cascade do |t|
+    t.integer "person_id"
+    t.string  "style"
+    t.binary  "file_contents"
   end
 
   create_table "states", force: :cascade do |t|

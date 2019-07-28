@@ -1,7 +1,10 @@
 class Person < ActiveRecord::Base
 
-  has_attached_file :photo, styles: { thumb: "110x110>" }, default_url: "/assets/foto_pessoa-2052e00ecae3107cda8ff0b8b8d1fae4ef457df77a49808cab192d6d3f5a88b7.png"
-  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
+#  has_attached_file :photo, styles: { :medium => "300x300>", :thumb => "100x100>" }, 
+#    default_url: "/assets/foto_pessoa-2052e00ecae3107cda8ff0b8b8d1fae4ef457df77a49808cab192d6d3f5a88b7.png",
+#    :storage => :database, :database_table => 'photos', :cascade_deletion => true,
+#    :url => '/users/show_avatar/:id/:style'
+#  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
 
   belongs_to :category  
   belongs_to :marital_state

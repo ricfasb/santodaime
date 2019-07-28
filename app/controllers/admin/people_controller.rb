@@ -8,7 +8,7 @@ class Admin::PeopleController < Admin::AdminController
   
   layout "admin"
 
-  before_action :set_person, only: [:show, :edit, :update, :destroy]
+  before_action :set_person, only: [:show, :edit, :update, :destroy, :show_image]
   before_action :set_people, only: [:birthdays_month, :exportar_pdf]
   before_action :authenticate_user!, :except => [:get_cep, :create, :search_by_email, :show]
 
@@ -104,7 +104,7 @@ class Admin::PeopleController < Admin::AdminController
 
     if data.present?
       image_data = Base64.decode64(data['data:image/png;base64,'.length .. -1])
-      @person.photo = file
+      @person.photo_file = image_data
 
 #      IO.binwrite("#{Rails.root}/public/system/people/photos/photo.png", image_data)
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
@@ -153,10 +153,14 @@ class Admin::PeopleController < Admin::AdminController
 
       if data.present?
         image_data = Base64.decode64(data['data:image/png;base64,'.length .. -1])
-        @person.photo = image_data
+        @person.photo_file = image_data
+        
+#        dirname = File.dirname("#{Rails.root}/public/system/people/photos/photo.png")
+#        unless File.directory?(dirname)
+#          FileUtils.mkdir_p(dirname)
+#        end
 
-#        IO.binwrite("#{Rails.root}/public/system/people/photos/photo.png", image_data)
-      
+#        IO.binwrite("#{Rails.root}/public/system/people/photos/photo.png", image_data)                      
 #        File.open("#{Rails.root}/public/system/people/photos/photo.png", 'wb') do |f|
 #          f.write image_data
 #        end    
@@ -164,6 +168,8 @@ class Admin::PeopleController < Admin::AdminController
 #        file = File.open("#{Rails.root}/public/system/people/photos/photo.png")
 #        @person.photo = file
 #        file.close
+      else
+        @person.photo_file = nil
       end
 
       if @person.update(person_params)
@@ -202,6 +208,10 @@ class Admin::PeopleController < Admin::AdminController
     render :no_content 
   end
 
+  def show_image    
+    send_data @person.photo_file, :type => 'image/png',:disposition => 'inline'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_person
@@ -214,10 +224,11 @@ class Admin::PeopleController < Admin::AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def person_params
-      params.require(:person).permit(:name, :email, :photo, :date_born, :date_enroll, :height, :rg, :cpf, :telephone_residence, :smartphone_number, :telephone_message, :message_person, :facebook, :father_name, :mother_name, :category_id, :marital_state_id, :wifes_name, :among_sun, :degree_education_id, :course, :motive, :complementary_information, :fingerprint, :on_line, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id], :driver_license_attributes => [:licensable_id, :licensable_type, :number_cnh, :category_cnh, :date_issue, :expering_date], :occupation_attributes =>[:occupatiable_id, :occupatiable_type, :description, :experience_time, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id]], :deficiency_person_attributes => [:deficiencable_id, :deficiencable_type, :chronic_disease, :controlled_medication] )
+      params.require(:person).permit(:name, :email, :photo, :photo_file, :date_born, :date_enroll, :height, :rg, :cpf, :telephone_residence, :smartphone_number, :telephone_message, :message_person, :facebook, :father_name, :mother_name, :category_id, :marital_state_id, :wifes_name, :among_sun, :degree_education_id, :course, :motive, :complementary_information, :fingerprint, :on_line, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id], :driver_license_attributes => [:licensable_id, :licensable_type, :number_cnh, :category_cnh, :date_issue, :expering_date], :occupation_attributes =>[:occupatiable_id, :occupatiable_type, :description, :experience_time, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id]], :deficiency_person_attributes => [:deficiencable_id, :deficiencable_type, :chronic_disease, :controlled_medication] )
     end
 
     def photo
       self.photo.url(:thumb)
     end
+  
 end
