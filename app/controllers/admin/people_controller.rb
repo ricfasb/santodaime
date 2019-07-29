@@ -28,8 +28,8 @@ class Admin::PeopleController < Admin::AdminController
 
     if request.xhr?      
       unless @people.nil?
-        render :json => { :people => @people.to_json(:include => :category, :methods => [:photo]),                        
-                          :message => 'OK' }
+#        render :json => { :people => @people.to_json(:include => :category, :methods => [:photo]), :message => 'OK' }
+        render :json => { :people => @people.to_json(:include => :category), :message => 'OK' }
       end
     else
       render json: {}, status: :false
@@ -226,11 +226,11 @@ class Admin::PeopleController < Admin::AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def person_params
-      params.require(:person).permit(:name, :email, :photo, :photo_file, :date_born, :date_enroll, :height, :rg, :cpf, :telephone_residence, :smartphone_number, :telephone_message, :message_person, :facebook, :father_name, :mother_name, :category_id, :marital_state_id, :wifes_name, :among_sun, :degree_education_id, :course, :motive, :complementary_information, :fingerprint, :on_line, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id], :driver_license_attributes => [:licensable_id, :licensable_type, :number_cnh, :category_cnh, :date_issue, :expering_date], :occupation_attributes =>[:occupatiable_id, :occupatiable_type, :description, :experience_time, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id]], :deficiency_person_attributes => [:deficiencable_id, :deficiencable_type, :chronic_disease, :controlled_medication] )
+      params.require(:person).permit(:name, :email, :photo_file, :date_born, :date_enroll, :height, :rg, :cpf, :telephone_residence, :smartphone_number, :telephone_message, :message_person, :facebook, :father_name, :mother_name, :category_id, :marital_state_id, :wifes_name, :among_sun, :degree_education_id, :course, :motive, :complementary_information, :fingerprint, :on_line, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id], :driver_license_attributes => [:licensable_id, :licensable_type, :number_cnh, :category_cnh, :date_issue, :expering_date], :occupation_attributes =>[:occupatiable_id, :occupatiable_type, :description, :experience_time, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id]], :deficiency_person_attributes => [:deficiencable_id, :deficiencable_type, :chronic_disease, :controlled_medication] )
     end
 
-    def photo
-      self.photo.url(:thumb)
-    end
+#    def photo
+#      self.photo.url(:thumb)
+#    end
   
 end
