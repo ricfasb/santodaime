@@ -104,8 +104,8 @@
                           <button class="fa fa-camera"	id="btnWebcam"
                             style="color: #888; font-size: 20px; border: none; background: #FFF;"/>
                         
-                        <button class="fa fa-times"	id="btnExcluirFoto"
-                            style="color:#f00; font-size: 20px; border: none; background: #fff;"/>
+                          <button class="fa fa-times"	id="btnExcluirFoto"
+                              style="color:#f00; font-size: 20px; border: none; background: #fff;"/>
                         </div>                                                          
                       </div>
                     </div>
@@ -560,6 +560,7 @@
               $('#videoCam').html("");
               $('.modal-backdrop').remove(); 
               $( '#webcamModal' ).remove();
+              $("body").removeClass();              
             }
 
             $("#closeModal").on("click", function(event) {
@@ -624,6 +625,7 @@
       $('#videoCam').html("");
       $('.modal-backdrop').remove(); 
       $( '#webcamModal' ).remove();
+      $("body").removeClass();
     });
     
     $("#btnExcluirFoto").on("click", function(event) {
@@ -655,7 +657,7 @@
       $(biometriaScreen).detach(); 
       $(biometriaScreen).modal('hide');                    
       $('.modal-backdrop').remove();  
-            
+      $("body").removeClass();      
     });
     
     $("#btnBiometria").on("click", function(event) {                      

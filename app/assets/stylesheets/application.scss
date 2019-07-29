@@ -288,6 +288,14 @@ html, body {
    height: auto;
  }
  
+ #btnWebcam{
+   cursor: pointer;
+ }
+
+ #btnExcluirFoto{
+   cursor: pointer;
+ }
+
  .divFoto img, .img_capa_zk  {
      width: 100%;
      border: solid 1px #ccc;
