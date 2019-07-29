@@ -1,10 +1,7 @@
 class Person < ActiveRecord::Base
 
-#  has_attached_file :photo, styles: { :medium => "300x300>", :thumb => "100x100>" }, 
-#    default_url: "/assets/foto_pessoa-2052e00ecae3107cda8ff0b8b8d1fae4ef457df77a49808cab192d6d3f5a88b7.png",
-#    :storage => :database, :database_table => 'photos', :cascade_deletion => true,
-#    :url => '/users/show_avatar/:id/:style'
-#  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
+  #has_attached_file :photo, styles: { thumb: "110x110>" }, default_url: "/assets/foto_pessoa-2052e00ecae3107cda8ff0b8b8d1fae4ef457df77a49808cab192d6d3f5a88b7.png"
+  #validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
 
   belongs_to :category  
   belongs_to :marital_state
@@ -30,6 +27,17 @@ class Person < ActiveRecord::Base
 
   has_many :tuition_person, :dependent => :destroy
 
+
+  def uploaded_file=(incoming_file)
+    self.filename = incoming_file.original_filename
+    self.content_type = incoming_file.content_type
+    self.photo_file = incoming_file.read
+  end
+
+  def filename=(new_filename)
+    write_attribute("filename", sanitize_filename(new_filename))
+  end
+
   private
     def unmask_cpf    
       self.cpf.gsub!(/(\.|\-)/, "")    
@@ -37,6 +45,13 @@ class Person < ActiveRecord::Base
       self.smartphone_number.gsub!(/(\(|\)|\-|\ )/, "")
       self.telephone_message.gsub!(/(\(|\)|\-|\ )/, "")
       #self.cep.gsub!(/(\-)/, "")
+    end
+
+    def sanitize_filename(filename)
+      #get only the filename, not the whole path (from IE)
+      just_filename = File.basename(filename)
+      #replace all non-alphanumeric, underscore or periods with underscores
+      just_filename.gsub(/[^\w\.\-]/, '_')
     end
 
 end

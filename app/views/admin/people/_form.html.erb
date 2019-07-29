@@ -1,5 +1,5 @@
 <%- model_class = Person -%>
-<%= form_for [:admin, @person], :html => { remote: true, :class => "form-horizontal person" } do |f| %>
+<%= form_for [:admin, @person], :multipart => true, :html => { :class => "form-horizontal person" } do |f| %>
   
   <% content_for :head do %>
     <%= javascript_include_tag 'notify' %>
@@ -86,15 +86,20 @@
 
                   <div class="col-md-3"> 
                     <div class="divImagemFoto2" id="divImagemFoto" align="center">
+                      
+                      <% unless @person.photo_file.nil? %>
                         <%= image_tag url_for(:action => "show_image", :id => @person.id), class: "img_capa_zk", id: 'image-output' %>
-                      </img>
+                      <% else %>
+                        <%= image_tag url_for("/assets/foto_pessoa-2052e00ecae3107cda8ff0b8b8d1fae4ef457df77a49808cab192d6d3f5a88b7.png"), class: "img_capa_zk", id: 'image-output' %>
+                      <% end %>                      
                       
                       <div>
                         <div class="image-upload">	 
                           <label for="file-input">
                             <span class="fa fa-upload" style="color:#036; font-size: 20px; background: #fff; border: none;"></span>
                           </label>
-                          <%= f.file_field :photo_file, id:"file-input" %>
+                          
+                          <%= file_field_tag 'attachment', id:"file-input"  %>
 
                           <button class="fa fa-camera"	id="btnWebcam"
                             style="color: #888; font-size: 20px; border: none; background: #FFF;"/>
@@ -577,8 +582,32 @@
     
     $("#file-input").on("change", function(event) {
       event.preventDefault();
-      var output = document.getElementById('image-output');
-      output.src = URL.createObjectURL(event.target.files[0]);
+      
+      let canvas = document.createElement('canvas');
+      let context;
+      let file = event.target.files[0];     
+      let reader =  new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = (event) => {
+        const img = new Image();
+        const posicao = event.target.result.indexOf("base64");
+        const posicaoInicial = posicao + 7;
+        const posicaoFinal = event.target.result.length;
+        const src = event.target.result.substr(posicaoInicial, posicaoFinal);
+        img.src = event.target.result;
+        img.onload = () => {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          context = canvas.getContext('2d');
+          context.drawImage(img, 0, 0, img.width, img.height);
+
+          var dataURL = canvas.toDataURL("image/png");
+          $("#data_uri").val(dataURL);      
+          $("#image-output").attr("src", canvas.toDataURL('image/png'));
+        }
+      }
+
     });
 
     $("#image-output").on("click", function(event) {

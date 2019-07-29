@@ -150,10 +150,12 @@ class Admin::PeopleController < Admin::AdminController
   def update
     respond_to do |format|
       data = params[:data_uri]
-
+    
       if data.present?
         image_data = Base64.decode64(data['data:image/png;base64,'.length .. -1])
         @person.photo_file = image_data
+        params[:photo_file] = image_data
+        person_params[:photo_file] = image_data
         
 #        dirname = File.dirname("#{Rails.root}/public/system/people/photos/photo.png")
 #        unless File.directory?(dirname)
@@ -176,7 +178,7 @@ class Admin::PeopleController < Admin::AdminController
         format.html { redirect_to admin_people_url, notice: 'Cadastro atualizado com sucesso.' }
         format.json { head :no_content }
       else
-        format.html { render :edit }
+        format.html { redirect_to admin_people_url, notice: 'Cadastro não atualizado com sucesso.' }
         format.json { render json: @person.errors, status: :unprocessable_entity }
         format.js   { render action: 'message' }
       end
