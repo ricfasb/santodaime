@@ -29,7 +29,7 @@ class Admin::PeopleController < Admin::AdminController
     if request.xhr?      
       unless @people.nil?
 #        render :json => { :people => @people.to_json(:include => :category, :methods => [:photo]), :message => 'OK' }
-        render :json => { :people => @people.to_json(:include => :category), :message => 'OK' }
+#        render :json => { :people => @people.to_json(:include => :category), :message => 'OK' }
         render :json => { :people => @people.to_json(:only => [ :id, :name, :fingerprint ], :include => :category), 
                           :message => 'OK' }
       end
