@@ -1,54 +1,50 @@
 <%= form_for [:admin, @checkin], :html => { remote: true, :class => "form-horizontal checkin" } do |f| %>
+  
+  <div class="row">
+    <div class="col-12">
 
-  <div class="content">  
-    <div class="container-fluid">
-      <div class="row justify-content-center d-flex align-items-center">
-        <div class="col-12">
+      <div class="row justify-content-center d-flex align-items-center">            
+        <div class="col-2">
+          <div id="divImagemFoto"></div>
+        </div>
+        <div class="col-4">              
+          <div class="row"><div class="col nome"></div></div>
+          <div class="row"><div class="col categoria"></div></div>
+          <div class="row"><div class="col mensagem"></div></div>
+        </div> 
+      </div> 
 
-          <div class="row justify-content-center d-flex align-items-center">            
-            <div class="col-2">
-              <div id="divImagemFoto"></div>
-            </div>
-            <div class="col-4">              
-              <div class="row"><div class="col nome"></div></div>
-              <div class="row"><div class="col categoria"></div></div>
-              <div class="row"><div class="col mensagem"></div></div>
-            </div> 
-          </div> 
-
-          <div class="row">
-            <div class="col-12" align="center">
-              <applet id="NitgenApplet" name="NitgenApplet" codebase="/" code="br.com.sistemabinario.biometria.NitgenApplet.class" archive="NitgenApplet.jar?v=1" width="360" height="170">
-                <param name="Caller-Allowable-Codebase" value = "*">
-                    <param name="Permissions" value="all-permissions" />
-                    <param name="separate_jvm" value="true"/>
-              </applet>
-            </div>
-          </div>
-
-          <div class="row justify-content-center d-flex align-items-center">
-            <div class="col-4 togglebutton" align="left">              
-                <label>
-                  <%= check_box  'auto', 'bio' %>                                  
-                    <span class="toggle"></span>Ative para modo automático
-                </label>              
-            </div>
-          </div>
-          <br/>
-          <div class="row">
-            <div class="col" align="center">
-              <div class="btn-group">                 
-                <button type="button" class="btn btn-warning" id="btnLimpar">Limpar Tela</button>                            
-                <button type="button" class="btn btn-success" id="btnIniciarApplet">Iniciar checkin</button>                            
-              </div>
-            </div>
-          </div> 
-        
-          <%= f.hidden_field :person_id %>
-          <%= f.hidden_field :company_id %>
-
+      <div class="row">
+        <div class="col-12" align="center">
+          <applet id="NitgenApplet" name="NitgenApplet" codebase="/" code="br.com.sistemabinario.biometria.NitgenApplet.class" archive="NitgenApplet.jar?v=1" width="360" height="170">
+            <param name="Caller-Allowable-Codebase" value = "*">
+                <param name="Permissions" value="all-permissions" />
+                <param name="separate_jvm" value="true"/>
+          </applet>
         </div>
       </div>
+
+      <div class="row justify-content-center d-flex align-items-center" style="visibility: hidden">
+        <div class="col-4 togglebutton" align="left">              
+            <label>
+              <%= check_box  'auto', 'bio' %>                                  
+                <span class="toggle"></span>Ative para modo automático
+            </label>              
+        </div>
+      </div>
+      <br/>
+      <div class="row">
+        <div class="col" align="center">
+          <div class="btn-group">                 
+            <button type="button" class="btn btn-warning" id="btnLimpar">Limpar Tela</button>                            
+            <button type="button" class="btn btn-success" id="btnIniciarApplet">Iniciar checkin</button>                            
+          </div>
+        </div>
+      </div> 
+    
+      <%= f.hidden_field :person_id %>
+      <%= f.hidden_field :company_id %>
+
     </div>
   </div>
 <% end %>
@@ -270,6 +266,9 @@
             if( $( '#tableDebitos > tfoot' ).length === 0 )
               $( '#tableDebitos').append(tfoot);
           }
+          $(".form-check-input").on("change", function(event){
+            calculaValor();
+          });
 
           if( $('#auto_bio').is(":checked") ){
             setTimeout(function() {
@@ -295,6 +294,20 @@
         }
       });
     };    
+
+    var calculaValor = function(event){
+      var table = $('#tableDebitos');
+      var total = 0.0;
+
+      table.find('tbody').find('tr').each(function(indice){
+        var row = $(this);
+        if(row.find('input[type="checkbox"]').is(':checked')) {
+          total += moeda2float($(this).find("td").eq(4).text());
+        }
+      });
+
+      $("#vlrTotal").text("Total R$ " + float2moeda(total) );
+    }
     
     var payment = function(event) {
       var table = $('#tableDebitos');
@@ -346,9 +359,13 @@
       var found = new Boolean(false);
       var person = null;
 
-      $.each(people, function(i, item) {               
-        if(buscaBiometria(people[i].fingerprint, fingerprint) ){
-          found = true;
+      $.each(people, function(i, item) {      
+        var verificaBiometria = buscaBiometria(people[i].fingerprint, fingerprint);          
+        verificaBiometria.done(function(result) {
+          found = result;
+        });
+        
+        if( found === true ){          
           person = people[i];                          
           return false;              
         }             
@@ -386,8 +403,14 @@
     });
 
     function buscaBiometria(biometria, template){
+      var deferred = $.Deferred();
+	    var result = false;
+
       var isBiometria = iniciarApplet();
-      return document.NitgenApplet.buscaBiometria(biometria, template);      
+      result = document.NitgenApplet.buscaBiometria(biometria, template);      
+
+      deferred.resolve(result);
+      return deferred.promise();
     }
     
     function autenticacaoBiometrica(){

@@ -1,1 +1,1 @@
-json.partial! "checkins/checkin", checkin: @checkin
+json.array! message: "OK"

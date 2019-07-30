@@ -8,7 +8,7 @@ class Admin::PeopleController < Admin::AdminController
   
   layout "admin"
 
-  before_action :set_person, only: [:show, :edit, :update, :destroy]
+  before_action :set_person, only: [:show, :edit, :update, :destroy, :show_image]
   before_action :set_people, only: [:birthdays_month, :exportar_pdf]
   before_action :authenticate_user!, :except => [:get_cep, :create, :search_by_email, :show]
 
@@ -25,10 +25,11 @@ class Admin::PeopleController < Admin::AdminController
   
   def search_fingerprint    
     @people = Person.all.where("fingerprint IS NOT NULL")
-
+    #Base64.encode64(str)
     if request.xhr?      
-      unless @people.nil?
-        render :json => { :people => @people.to_json(:include => :category, :methods => [:photo]),                        
+      unless @people.nil?        
+#        render :json => { :people => @people.to_json(:include => :category, :methods => [:photo]), :message => 'OK' }
+        render :json => { :people => @people.to_json(:only => [ :id, :name, :fingerprint, :photo => :photo_file.force_encoding('BINARY') ], :include => :category), 
                           :message => 'OK' }
       end
     else
@@ -104,16 +105,17 @@ class Admin::PeopleController < Admin::AdminController
 
     if data.present?
       image_data = Base64.decode64(data['data:image/png;base64,'.length .. -1])
+      @person.photo_file = image_data
 
-      IO.binwrite("#{Rails.root}/public/system/people/photos/photo.png", image_data)
+#      IO.binwrite("#{Rails.root}/public/system/people/photos/photo.png", image_data)
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-      File.open("#{Rails.root}/public/system/people/photos/photo.png", 'wb') do |f|
-        f.write image_data
-      end    
+#      File.open("#{Rails.root}/public/system/people/photos/photo.png", 'wb') do |f|
+#        f.write image_data
+#      end    
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-      file = File.open("#{Rails.root}/public/system/people/photos/photo.png")
-      @person.photo = file
-      file.close
+#      file = File.open("#{Rails.root}/public/system/people/photos/photo.png")
+#      @person.photo = file
+#      file.close
     end
 
     @person.address.addressable = @person #<<<<<<<< Necessario
@@ -149,26 +151,35 @@ class Admin::PeopleController < Admin::AdminController
   def update
     respond_to do |format|
       data = params[:data_uri]
-
+    
       if data.present?
         image_data = Base64.decode64(data['data:image/png;base64,'.length .. -1])
+        @person.photo_file = image_data
+        params[:photo_file] = image_data
+        person_params[:photo_file] = image_data
+        
+#        dirname = File.dirname("#{Rails.root}/public/system/people/photos/photo.png")
+#        unless File.directory?(dirname)
+#          FileUtils.mkdir_p(dirname)
+#        end
 
-        IO.binwrite("#{Rails.root}/public/system/people/photos/photo.png", image_data)
-      
-        File.open("#{Rails.root}/public/system/people/photos/photo.png", 'wb') do |f|
-          f.write image_data
-        end    
+#        IO.binwrite("#{Rails.root}/public/system/people/photos/photo.png", image_data)                      
+#        File.open("#{Rails.root}/public/system/people/photos/photo.png", 'wb') do |f|
+#          f.write image_data
+#        end    
 
-        file = File.open("#{Rails.root}/public/system/people/photos/photo.png")
-        @person.photo = file
-        file.close
+#        file = File.open("#{Rails.root}/public/system/people/photos/photo.png")
+#        @person.photo = file
+#        file.close
+      else
+        @person.photo_file = nil
       end
 
       if @person.update(person_params)
         format.html { redirect_to admin_people_url, notice: 'Cadastro atualizado com sucesso.' }
         format.json { head :no_content }
       else
-        format.html { render :edit }
+        format.html { redirect_to admin_people_url, notice: 'Cadastro não atualizado com sucesso.' }
         format.json { render json: @person.errors, status: :unprocessable_entity }
         format.js   { render action: 'message' }
       end
@@ -200,6 +211,10 @@ class Admin::PeopleController < Admin::AdminController
     render :no_content 
   end
 
+  def show_image    
+    send_data @person.photo_file, :type => 'image/png', :disposition => 'inline'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_person
@@ -212,10 +227,12 @@ class Admin::PeopleController < Admin::AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def person_params
-      params.require(:person).permit(:name, :email, :photo, :date_born, :date_enroll, :height, :rg, :cpf, :telephone_residence, :smartphone_number, :telephone_message, :message_person, :facebook, :father_name, :mother_name, :category_id, :marital_state_id, :wifes_name, :among_sun, :degree_education_id, :course, :motive, :complementary_information, :fingerprint, :on_line, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id], :driver_license_attributes => [:licensable_id, :licensable_type, :number_cnh, :category_cnh, :date_issue, :expering_date], :occupation_attributes =>[:occupatiable_id, :occupatiable_type, :description, :experience_time, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id]], :deficiency_person_attributes => [:deficiencable_id, :deficiencable_type, :chronic_disease, :controlled_medication] )
+      params.require(:person).permit(:name, :email, :photo, :photo_file, :date_born, :date_enroll, :height, :rg, :cpf, :telephone_residence, :smartphone_number, :telephone_message, :message_person, :facebook, :father_name, :mother_name, :category_id, :marital_state_id, :wifes_name, :among_sun, :degree_education_id, :course, :motive, :complementary_information, :fingerprint, :on_line, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id], :driver_license_attributes => [:licensable_id, :licensable_type, :number_cnh, :category_cnh, :date_issue, :expering_date], :occupation_attributes =>[:occupatiable_id, :occupatiable_type, :description, :experience_time, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id]], :deficiency_person_attributes => [:deficiencable_id, :deficiencable_type, :chronic_disease, :controlled_medication] )
     end
 
-    def photo
-      self.photo.url(:thumb)
-    end
+#    def photo_file
+      #self.photo.url(:thumb)      
+#      encoded_string = Base64.encode64(self.photo_file).read.encode('utf-8') 
+#    end
+  
 end
