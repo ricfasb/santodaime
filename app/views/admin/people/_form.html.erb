@@ -1,5 +1,5 @@
 <%- model_class = Person -%>
-<%= form_for [:admin, @person], :multipart => true, :html => { :class => "form-horizontal person" } do |f| %>
+<%= form_for [:admin, @person], :multipart => true, :html => { remote: true, :class => "form-horizontal person" } do |f| %>
   
   <% content_for :head do %>
     <%= javascript_include_tag 'notify' %>
