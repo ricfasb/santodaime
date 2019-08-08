@@ -4,8 +4,8 @@ class Person < ActiveRecord::Base
   #validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
 
   belongs_to :category  
-  belongs_to :marital_state
-  belongs_to :degree_education
+  belongs_to :marital_state, optional: true
+  belongs_to :degree_education, optional: true
 
   has_one :address,           as: :addressable,   :dependent => :destroy
   has_one :driver_license,    as: :licensable,    :dependent => :destroy

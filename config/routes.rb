@@ -1,5 +1,8 @@
 Rails.application.routes.draw do  
 
+  resources :profile_permissions
+  resources :permissions
+  resources :profiles
   namespace :admin do
     resources :invoice_types
   end

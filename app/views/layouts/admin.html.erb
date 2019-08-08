@@ -114,12 +114,44 @@
                             <p>Relatórios</p>
                         </a>
                     </li>-->  
-                    <!--<li id="liUsuarios" class="<%= active_class(admin_people_path) %>">
-                        <a href="/admin/people">
-                            <i class="material-icons">person</i>
-                            <p>Usuários</p>
+                    
+                    <li class="nav-item ">
+                        <a class="nav-link collapsed" data-toggle="collapse" href="#formsExamples" aria-expanded="false">
+                        <i class="material-icons">lock</i>
+                        <p> Segurança
+                            <b class="caret"></b>
+                        </p>
                         </a>
-                    </li>-->                 
+                        <div class="collapse" id="formsExamples" style="">
+                        <ul class="nav">
+                            <li class="nav-item ">
+                            <a class="nav-link" href="../examples/forms/validation.html">
+                                <span class="sidebar-mini"> US </span>
+                                <span class="sidebar-normal"> Usuários </span>
+                            </a>
+                            </li>
+                            <li class="nav-item ">
+                            <a class="nav-link" href="../examples/forms/validation.html">
+                                <span class="sidebar-mini"> NU </span>
+                                <span class="sidebar-normal"> Novo Usuário </span>
+                            </a>
+                            </li>
+                            <li class="nav-item ">
+                            <a class="nav-link" href="#">
+                                <span class="sidebar-mini"> PE </span>
+                                <p class="sidebar-normal"> Perfis </p>
+                            </a>
+                            </li>
+                            <li class="nav-item ">
+                            <a class="nav-link" href="#">
+                                <span class="sidebar-mini"> PM </span>
+                                <p class="sidebar-normal"> Permissões </p>
+                            </a>
+                            </li>
+                        </ul>
+                        </div>
+                    </li>
+                    
                     <li id="liLogout">
                         <a href="/users/sign_out" data-method="delete" >
                             <i class="material-icons text-gray">power_settings_new</i>

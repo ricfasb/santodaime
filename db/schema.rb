@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190728113614) do
+ActiveRecord::Schema.define(version: 20190808021134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -229,10 +229,32 @@ ActiveRecord::Schema.define(version: 20190728113614) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "permissions", force: :cascade do |t|
+    t.string   "description"
+    t.string   "screen",      limit: 50
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
   create_table "photos", force: :cascade do |t|
     t.integer "person_id"
     t.string  "style"
     t.binary  "file_contents"
+  end
+
+  create_table "profile_permissions", force: :cascade do |t|
+    t.integer  "profile_id"
+    t.integer  "permission_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["permission_id"], name: "index_profile_permissions_on_permission_id", using: :btree
+    t.index ["profile_id"], name: "index_profile_permissions_on_profile_id", using: :btree
+  end
+
+  create_table "profiles", force: :cascade do |t|
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "states", force: :cascade do |t|
@@ -307,6 +329,8 @@ ActiveRecord::Schema.define(version: 20190728113614) do
   add_foreign_key "people", "driver_licenses"
   add_foreign_key "people", "marital_states"
   add_foreign_key "people", "occupations"
+  add_foreign_key "profile_permissions", "permissions"
+  add_foreign_key "profile_permissions", "profiles"
   add_foreign_key "tuition_people", "people"
   add_foreign_key "tuition_people", "tuitions"
   add_foreign_key "tuitions", "emails"

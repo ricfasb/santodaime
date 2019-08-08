@@ -1,0 +1,27 @@
+<%= form_for(profile_permission) do |f| %>
+  <% if profile_permission.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(profile_permission.errors.count, "error") %> prohibited this profile_permission from being saved:</h2>
+
+      <ul>
+      <% profile_permission.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :profile_id %>
+    <%= f.text_field :profile_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :permission_id %>
+    <%= f.text_field :permission_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
