@@ -1,0 +1,23 @@
+<%- model_class = Profile -%>
+<%= form_for [:admin, @profile], :html => { remote: true, :class => "form-horizontal profile" } do |f| %>
+
+  <div class="row justify-content-center d-flex align-items-center">    
+    <div class="col-8">      
+      <%= f.label 'Descrição:', :class => 'control-label' %>
+      <%= f.text_field :description, :placeholder => 'Informe o nome do perfil', :class => 'form-control' %>              
+    </div>
+
+    <div class="col-2">
+      <% unless @profile.description.nil? %>
+        <div class="btn-group">          
+          <%= f.submit nil, :class => 'btn btn-sm btn-success' %>
+          <a class="btn btn-sm btn-default" href="/admin/profiles/">Cancelar</a>
+        </div>
+      <% else %>
+        <%= f.submit nil, :class => 'btn btn-sm btn-success' %>
+      <% end %>
+    </div>
+    <div class="col-1"></div>
+  </div>
+
+<% end %>

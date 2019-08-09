@@ -1,4 +1,7 @@
-class ProfilePermissionsController < ApplicationController
+class Admin::ProfilePermissionsController < Admin::AdminController
+
+  layout 'admin'
+  
   before_action :set_profile_permission, only: [:show, :edit, :update, :destroy]
 
   # GET /profile_permissions

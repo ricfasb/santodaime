@@ -1,4 +1,7 @@
-class PermissionsController < ApplicationController
+class Admin::PermissionsController < Admin::AdminController
+
+  layout 'admin'
+
   before_action :set_permission, only: [:show, :edit, :update, :destroy]
 
   # GET /permissions
@@ -28,8 +31,8 @@ class PermissionsController < ApplicationController
 
     respond_to do |format|
       if @permission.save
-        format.html { redirect_to @permission, notice: 'Permission was successfully created.' }
-        format.json { render :show, status: :created, location: @permission }
+        format.html { redirect_to new_admin_permission_path, notice: 'Permissão criada com sucesso.' }
+        format.json { render :new, status: :created, location: @permission }
       else
         format.html { render :new }
         format.json { render json: @permission.errors, status: :unprocessable_entity }
@@ -69,6 +72,6 @@ class PermissionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def permission_params
-      params.require(:permission).permit(:description, :screen)
+      params.require(:permission).permit(:description, :screen, :father)
     end
 end

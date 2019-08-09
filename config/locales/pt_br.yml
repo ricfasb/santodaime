@@ -9,7 +9,10 @@
       checkin: Check-in
       invoice: Cobrança
       tuition: Mensalidade
+      profile: Perfil
     attributes:
+      profile:
+        description: Descrição
       category:
         id: Código
         description: Decrição

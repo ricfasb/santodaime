@@ -1,0 +1,8 @@
+
+<% if @profile.errors.any? %>
+
+    <% @profile.errors.full_messages.each do |message| %>
+        $.notify("<%= escape_javascript(message)%>", "error" );
+    <% end %>
+
+<% end %>

@@ -3,8 +3,8 @@ class CreatePermissions < ActiveRecord::Migration[5.0]
     create_table :permissions do |t|
       t.string :description
       t.string :screen, limit: 50
-
-      t.timestamps
+      t.integer :father
+      
     end
   end
 end
