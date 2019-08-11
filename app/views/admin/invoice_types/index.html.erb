@@ -1,26 +1,49 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header card-header-success" data-background-color="green">
+        <div class="row">
+          <div class="col">
+            <h4 class="title">Tipos de Cobrança</h4>                
+          </div>              
+        </div>
+      </div>  
 
-<h1>Admin Invoice Types</h1>
+      <div class="row justify-content-center d-flex align-items-center">
+        <div class="col-11">
+          <div class="card-content table-responsive">
+            
+            <%= render :partial => 'form' %> 
 
-<table>
-  <thead>
-    <tr>
-      <th>Description</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Descrição</th>
+                  <th colspan="2"></th>
+                </tr>
+              </thead>
 
-  <tbody>
-    <% @admin_invoice_types.each do |admin_invoice_type| %>
-      <tr>
-        <td><%= admin_invoice_type.description %></td>        
-        <td><%= link_to 'Edit', edit_admin_invoice_type_path(admin_invoice_type) %></td>
-        <td><%= link_to 'Destroy', admin_invoice_type_path(admin_invoice_type), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+              <tbody>
+                <% @invoice_types.each do |invoice_type| %>
+                  <tr>
+                    <td><%= invoice_type.description %></td>
+                    <td>
+                    <%= link_to 'Remover', admin_invoice_type_path(invoice_type), method: :delete, data: { confirm: 'Tem certeza que deseja remover este tipo de cobrança?' } %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+            <br/>
+          </div>
+        </div>
+      </div>      
+    </div>
+  </div>
+</div>
 
-<br>
-
-<%= link_to 'New Admin Invoice Type', new_admin_invoice_type_path %>
+<script> 
+  jQuery(function($){
+    $.notify("<%= notice %>", "success" );
+  });
+</script>

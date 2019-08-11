@@ -1,0 +1,65 @@
+<%= form_for [:admin, @product], :html => { remote: true, :class => "form-horizontal product" } do |f| %>
+
+  <% content_for :head do %>
+    <%= javascript_include_tag 'notify' %>
+  <% end %>
+
+  <div class="row">
+    <div class="col-10">
+
+      <%= f.hidden_field :company_id %>
+
+      <div class="row">
+        <%= f.label 'Nome:', :class => 'col-2 col-form-label' %>
+        <div class="col-10">
+          <%= f.text_field :name, :placeholder => 'Informe o nome do produto', :class => 'form-control'  %>
+        </div>
+      </div>
+
+      <div class="row">
+        <%= f.label 'Descrição:', :class => 'col-2 col-form-label' %>
+        <div class="col-10">
+          <%= f.text_field :description, :placeholder => 'Informe a descrição', :class => 'form-control' %>
+        </div>
+      </div>
+
+      <div class="row">
+        <%= f.label 'Quantidade:', :class => 'col-2 col-form-label' %>
+        <div class="col-2">          
+          <%= f.number_field :quantity, class: "form-control" %>
+        </div>
+
+        <%= f.label 'Valor:', :class => 'col-2 col-form-label' %>
+        <div class="col-2">          
+          <%= f.text_field :amount, :placeholder => 'R$ 0,00', value: sprintf('%.2f', f.object.amount.to_f).gsub(/\./, ','), class: "mask-money form-control" %>
+        </div>
+      </div>
+
+      <div class="btn-group pull-right">
+        <%= f.submit nil, :class => 'btn btn-success' %>
+        <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                  admin_products_path, :class => 'btn btn-danger' %>
+      </div>
+      
+    </div>
+  </div>
+
+<% end %>
+
+<script> 
+  jQuery(function($){
+    $('#liProduto').addClass("active"); 
+
+    $(".mask-money").maskMoney(
+      { 
+        prefix: '',
+        includeThousandsSeparator: true,
+        thousands:'',
+        allowDecimal: true,
+        decimalSymbol: ',',
+        integerLimit: 2,
+        requireDecimal: true
+      }
+    );
+  });
+</script> 

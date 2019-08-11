@@ -66,6 +66,44 @@
                             <p>Pessoas</p>
                         </a>
                     </li>
+                    <li id="liProduto" class="<%= active_class(admin_products_path) %>">
+                        <a href="/admin/products">
+                            <i class="material-icons">add_shopping_cart</i>
+                            <p>Produtos</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item ">
+                        <a class="nav-link collapsed" data-toggle="collapse" href="#mnEmprestimo" aria-expanded="false">
+                        <i class="material-icons">date_range</i>
+                        <p> Empréstimos
+                            <b class="caret"></b>
+                        </p>
+                        </a>
+                        <div class="collapse" id="mnEmprestimo" style="">
+                        <ul class="nav">
+                            <li id="liNovoEmprestimo" class="nav-item ">
+                                <a class="nav-link" href="/admin/leans/new">
+                                    <span class="sidebar-mini"> EM </span>
+                                    <span class="sidebar-normal"> Emprestar </span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/admin/leans">
+                                    <span class="sidebar-mini"> PE </span>
+                                    <span class="sidebar-normal"> Emprestados </span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#">
+                                    <span class="sidebar-mini"> PM </span>
+                                    <p class="sidebar-normal"> Devolvidos </p>
+                                </a>
+                            </li>
+                        </ul>
+                        </div>
+                    </li>
+                    
                     <li id="liEmail" class="<%= active_class(admin_emails_path) %>">
                         <a href="/admin/emails">
                             <i class="material-icons">mailn</i>
@@ -78,10 +116,10 @@
                             <p>Livro Caixa</p>
                         </a>
                     </li>                  
-                    <li id="liSaida">
-                        <a href="#">
+                    <li id="liDespesa" class="<%= active_class(admin_expenses_path) %>">
+                        <a href="/admin/expenses">
                             <i class="material-icons">unarchive</i>
-                            <p>Saídas</p>
+                            <p>Despesas</p>
                         </a>
                     </li>                                                                         
                     <li id="liCheckIn" class="<%= active_class(new_admin_checkin_path) %>">
@@ -94,6 +132,12 @@
                         <a href="/admin/invoices">
                             <i class="material-icons">attach_money</i>
                             <p>Cobranças</p>
+                        </a>
+                    </li> 
+                    <li id="liTiposCobranca" class="<%= active_class(admin_invoice_types_path) %>">
+                        <a href="/admin/invoice_types">
+                            <i class="material-icons">euro_symbol</i>
+                            <p>Tipos de Cobrança</p>
                         </a>
                     </li> 
                     <li id="liMensalidade" class="<%= active_class(admin_tuitions_path) %>">
@@ -137,19 +181,13 @@
                             </a>
                             </li>
                             <li class="nav-item ">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="/admin/profiles">
                                 <span class="sidebar-mini"> PE </span>
                                 <span class="sidebar-normal"> Perfis </span>
                             </a>
                             </li>
                             <li class="nav-item ">
-                            <a class="nav-link" href="#">
-                                <span class="sidebar-mini"> PM </span>
-                                <p class="sidebar-normal"> Permissões </p>
-                            </a>
-                            </li>
-                            <li class="nav-item ">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="/admin/profile_permissions">
                                 <span class="sidebar-mini"> PM </span>
                                 <p class="sidebar-normal"> Permissões por Perfil </p>
                             </a>

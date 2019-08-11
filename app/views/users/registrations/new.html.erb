@@ -28,6 +28,13 @@
                       </div>
                     </div>
                     <div class="row"> 
+                      <div class="col-lg-12">
+                        <%= collection_select(:profile_id, :id, Profile.all.order(:description), :id, :description,
+                        {:prompt => 'Perfil'}, {:class => 'custom-select', data: {style: "btn btn-primary"}}) %>  
+                      </div>
+                    </div>
+
+                    <div class="row"> 
                       <div class="col-lg-12">                       
                         <div class="btn-group pull-right">
                           <%= f.submit nil, :class => 'btn btn-success' %>                          

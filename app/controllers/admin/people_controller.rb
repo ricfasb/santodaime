@@ -196,14 +196,14 @@ class Admin::PeopleController < Admin::AdminController
     end
   end
 
-  def exportar_pdf
+  def birthdays_month
     xml_data = render_to_string('birthdays_month.xml.builder', layout: false)
     @company = Company.find(2)  
     encoded_string = Base64.encode64("#{@company.name}#RS##{@company.telephone}#RS# ")
     send_doc(xml_data, '/people/person', 'birthdays_month.jasper', "Aniversariantes do mês", encoded_string, "pdf")  
   end
 
-  def birthdays_month    
+  def exportar_pdf
     render('birthday.xml.builder', layout: false)
   end
 
@@ -222,7 +222,7 @@ class Admin::PeopleController < Admin::AdminController
     end
 
     def set_people
-      @people = Person.all      
+      @people = Person.where('date_born IS NOT NULL and EXTRACT(month FROM date_born) = ?', Time.now.month)     
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

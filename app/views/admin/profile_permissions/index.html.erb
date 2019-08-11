@@ -1,29 +1,113 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header card-header-success" data-background-color="green">
+        <div class="row">
+          <div class="col">
+            <h4 class="title">Permissões por perfil</h4>                
+          </div>              
+        </div>
+      </div>  
 
-<h1>Profile Permissions</h1>
+      <br/>
+      <div class="row justify-content-center d-flex align-items-center"> 
+        <div class="col-10">
+          <%= collection_select(:profile, :id, Profile.all.order(:description), :id, :description,
+          {:prompt => 'Selecione o perfil'}, {:class => 'custom-select', data: {style: "btn btn-primary"}}) %>  
+        </div>
+      </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Profile</th>
-      <th>Permission</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+      <div class="row justify-content-center d-flex align-items-center">
+        <div class="col-11">
+          <div class="card-content table-responsive">                      
+            <br/>
+            <table class="table table-striped">
+              <tbody>
+                <% @permissions.each do |permission| %>    
+                  <% if permission.father.nil? %>  
+                  <tr>             
+                    <td width="5%" >
+                      <div class="form-check">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value=<%= permission.id %> >&nbsp;
+                          <span class="form-check-sign">
+                            <span class="check"></span>
+                          </span>
+                        </label>
+                      </div>
+                    </td>
+                    <td style="font-weight: bold"><%= permission.description %></td>
+                    <td></td>
+                  </tr>
+                  <% end %>
+                  <% @permissions.each do |perm| %> 
+                    <% if perm.father == permission.id %>
+                      <tr>
+                        <td width="5%" style="padding-left: 50px">                          
+                        </td>
+                        <td
+                          <div>
+                            <input type="checkbox" value=<%= perm.id %>>&nbsp; <%= perm.description %>
+                          </div>                          
+                        </td>
+                        <td></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+            <br/>
+          </div>
+        </div>
+      </div>     
+      <div class="row" id="rowButtons"> 
+        <div class="col-11"> 
+          <div class="btn-group pull-right">        
+            <button id="btnGravar" class="btn btn-success">Gravar</button>
+            <button id="btnCancelar" class="btn btn-danger">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <tbody>
-    <% @profile_permissions.each do |profile_permission| %>
-      <tr>
-        <td><%= profile_permission.profile %></td>
-        <td><%= profile_permission.permission %></td>
-        <td><%= link_to 'Show', profile_permission %></td>
-        <td><%= link_to 'Edit', edit_profile_permission_path(profile_permission) %></td>
-        <td><%= link_to 'Destroy', profile_permission, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<script> 
+  jQuery(function($){
+    $.notify("<%= notice %>", "success" );
+    
+    $("#profile_id").on("change", function(event) {
+      var profile_id = $("#profile_id").val();
+      if( profile_id == 1 ){
+        $('#rowButtons').css("visibility", "hidden");
+      }else{
+        $('#rowButtons').css("visibility", "visible");
+      }
 
-<br>
+      get_permissions(event);
+    });
 
-<%= link_to 'New Profile Permission', new_profile_permission_path %>
+    var get_permissions = function(event) {           
+      var profile_id = $("#profile_id").val();
+
+      $.ajax({
+        url: "/admin/profile_permissions/" + profile_id +"/get_permissions/",
+        type: "GET",
+        data: {"profile_id" : profile_id},
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON;                            
+          var profile_permissions = json.profile_permissions;
+
+          for (var i = 0; i < profile_permissions.length; i++) {
+            alert( profile_permissions[i].id );
+          }
+        },
+        error: function(o, status, error) {
+          var json = o.responseJSON;          
+        }
+      });
+    }; 
+
+  });
+</script>

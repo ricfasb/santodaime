@@ -1,0 +1,8 @@
+
+<% if @invoice_type.errors.any? %>
+
+    <% @invoice_type.errors.full_messages.each do |message| %>
+        $.notify("<%= escape_javascript(message)%>", "error" );
+    <% end %>
+
+<% end %>

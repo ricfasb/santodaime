@@ -10,21 +10,18 @@
                 </div>
                 <div class="col" align="right">
 
-                  <%= link_to raw('<i class="material-icons">thumb_down</i>'),
-                    new_admin_checkin_path, 
-                    :style => "margin-left: 35px",
-                    :class => 'btn btn-success btn-round btn-fab' %>
+                  <button class="btn btn-success btn-round btn-fab" id="btnNotCheckins">
+                    <i class="material-icons">thumb_down</i>
+                  </button>
 
-                  <%= link_to raw('<i class="material-icons">thumb_up</i>'),
-                    new_admin_checkin_path, 
-                    :style => "margin-left: 35px",
-                    :class => 'btn btn-success btn-round btn-fab' %>
+                  <button class="btn btn-success btn-round btn-fab" id="btnCheckins">
+                    <i class="material-icons">thumb_up</i>
+                  </button>
+                  
+                  <button class="btn btn-success btn-round btn-fab" id="btnNewCheckin">
+                    <i class="material-icons">add</i>
+                  </button>  
 
-                  <%= link_to raw('<i class="material-icons">add</i>'),
-                    new_admin_checkin_path, 
-                    :style => "margin-left: 35px",
-                    :class => 'btn btn-success btn-round btn-fab' %>
-                    
                 </div>
               </div>
             </div>
@@ -107,6 +104,22 @@
 
 <script>
 jQuery(function($){
-  md.initFormExtendedDatetimepickers();
+  md.initFormExtendedDatetimepickers();  
+
+  $('#btnNewCheckin').on("click", function(event) {   
+    var url = "/admin/checkins/new";
+    $(location).attr("href", url);          
+  });
+
+  $('#btnCheckins').on("click", function(event) {   
+    var dataInicial = $('#q_created_at_gteq').val();
+    var dataFinal = $('#q_created_at_lteq').val();
+
+    var url = "/admin/checkins/checkins_pdf?initial_date="+dataInicial+"&final_date="+dataFinal;
+    window.open(url, '_blank');    
+
+    event.preventDefault();             
+  });
+  
 });    
 </script>

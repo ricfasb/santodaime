@@ -41,7 +41,7 @@
                   <%= f.password_field :password, :placeholder => 'Senha',  :class => 'form-control', autocomplete: "off" %>
                 </div>
               </div>
-
+              
               <% if devise_mapping.rememberable? -%>
                 <div class="row">
                   <div class="col-6">
@@ -61,7 +61,7 @@
                 <div class="col-12 btn-group-vertical" align="center" style="margin-bottom: 15px;">
                   <%= f.submit 'Acessar', :class => 'btn btn-success' %>
                   <%= link_to 'Efetuar cadastro',
-                      register_new_path, :class => 'btn btn-warning' %>
+                      '#', :class => 'btn btn-warning' %>
                 </div>
               </div>              
           </div>

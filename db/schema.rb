@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190808021134) do
+ActiveRecord::Schema.define(version: 20190810183724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20190808021134) do
     t.float    "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "identifier"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -123,6 +124,17 @@ ActiveRecord::Schema.define(version: 20190808021134) do
     t.index ["person_id"], name: "index_emails_on_person_id", using: :btree
   end
 
+  create_table "expenses", force: :cascade do |t|
+    t.integer  "company_id"
+    t.string   "description"
+    t.string   "observation"
+    t.string   "provider"
+    t.float    "amount"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["company_id"], name: "index_expenses_on_company_id", using: :btree
+  end
+
   create_table "invoice_types", force: :cascade do |t|
     t.string   "description"
     t.datetime "created_at",  null: false
@@ -135,13 +147,36 @@ ActiveRecord::Schema.define(version: 20190808021134) do
     t.string   "description"
     t.date     "due_date"
     t.float    "amount"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
     t.datetime "pay_day"
     t.float    "discount"
     t.string   "amount_paied"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.index ["invoice_type_id"], name: "index_invoices_on_invoice_type_id", using: :btree
     t.index ["person_id"], name: "index_invoices_on_person_id", using: :btree
+  end
+
+  create_table "lean_people", force: :cascade do |t|
+    t.integer  "lean_id"
+    t.integer  "person_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lean_id"], name: "index_lean_people_on_lean_id", using: :btree
+    t.index ["person_id"], name: "index_lean_people_on_person_id", using: :btree
+  end
+
+  create_table "leans", force: :cascade do |t|
+    t.integer  "company_id"
+    t.integer  "person_id"
+    t.integer  "product_id"
+    t.date     "expected_return"
+    t.integer  "quantity"
+    t.date     "returned"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["company_id"], name: "index_leans_on_company_id", using: :btree
+    t.index ["person_id"], name: "index_leans_on_person_id", using: :btree
+    t.index ["product_id"], name: "index_leans_on_product_id", using: :btree
   end
 
   create_table "marital_states", force: :cascade do |t|
@@ -230,31 +265,31 @@ ActiveRecord::Schema.define(version: 20190808021134) do
   end
 
   create_table "permissions", force: :cascade do |t|
-    t.string   "description"
-    t.string   "screen",      limit: 50
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string  "description"
+    t.string  "screen",      limit: 50
+    t.integer "father"
   end
 
-  create_table "photos", force: :cascade do |t|
-    t.integer "person_id"
-    t.string  "style"
-    t.binary  "file_contents"
+  create_table "products", force: :cascade do |t|
+    t.integer  "company_id"
+    t.string   "name"
+    t.string   "description"
+    t.integer  "quantity"
+    t.float    "amount"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["company_id"], name: "index_products_on_company_id", using: :btree
   end
 
   create_table "profile_permissions", force: :cascade do |t|
-    t.integer  "profile_id"
-    t.integer  "permission_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.integer "profile_id"
+    t.integer "permission_id"
     t.index ["permission_id"], name: "index_profile_permissions_on_permission_id", using: :btree
     t.index ["profile_id"], name: "index_profile_permissions_on_profile_id", using: :btree
   end
 
   create_table "profiles", force: :cascade do |t|
-    t.string   "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string "description"
   end
 
   create_table "states", force: :cascade do |t|
@@ -267,7 +302,7 @@ ActiveRecord::Schema.define(version: 20190808021134) do
   create_table "tuition_people", force: :cascade do |t|
     t.integer  "person_id"
     t.integer  "tuition_id"
-    t.datetime "due_date"
+    t.date     "due_date"
     t.datetime "pay_day"
     t.string   "status_payment", limit: 50
     t.float    "discount"
@@ -303,7 +338,9 @@ ActiveRecord::Schema.define(version: 20190808021134) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.integer  "profile_id"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["profile_id"], name: "index_users_on_profile_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
@@ -317,8 +354,14 @@ ActiveRecord::Schema.define(version: 20190808021134) do
   add_foreign_key "emails", "categories"
   add_foreign_key "emails", "companies"
   add_foreign_key "emails", "people"
+  add_foreign_key "expenses", "companies"
   add_foreign_key "invoices", "invoice_types"
   add_foreign_key "invoices", "people"
+  add_foreign_key "lean_people", "leans"
+  add_foreign_key "lean_people", "people"
+  add_foreign_key "leans", "companies"
+  add_foreign_key "leans", "people"
+  add_foreign_key "leans", "products"
   add_foreign_key "occupations", "addresses"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "people"
@@ -329,9 +372,11 @@ ActiveRecord::Schema.define(version: 20190808021134) do
   add_foreign_key "people", "driver_licenses"
   add_foreign_key "people", "marital_states"
   add_foreign_key "people", "occupations"
+  add_foreign_key "products", "companies"
   add_foreign_key "profile_permissions", "permissions"
   add_foreign_key "profile_permissions", "profiles"
   add_foreign_key "tuition_people", "people"
   add_foreign_key "tuition_people", "tuitions"
   add_foreign_key "tuitions", "emails"
+  add_foreign_key "users", "profiles"
 end

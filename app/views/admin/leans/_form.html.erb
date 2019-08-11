@@ -1,0 +1,217 @@
+<%= form_for [:admin, @lean], :html => { remote: true, :class => "form-horizontal lean" } do |f| %>
+
+  <% content_for :head do %>
+    <%= javascript_include_tag 'notify' %>
+  <% end %>
+
+  <div class="row justify-content-center d-flex align-items-center">
+    <div class="col-10">
+
+      <%= f.hidden_field :company_id %>
+      
+      <div class="row">
+        <div class="col-11">      
+          <%= collection_select(:person, :id, Person.all.order(:name), :id, :name,
+          {:prompt => 'Selecione a pessoa'}, {:class => 'custom-select', 'data-live-search'=>"true", 'data-size'=>"2", data: {style: "btn btn-primary"}}) %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-5">Produto</div>
+        <div class="col-2">Quantidade</div>
+        <div class="col-3">Devolver em</div>                
+      </div>
+
+      <div class="row">
+        <div class="col-5">
+          <%= collection_select(:products, :id, Product.all.order(:name), :id, :name,
+          {:prompt => 'Selecione o produto'}, {:class => 'custom-select', 'data-live-search'=>"true", 'data-size'=>"2", data: {style: "btn btn-primary"}}) %>
+        </div>
+
+        <div class="col-2">
+          <%= number_field(:quantity, :qtde, class: 'form-control') %>          
+        </div>
+
+        <div class="col-3">
+          <div class="input-group">  
+            <input type="text" id="btnExpectedReturn" data-date-format="DD/MM/YYYY" class="form-control datepicker btnExpectedReturn"></input>            
+            <span class="input-group-addon">
+              <i class="fa fa-calendar btnExpectedReturn"></i>
+            </span>
+          </div>
+        </div>
+       
+        <div class="col-2">
+          <button id="btnAddProduct" class="btn btn-success btn-round btn-fab">+</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+      <table class="table" id="tableProducts"> 
+        <thead>
+          <tr>       
+            <th width="10%" align="center">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="checkbox" id="chkAll" value="">&nbsp;
+                  <span class="form-check-sign">
+                    <span class="check"></span>
+                  </span>
+                </label>
+              </div>
+            </th>
+            <th>Código</th> 
+            <th>Nome</th>
+            <th>Quantidade</th>            
+            <th>Devolver em</th>    
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot> 
+          <th colspan="6" class="tfoot_empty" style="text-align: center; height: 50px;">
+            Nenhum produto adicionado
+          </th>
+        </tfoot>
+      <table>
+    </div>
+
+    <div class="btn-group pull-right">        
+      <button id="btnEmprestar" class="btn btn-success">Emprestar</button>
+    </div>
+      
+    </div>
+  </div>
+  
+<% end %>
+
+<script> 
+  
+  var pessoasSelecionadas;
+  var produtosSelecionados;
+
+  jQuery(function($){ 
+    md.initFormExtendedDatetimepickers();
+    $.notify("<%= notice %>", "success" );
+
+    pessoasSelecionadas = [];
+    produtosSelecionados = [];
+
+    $("#btnAddPerson").on("click", function() {
+      event.preventDefault();
+
+      var codigo = $('#person_id').val();
+      var index = pessoasSelecionadas.indexOf(codigo);
+      if (codigo === '' || index > -1) {
+        return false;
+      }
+      var nome = $('#person_id option:selected').text();
+      var linha = "<tr>"+
+                    "<td>"+ codigo +"</td>"+
+                    "<td>"+ nome +"</td>"+                    
+                    "<td align=\"center\"><button class=\"btn btn-sm btn-danger\">remover</button></td>"+                    
+                  "</tr>";
+
+      $('#tablePeople > tbody').append(linha);
+      pessoasSelecionadas.push(codigo);
+    });
+
+    $("#btnAddProduct").on("click", function() {
+      event.preventDefault();
+      var errors = [];
+
+      var codigo = $('#products_id').val();
+      var index = produtosSelecionados.indexOf(codigo);
+
+      if (codigo === '' || index > -1) {
+        errors.push("Selecione o produto.");
+        $.notify("Selecione o produto.", "error" );      
+      } 
+
+      if (index > -1) {
+        errors.push("Este produto já consta na lista.");
+        $.notify("Este produto já consta na lista.", "error" );      
+      } 
+
+      var quantidade = $('#quantity_qtde').val();
+      if( quantidade == '' || quantidade < 1){
+        errors.push("Informe a quantidade.");
+        $.notify("Informe a quantidade.", "error" );   
+      }
+
+      var dataDevPrevista = $('#btnExpectedReturn').val();
+      if( dataDevPrevista == ''){
+        errors.push("Informe a data de devolução prevsta.");
+        $.notify("Informe a data de devolução prevsta.", "error" );   
+      }
+
+      if( errors.length > 0)
+        return false;         
+
+      var nome = $('#products_id option:selected').text();
+      var linha = "<tr>"+
+                    "<td>"+ codigo +"</td>"+
+                    "<td>"+ codigo +"</td>"+
+                    "<td>"+ nome +"</td>"+                    
+                    "<td>"+ quantidade +"</td>"+
+                    "<td>"+ dataDevPrevista +"</td>"+
+                    "<td align=\"center\"><button class=\"btn btn-sm btn-danger\">remover</button></td>"+                    
+                  "</tr>";
+
+      $('#tableProducts > tbody').append(linha);
+      $('#tableProducts > tfoot').remove();
+      produtosSelecionados.push(codigo);
+    });
+
+    $("#btnEmprestar").click(function () {    
+      event.preventDefault();
+      var errors = [];
+
+      var pessoa_id = $('#person_id').val();
+      if (pessoa_id === '')
+        errors.push("Informe a pessoa que está efetuando o empréstimo.");    
+
+      if( produtosSelecionados.length == 0)
+        errors.push("Adicione o produto que deseja emprestar.");        
+        
+      $.each(errors, function(index, value) {
+        $.notify(value, "error" );        
+      });      
+
+      if( errors.length > 0)
+        return false;
+
+      var table = $('#tableProducts');
+      var leans = [];
+
+      table.find('tbody > tr').each(function(indice){
+
+        var row = $(this);
+        var lean = new Object();        
+        lean["company_id"] = 1;
+        lean["person_id"] = pessoa_id;
+        lean["product_id"] = $(this).find("td").eq(1).text();
+        lean["quantity"] = $(this).find("td").eq(3).text();        
+        lean["expected_return"] = $(this).find("td").eq(4).text();        
+        leans.push(lean);
+      });
+
+      $.ajax({
+        url: "/admin/leans/",
+        type: "POST",
+        data: {"lean": leans},
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON;                    
+
+          var options = '';
+        },
+        error : function(jqXHR, textStatus, errorThrown){
+          var json = jqXHR.responseJSON;  
+        }
+      });     
+
+    });
+         
+  });  
+</script>  

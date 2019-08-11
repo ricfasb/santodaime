@@ -1,0 +1,45 @@
+<%= form_for [:admin, @lean], :html => { remote: true, :class => "form-horizontal lean" } do |f| %>
+
+  <% content_for :head do %>
+    <%= javascript_include_tag 'notify' %>
+  <% end %>
+
+  <div class="row">
+    <div class="col-10">
+
+      <%= f.hidden_field :company_id %>
+      
+      <div class="row">
+        <div class="col-10">      
+          <%= collection_select(:person_id, :id, Person.all.order(:name), :id, :name,
+          {:prompt => 'Selecione a pessoa'}, {:class => 'custom-select', 'data-live-search'=>"true", 'data-size'=>"2", data: {style: "btn btn-primary"}}) %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-10">
+          <%= text_field(:product_name, :field, data: { autocomplete_source: Product.order(:name).map(:id&:name)}, class: 'form-control') %>
+        </div>
+      </div>
+
+      <div class="btn-group pull-right">
+        <%= f.submit nil, :class => 'btn btn-success' %>
+        <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                  admin_products_path, :class => 'btn btn-danger' %>
+      </div>
+      
+    </div>
+  </div>
+  
+<% end %>
+
+<script> 
+  jQuery(function($){ 
+    return $('#product_name_field').autocomplete({
+        source: $('#product_name_field').data('autocomplete-source'),
+        noResults: '',
+        results: function() {}
+    });
+
+  });  
+</script>  

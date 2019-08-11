@@ -1,0 +1,99 @@
+<%- model_class = Product -%>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header card-header-success" data-background-color="green">
+        <div class="row">
+          <div class="col-md-8">
+            <h4 class="title">Produtos</h4>                
+          </div>
+          <div class="col" align="right">
+                <%= link_to raw('<i class="material-icons">add</i>'),
+                  new_admin_product_path, 
+                  :style => "margin-left: 35px",
+                  :class => 'btn btn-success btn-round btn-fab' %>
+          </div>
+        </div>
+      </div>  
+      <div class="card-content">   
+        <%= search_form_for [:admin, @q] do |f| %>
+        <div class="row">  
+          <div class="col-1"></div>
+          <div class="col-2">
+            <%= f.label :name_start, :class => 'form-control' %>                                                    
+          </div>
+          <div class="col-7" align="right">			   
+            <%= f.search_field :name_start, :placeholder => 'Valor a ser pesquisado', :class => 'form-control' %>
+          </div> 
+          <div class="col-2" align="center">                           
+            <%= link_to raw('<i class="material-icons">search</i>'),
+              "", :onclick => "$('#product_search').submit()",
+              :style => "margin-left: 35px",
+              :class => 'btn btn-warning btn-round btn-fab' %>
+          </div>  
+        </div> 
+        <% end %>   
+        <div class="row">
+          <div class="col">
+            <div class="card-content table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Cadastrado em:</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Quantidade</th>
+                    <th>Valor</th>
+                    <th colspan="3"></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% @products.each do |product| %>
+                    <tr>
+                      <td><%= format_date_dt product.created_at %></td>
+                      <td style="word-break: break-all;"><%= product.name %></td>
+                      <td style="word-break: break-all;"><%= product.description %></td>
+                      <td><%= product.quantity %></td>  
+                      <td><%= product.amount %></td>        
+                      <td>
+                        <div class="btn-group" role="group">
+                          <%= link_to raw('<i class="material-icons">edit</i>'),
+                                      edit_admin_product_path(product), :style => 'color: gray; heigth: 100%; width: 100%;' %>
+                          <%= link_to raw('<i class="material-icons">delete</i>'),
+                                      admin_product_path(product),
+                                      :method => :delete,
+                                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Tem certeza que deseja remover o produto selecionado?')) },
+                                      :style => 'color: #cf1a1a; font-size: 32px;' %>
+                        </div>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+                <% if @products.blank? %> 
+                  <tfoot> 
+                    <th colspan="7" class="tfoot_empty" style="text-align: center; height: 50px;">
+                      Nenhum registro encontrado!
+                    </th>
+                  </tfoot>
+                <% elsif @products.count > 10 %>
+                  <tfoot> 
+                    <th colspan="7" style="text-align: left; height: 50px;">
+                      <%= will_paginate @products %>
+                    </th>
+                  </tfoot>
+                <% end %> 
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>   
+
+<script> 
+  jQuery(function($){
+    $.notify("<%= notice %>", "success" );
+  });
+</script> 

@@ -1,0 +1,90 @@
+<%- model_class = Lean -%>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header card-header-success" data-background-color="green">
+        <div class="row">
+          <div class="col-md-8">
+            <h4 class="title">Empréstimos</h4>                
+          </div>
+          <div class="col" align="right">
+                <%= link_to raw('<i class="material-icons">add</i>'),
+                  new_admin_lean_path, 
+                  :style => "margin-left: 35px",
+                  :class => 'btn btn-success btn-round btn-fab' %>
+          </div>
+        </div>
+      </div>  
+      <div class="card-content">    
+        <%= search_form_for [:admin, @q] do |f| %>
+          <div class="row">  
+            <div class="col-1"></div>
+            <div class="col-2">
+              <%= f.label 'Nome começa com:', :class => 'form-control' %>                                                    
+            </div>
+            <div class="col-7" align="right">			   
+              <%= f.search_field :person_name_start, :placeholder => 'Valor a ser pesquisado', :class => 'form-control' %>
+            </div> 
+            <div class="col-2" align="center">                           
+              <%= link_to raw('<i class="material-icons">search</i>'),
+                "", :onclick => "$('#lean_search').submit()",
+                :style => "margin-left: 35px",
+                :class => 'btn btn-warning btn-round btn-fab' %>
+            </div>  
+          </div> 
+        <% end %>
+        <div class="row">
+          <div class="col">
+            <div class="card-content table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Emprestado em</th>
+                    <th>Emprestado para</th>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Devolver em</th>
+                    <th>Devolvido em</th> 
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% @leans.each do |lean| %>
+                    <tr>
+                      <td><%= format_date_dt_hr lean.created_at %></td>
+                      <td><%= lean.person.name %></td>
+                      <td><%= lean.product.name %></td>
+                      <td><%= lean.quantity %></td>
+                      <td><%= lean.expected_return %></td>
+                      <td><%= lean.returned %></td>                   
+                    </tr>
+                  <% end %>
+                </tbody>
+                <% if @leans.blank? %> 
+                  <tfoot> 
+                    <th colspan="7" class="tfoot_empty" style="text-align: center; height: 50px;">
+                      Nenhum registro encontrado!
+                    </th>
+                  </tfoot>
+                <% elsif @leans.count > 10 %>
+                  <tfoot> 
+                    <th colspan="7" style="text-align: left; height: 50px;">
+                      <%= will_paginate @leans %>
+                    </th>
+                  </tfoot>
+                <% end %> 
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>   
+
+<script> 
+  jQuery(function($){
+    $.notify("<%= notice %>", "success" );
+  });
+</script> 
+

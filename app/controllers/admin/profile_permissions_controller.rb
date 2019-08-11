@@ -8,6 +8,18 @@ class Admin::ProfilePermissionsController < Admin::AdminController
   # GET /profile_permissions.json
   def index
     @profile_permissions = ProfilePermission.all
+    @permissions = Permission.all
+  end
+
+  def get_permissions
+    @profile_permissions = ProfilePermission.where(profile_id: params[:profile_id])
+
+    if request.xhr?
+      render :json => { :profile_permissions => @profile_permissions }
+    else
+      render json: {}, status: :false
+    end
+
   end
 
   # GET /profile_permissions/1

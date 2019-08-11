@@ -1,4 +1,121 @@
 namespace :utils do
+  desc "Gerar a tabela de Perfis"
+  task setup_profiles: :environment do
+    Profile.create(id: 1, description:'Administrador')
+  end
+
+  desc "Gerar a tabela de Permissoes"
+  task setup_permissions: :environment do
+    Permission.create(id: 1, description:'Dashboard', screen: '', father: nil)
+    Permission.create(id: 2, description:'Sedes', screen: '', father: nil)
+    Permission.create(id: 3, description:'Categorias', screen: '', father: nil)
+    Permission.create(id: 4, description:'Pessoas', screen: '', father: nil)
+    Permission.create(id: 5, description:'Produtos', screen: '', father: nil)
+    Permission.create(id: 6, description:'Empréstimos', screen: '', father: nil)
+    Permission.create(id: 7, description:'Envio de e-mails', screen: '', father: nil)
+    Permission.create(id: 8, description:'Livro caixa', screen: '', father: nil)
+    Permission.create(id: 9, description:'Despesas', screen: '', father: nil)
+    Permission.create(id: 10, description:'Checkin Biométrico', screen: '', father: nil)
+    Permission.create(id: 11, description:'Cobranças', screen: '', father: nil)
+    Permission.create(id: 12, description:'Tipos de cobrança', screen: '', father: nil)
+    Permission.create(id: 13, description:'Mensalidades', screen: '', father: nil)
+    Permission.create(id: 14, description:'Pagamentos', screen: '', father: nil)
+    Permission.create(id: 15, description:'Segurança', screen: '', father: nil)        
+    #Sedes
+    Permission.create(id: 16, description:'Inserir', screen: '', father: '2')
+    Permission.create(id: 17, description:'Alterar', screen: '', father: '2')
+    Permission.create(id: 18, description:'Remover', screen: '', father: '2')
+    #Categorias    
+    Permission.create(id: 19, description:'Inserir', screen: '', father: '3')
+    Permission.create(id: 20, description:'Alterar', screen: '', father: '3')
+    Permission.create(id: 21, description:'Remover', screen: '', father: '3')
+    #Pessoas
+    Permission.create(id: 22, description:'Inserir', screen: '', father: '4')
+    Permission.create(id: 23, description:'Alterar', screen: '', father: '4')
+    Permission.create(id: 24, description:'Remover', screen: '', father: '4')
+    #Produtos
+    Permission.create(id: 25, description:'Inserir', screen: '', father: '5')
+    Permission.create(id: 26, description:'Alterar', screen: '', father: '5')
+    Permission.create(id: 27, description:'Remover', screen: '', father: '5')
+    #Empréstimos
+    Permission.create(id: 28, description:'Emprestar', screen: '', father: '6')
+    Permission.create(id: 29, description:'Devolver', screen: '', father: '6')    
+    #Envio de e-mails
+    Permission.create(id: 30, description:'Inserir', screen: '', father: '7')
+    Permission.create(id: 31, description:'Agendar', screen: '', father: '7')    
+    #Despesas
+    Permission.create(id: 32, description:'Inserir', screen: '', father: '9')
+    Permission.create(id: 33, description:'Alterar', screen: '', father: '9')
+    Permission.create(id: 34, description:'Remover', screen: '', father: '9')
+    #Cobrancas
+    Permission.create(id: 35, description:'Inserir', screen: '', father: '11')    
+    Permission.create(id: 36, description:'Cancelar', screen: '', father: '11')
+    #Tipos de cobranca
+    Permission.create(id: 37, description:'Inserir', screen: '', father: '12')    
+    Permission.create(id: 38, description:'Remover', screen: '', father: '12')
+    #Mensalidades
+    Permission.create(id: 39, description:'Inserir', screen: '', father: '13')
+    Permission.create(id: 40, description:'Alterar', screen: '', father: '13')
+    Permission.create(id: 41, description:'Remover', screen: '', father: '13')
+    #Pagamentos
+    Permission.create(id: 42, description:'Pagar', screen: '', father: '14')    
+    #Segurança
+    Permission.create(id: 43, description:'Criar usuário', screen: '', father: '15')
+    Permission.create(id: 44, description:'Alterar usuário', screen: '', father: '15')
+    Permission.create(id: 45, description:'Criar perfil', screen: '', father: '15')
+    Permission.create(id: 46, description:'Alterar permissões', screen: '', father: '15')
+  end
+
+  desc "Insere as permissoes do admin"
+  task setup_permissions_admin: :environment do
+    ProfilePermission.create(profile_id: 1, permission_id: 1)
+    ProfilePermission.create(profile_id: 1, permission_id: 2)
+    ProfilePermission.create(profile_id: 1, permission_id: 3)
+    ProfilePermission.create(profile_id: 1, permission_id: 4)
+    ProfilePermission.create(profile_id: 1, permission_id: 5)
+    ProfilePermission.create(profile_id: 1, permission_id: 6)
+    ProfilePermission.create(profile_id: 1, permission_id: 7)
+    ProfilePermission.create(profile_id: 1, permission_id: 8)
+    ProfilePermission.create(profile_id: 1, permission_id: 9)
+    ProfilePermission.create(profile_id: 1, permission_id: 10)
+    ProfilePermission.create(profile_id: 1, permission_id: 11)
+    ProfilePermission.create(profile_id: 1, permission_id: 12)
+    ProfilePermission.create(profile_id: 1, permission_id: 13)
+    ProfilePermission.create(profile_id: 1, permission_id: 14)
+    ProfilePermission.create(profile_id: 1, permission_id: 15)
+    ProfilePermission.create(profile_id: 1, permission_id: 16)
+    ProfilePermission.create(profile_id: 1, permission_id: 17)
+    ProfilePermission.create(profile_id: 1, permission_id: 18)
+    ProfilePermission.create(profile_id: 1, permission_id: 19)
+    ProfilePermission.create(profile_id: 1, permission_id: 20)
+    ProfilePermission.create(profile_id: 1, permission_id: 21)
+    ProfilePermission.create(profile_id: 1, permission_id: 22)
+    ProfilePermission.create(profile_id: 1, permission_id: 23)
+    ProfilePermission.create(profile_id: 1, permission_id: 24)
+    ProfilePermission.create(profile_id: 1, permission_id: 25)
+    ProfilePermission.create(profile_id: 1, permission_id: 26)
+    ProfilePermission.create(profile_id: 1, permission_id: 27)
+    ProfilePermission.create(profile_id: 1, permission_id: 28)
+    ProfilePermission.create(profile_id: 1, permission_id: 29)
+    ProfilePermission.create(profile_id: 1, permission_id: 30)
+    ProfilePermission.create(profile_id: 1, permission_id: 31)
+    ProfilePermission.create(profile_id: 1, permission_id: 32)
+    ProfilePermission.create(profile_id: 1, permission_id: 33)
+    ProfilePermission.create(profile_id: 1, permission_id: 34)
+    ProfilePermission.create(profile_id: 1, permission_id: 35)
+    ProfilePermission.create(profile_id: 1, permission_id: 36)
+    ProfilePermission.create(profile_id: 1, permission_id: 37)
+    ProfilePermission.create(profile_id: 1, permission_id: 38)
+    ProfilePermission.create(profile_id: 1, permission_id: 39)
+    ProfilePermission.create(profile_id: 1, permission_id: 40)
+    ProfilePermission.create(profile_id: 1, permission_id: 41)
+    ProfilePermission.create(profile_id: 1, permission_id: 42)
+    ProfilePermission.create(profile_id: 1, permission_id: 43)    
+    ProfilePermission.create(profile_id: 1, permission_id: 44)    
+    ProfilePermission.create(profile_id: 1, permission_id: 45)    
+    ProfilePermission.create(profile_id: 1, permission_id: 46)    
+  end
+
   desc "Gerar a tabela de estados brasileiros"
   task setup_states: :environment do
     State.create(id: 1, uf:'AC', name:'Acre')

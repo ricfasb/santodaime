@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Company:</strong>
+  <%= @lean.company %>
+</p>
+
+<p>
+  <strong>Devolution:</strong>
+  <%= @lean.devolution %>
+</p>
+
+<%= link_to 'Edit', edit_admin_lean_path(@lean) %> |
+<%= link_to 'Back', admin_leans_path %>

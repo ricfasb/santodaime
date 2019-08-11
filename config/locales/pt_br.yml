@@ -8,7 +8,11 @@
       address: Endereço
       checkin: Check-in
       invoice: Cobrança
+      invoice_type: Tipo de cobrança
       tuition: Mensalidade
+      expense: Despesa
+      product: Produto
+      lean: Empréstimo      
       profile: Perfil
     attributes:
       profile:
@@ -94,7 +98,9 @@
         pay_day: Dia do pagamento
         pay_amount: Valor
         discount: Desconto
-        obs_discount: Obs. desconto
+        obs_discount: Obs. desconto    
+      invoice_type:
+        description: Descrição  
       invoice:
         id: Código
         created_at: Lançado em
@@ -117,6 +123,20 @@
         amount: Valor
         day_email: Dia de envio do e-mail
         email: E-mail de cobrança
+      product:
+        company: Sede
+        name: Nome
+        description: Descrição
+        observation: Observação
+        quantity: Quantidade
+        amount: Valor        
+      expense:
+        description: Descrição
+        observation: Observação
+        amount: Valor
+        provider: Fornecedor
+      lean:
+        person: Pessoa
     errors:
       messages:
         record_invalid: 'A validação falhou: %{errors}'
@@ -269,7 +289,7 @@
       new: Novo
       back: Voltar
       cancel: Cancelar
-      confirm: Você tem certeza?
+      confirm: Você tem certeza que deseja continuar com esta operação?
     actions: Ações
     submit:
       create: Adicionar %{model}

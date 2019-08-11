@@ -1,5 +1,5 @@
 Rails.application.routes.draw do  
-  
+      
   namespace :admin do
     resources :invoice_types
   end
@@ -22,10 +22,19 @@ Rails.application.routes.draw do
     get '/users' => 'users#index'
 
     resources :categories    
-    resources :checkins
+    resources :checkins do
+      get "checkins_pdf",       to: "checkins#checkins_pdf",      on: :collection
+    end
 
-    resources :profile_permissions
-    resources :permissions
+    resources :products
+    resources :expenses
+
+    resources :leans
+    
+    resources :profile_permissions do
+      get 'get_permissions'
+    end
+
     resources :profiles
 
     resources :emails do

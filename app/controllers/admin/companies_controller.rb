@@ -5,7 +5,6 @@ class Admin::CompaniesController < Admin::AdminController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:get_cep, :load_cities]
 
-
   def get_cep
     @address = ViaCep::Address.new(params[:cep])
     @state   = State.where(uf: @address.state)
