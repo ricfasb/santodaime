@@ -105,6 +105,7 @@
 <script>
 jQuery(function($){
   md.initFormExtendedDatetimepickers();  
+  $.notify("<%= notice %>", "success" );
 
   $('#btnNewCheckin').on("click", function(event) {   
     var url = "/admin/checkins/new";
@@ -114,6 +115,22 @@ jQuery(function($){
   $('#btnCheckins').on("click", function(event) {   
     var dataInicial = $('#q_created_at_gteq').val();
     var dataFinal = $('#q_created_at_lteq').val();
+
+    var errors = [];
+    if( dataFinal == ''){
+      errors.push("Informe a data final.");
+      $.notify("Informe a data final.", "error" ); 
+    }
+    if( dataInicial == ''){
+      errors.push("Informe a data inicial.");
+      $.notify("Informe a data inicial.", "error" ); 
+    }    
+    if(!validaData(dataInicial, dataFinal)){      
+      errors.push("Data inicial não pode ser maior que a data final.");
+      $.notify("Data inicial não pode ser maior que a data final.", "error" ); 
+    }
+    if( errors.length > 0)
+      return false;      
 
     var url = "/admin/checkins/checkins_pdf?initial_date="+dataInicial+"&final_date="+dataFinal;
     window.open(url, '_blank');    
@@ -125,13 +142,52 @@ jQuery(function($){
     var dataInicial = $('#q_created_at_gteq').val();
     var dataFinal = $('#q_created_at_lteq').val();
 
+    var errors = [];
+    if( dataFinal == ''){
+      errors.push("Informe a data final.");
+      $.notify("Informe a data final.", "error" ); 
+    }
+    if( dataInicial == ''){
+      errors.push("Informe a data inicial.");
+      $.notify("Informe a data inicial.", "error" ); 
+    }    
+    if(!validaData(dataInicial, dataFinal)){      
+      errors.push("Data inicial não pode ser maior que a data final.");
+      $.notify("Data inicial não pode ser maior que a data final.", "error" ); 
+    }
+    if( errors.length > 0)
+      return false; 
+
     var url = "/admin/checkins/without_checkins_pdf?initial_date="+dataInicial+"&final_date="+dataFinal;
     window.open(url, '_blank');    
 
     event.preventDefault();             
-  });  
+  });   
 
-  
+  function validaData(dataInicial,dataFinal){
+    
+    var dataIni=dataInicial.split("/");
+    
+    var diaIni=dataIni[0];
+    var mesIni=dataIni[1];
+    var anoIni=dataIni[2];
+    
+    dataInicial=anoIni+mesIni+diaIni;
+    
+    var dataFim=dataFinal.split("/");
+    var diaFim=dataFim[0];
+    var mesFim=dataFim[1];
+    var anoFim=dataFim[2];
+    
+    dataFinal=anoFim+mesFim+diaFim;
+      
+    if(eval(dataFinal) < eval(dataInicial))
+      return false;
+    
+    return true;
+    
+    
+  }
   
 });    
 </script>

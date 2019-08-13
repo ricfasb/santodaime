@@ -4,6 +4,10 @@ module ApplicationHelper
         current_page?(link_path) ? "active" : ""
     end
 
+    def format_dt(date)
+        Date.parse(date).strftime("%d/%m/%Y")
+    end
+
     def format_date(date)
         Date.parse(date).strftime("%d de %m %Y - %H:%M")
     end
