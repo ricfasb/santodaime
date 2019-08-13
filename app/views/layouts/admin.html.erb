@@ -83,7 +83,8 @@
                     </li>
                     <% end %>
 
-                    <% if permission 6 %>
+                    <% # if permission 6 %>
+                    <!--
                     <li class="nav-item ">
                         <a class="nav-link collapsed" data-toggle="collapse" href="#mnEmprestimo" aria-expanded="false">
                         <i class="material-icons">date_range</i>
@@ -114,7 +115,8 @@
                         </ul>
                         </div>
                     </li>
-                    <% end %>
+                    -->
+                    <% # end %>
 
                     <% if permission 7 %>
                     <li id="liEmail" class="<%= active_class(admin_emails_path) %>">
@@ -189,7 +191,7 @@
                     <% end %>                   
                     
                     <% if permission 15 %>
-                    <li class="nav-item ">
+                    <li class="nav-item" onclick="resize();">
                         <a class="nav-link collapsed" data-toggle="collapse" href="#formsExamples" aria-expanded="false">
                         <i class="material-icons">lock</i>
                         <p> Segurança
@@ -197,23 +199,11 @@
                         </p>
                         </a>
                         <div class="collapse" id="formsExamples" style="">
-                        <ul class="nav">
-                            <li class="nav-item ">
-                            <a class="nav-link" href="/admin/users/index">
-                                <span class="sidebar-mini"> US </span>
-                                <span class="sidebar-normal"> Usuários </span>
-                            </a>
-                            </li>
-                            <li class="nav-item ">
-                            <a class="nav-link" href="#">
-                                <span class="sidebar-mini"> NU </span>
-                                <span class="sidebar-normal"> Novo Usuário </span>
-                            </a>
-                            </li>
+                        <ul class="nav">                                                                                      
                             <li class="nav-item ">
                             <a class="nav-link" href="/admin/profiles">
                                 <span class="sidebar-mini"> PE </span>
-                                <span class="sidebar-normal"> Perfis </span>
+                                <p class="sidebar-normal"> Perfis </p>
                             </a>
                             </li>
                             <li class="nav-item ">
@@ -222,6 +212,12 @@
                                 <p class="sidebar-normal"> Permissões por Perfil </p>
                             </a>
                             </li>
+                            <li class="nav-item ">
+                            <a class="nav-link" href="/admin/users">
+                                <span class="sidebar-mini"> US </span>
+                                <p class="sidebar-normal"> Usuários </p>                                
+                            </a>
+                            </li>   
                         </ul>
                         </div>
                     </li>
@@ -256,6 +252,22 @@ $(document).ready(function() {
     $(window).scroll(function() {                
         $('.sidebar').css("min-height", actualHeight);  
         $('.sidebar').css("height", actualHeight); 
-    });
+    });    
 });
+
+function resize(){    
+    setTimeout(function() {
+        try{
+            var win = $(this);
+            var actualHeight = win.height();
+            
+            $(window).scroll(function() {                
+                $('.sidebar').css("min-height", actualHeight);  
+                $('.sidebar').css("height", actualHeight); 
+            });
+        } catch(ex){
+            return false;
+        }
+    }, 5000);      
+}
 </script>
