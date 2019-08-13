@@ -238,7 +238,7 @@ class Admin::PeopleController < Admin::AdminController
     end
 
     def set_people_without_fngerprint      
-      @people = Person.where("LENGTH(fingerprint) = 0")   
+      @people = Person.where("LENGTH(fingerprint) = 0").order("name ASC")   
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
