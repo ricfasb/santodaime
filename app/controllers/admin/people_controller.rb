@@ -234,7 +234,7 @@ class Admin::PeopleController < Admin::AdminController
     end
 
     def set_people
-      @people = Person.where('date_born IS NOT NULL and EXTRACT(month FROM date_born) = ?', Time.now.month)     
+      @people = Person.where('date_born IS NOT NULL and EXTRACT(month FROM date_born) = ?', Time.now.month).order("EXTRACT(day FROM date_born) ASC")
     end
 
     def set_people_without_fngerprint      
