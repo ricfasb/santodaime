@@ -27,7 +27,6 @@ class Person < ActiveRecord::Base
 
   has_many :tuition_person, :dependent => :destroy
 
-
   def uploaded_file=(incoming_file)
     self.filename = incoming_file.original_filename
     self.content_type = incoming_file.content_type
@@ -36,6 +35,10 @@ class Person < ActiveRecord::Base
 
   def filename=(new_filename)
     write_attribute("filename", sanitize_filename(new_filename))
+  end
+
+  def self.people_has_no_checkin(date_ini, date_fin)
+    where("not exists (SELECT 1 FROM checkins WHERE people.id = checkins.person_id AND checkins.created_at BETWEEN ? AND ?)", date_ini, date_fin)    
   end
 
   private

@@ -9,6 +9,10 @@ class Admin::ProfilesController < Admin::AdminController
   def index
     @profiles = Profile.all
     @profile = Profile.new
+
+    if request.xhr?
+      render :json => { :profiles => @profiles }        
+    end
   end
 
   # GET /profiles/1/edit

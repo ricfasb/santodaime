@@ -41,6 +41,16 @@
                   <%= f.password_field :password, :placeholder => 'Senha',  :class => 'form-control', autocomplete: "off" %>
                 </div>
               </div>
+
+              <div class="row">
+                <div class="input-group-text col-1">
+                  <i class="fa fa-home"></i>
+                </div>
+                <div class="col-11">
+                  <%= collection_select(:company, :id, Company.all.order(:name), :id, :name,
+                    {}, {:class => 'custom-select', data: {style: "btn btn-primary"}}) %>  
+                </div>
+              </div>
               
               <% if devise_mapping.rememberable? -%>
                 <div class="row">
@@ -73,7 +83,16 @@
 </div>
 
 <script> 
-  jQuery(function($){    
-        
+  jQuery(function($){
+    
+    var company_id = $("#company_id").val();
+    $.ajax({
+      url: "/admin/users/",
+      type: "POST",
+      data: {"company_id" : company_id},
+      success: function(data, status, jqXHR){ },
+      error: function(o, status, error) { }
+    });    
+
   });
 </script>   

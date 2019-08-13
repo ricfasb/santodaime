@@ -39,5 +39,18 @@ module ApplicationHelper
     def code_completion(code)
         "0000"+code.to_s
     end
+
+    def profile_logged
+        User.find( current_user.id )
+    end
+
+    def permission number
+        @count = ProfilePermission.where(profile_id: profile_logged.profile.id, permission_id: number ).count
+        if @count > 0
+            true
+        else
+            false
+        end
+    end
     
 end

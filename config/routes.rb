@@ -16,14 +16,15 @@ Rails.application.routes.draw do
       get "search_fingerprint", to: "people#search_fingerprint",  on: :collection
       get "birthdays_month",    to: "people#birthdays_month",     on: :collection
       get "birthday",           to: "people#birthday",            on: :collection
-      get "exportar_pdf",       to: "people#exportar_pdf",        on: :collection
+      get "without_fingerprint",to: "people#without_fingerprint", on: :collection
     end
 
     get '/users' => 'users#index'
 
     resources :categories    
     resources :checkins do
-      get "checkins_pdf",       to: "checkins#checkins_pdf",      on: :collection
+      get "checkins_pdf",         to: "checkins#checkins_pdf",          on: :collection
+      get "without_checkins_pdf", to: "checkins#without_checkins_pdf",  on: :collection
     end
 
     resources :products
@@ -49,6 +50,10 @@ Rails.application.routes.draw do
     end
 
     get 'cash/index'
+    
+    get "/users" => 'users#index'    
+    post "/users" => "users#create_session"
+    patch "/users" => "users#update"
 
     resources :companies do
       get 'get_cep'

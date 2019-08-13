@@ -21,7 +21,7 @@
         <div class="col-11">
           <div class="card-content table-responsive">                      
             <br/>
-            <table class="table table-striped">
+            <table class="table table-striped" id="tablePermissions">
               <tbody>
                 <% @permissions.each do |permission| %>    
                   <% if permission.father.nil? %>  
@@ -79,12 +79,15 @@
     
     $("#profile_id").on("change", function(event) {
       var profile_id = $("#profile_id").val();
+      if( profile_id = ''){
+        return false;
+      }
+
       if( profile_id == 1 ){
         $('#rowButtons').css("visibility", "hidden");
       }else{
         $('#rowButtons').css("visibility", "visible");
       }
-
       get_permissions(event);
     });
 
@@ -98,14 +101,55 @@
         success: function(data, status, jqXHR){
           var json = jqXHR.responseJSON;                            
           var profile_permissions = json.profile_permissions;
+          var table = $('#tablePermissions');
+
+          $('input[type="checkbox"]').prop('checked', false);
 
           for (var i = 0; i < profile_permissions.length; i++) {
-            alert( profile_permissions[i].id );
+            table.find('tbody').find('tr').each(function(indice){
+              var row = $(this);
+              if(row.find('input[type="checkbox"]').val() == profile_permissions[i].permission_id ) {
+                row.find('input[type="checkbox"]').prop('checked', true);
+              }
+            });
           }
         },
         error: function(o, status, error) {
           var json = o.responseJSON;          
         }
+      });
+
+      $("#btnGravar").on("click", function(event){
+        var table = $('#tablePermissions');
+        
+        var profile_permissions = [];
+        var profile_id = $("#profile_id").val();
+
+        table.find('tbody').find('tr').each(function(indice){
+          var row = $(this);
+          if(row.find('input[type="checkbox"]').is(':checked')) {
+            var profile_permission = new Object();
+            profile_permission['profile_id'] = profile_id;
+            profile_permission['permission_id'] = row.find('input[type="checkbox"]').val();
+            profile_permissions.push(profile_permission);
+          }
+        });
+
+        $.ajax({
+          url: "/admin/profile_permissions/",
+          type: "POST",
+          data: {"profile_id" : profile_id,
+                 "profile_permissions": profile_permissions},
+          success: function(data, status, jqXHR){
+            var json = jqXHR.responseJSON;                    
+            alert('Permissões gravadas com sucesso!');
+          },
+          error : function(jqXHR, textStatus, errorThrown){
+            var json = jqXHR.responseJSON;  
+          }
+        });  
+
+        
       });
     }; 
 

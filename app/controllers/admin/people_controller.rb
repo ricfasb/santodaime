@@ -5,11 +5,13 @@ class Admin::PeopleController < Admin::AdminController
   require 'jasper-bridge'
 
   include Jasper::Bridge
+  include ApplicationHelper
   
   layout "admin"
 
   before_action :set_person, only: [:show, :edit, :update, :destroy, :show_image]
-  before_action :set_people, only: [:birthdays_month, :exportar_pdf]
+  before_action :set_people, only: [:birthdays_month]
+  before_action :set_people_without_fngerprint, only: [:without_fingerprint]
   before_action :authenticate_user!, :except => [:get_cep, :create, :search_by_email, :show]
 
   def search_person
@@ -28,7 +30,6 @@ class Admin::PeopleController < Admin::AdminController
     #Base64.encode64(str)
     if request.xhr?      
       unless @people.nil?        
-#        render :json => { :people => @people.to_json(:include => :category, :methods => [:photo]), :message => 'OK' }
         render :json => { :people => @people.to_json(:only => [ :id, :name, :fingerprint ], :include => :category), 
                           :message => 'OK' }
       end
@@ -99,49 +100,53 @@ class Admin::PeopleController < Admin::AdminController
 
   # POST /people
   # POST /people.json
-  def create
-    @person = Person.new(person_params)
-    data = params[:data_uri]
+  def create  
 
-    if data.present?
-      image_data = Base64.decode64(data['data:image/png;base64,'.length .. -1])
-      @person.photo_file = image_data
+    if permission 22
 
-#      IO.binwrite("#{Rails.root}/public/system/people/photos/photo.png", image_data)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-#      File.open("#{Rails.root}/public/system/people/photos/photo.png", 'wb') do |f|
-#        f.write image_data
-#      end    
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-#      file = File.open("#{Rails.root}/public/system/people/photos/photo.png")
-#      @person.photo = file
-#      file.close
-    end
+      @person = Person.new(person_params)
+      data = params[:data_uri]
 
-    @person.address.addressable = @person #<<<<<<<< Necessario
-    @person.occupation.occupatiable = @person #<<<<<<<< Necessario
-    @person.occupation.address.addressable = @person.occupation #<<<<<<<< Necessario
-    @person.driver_license.licensable = @person #<<<<<<<< Necessario
-    @person.deficiency_person.deficiencable = @person #<<<<<<<< Necessario
+      if data.present?
+        image_data = Base64.decode64(data['data:image/png;base64,'.length .. -1])
+        @person.photo_file = image_data
 
-    # encoded_photo = person_params[:data]
-    # content_type = person_params[:content_type]
-    # image = Paperclip.io_adapters.for("data:#{content_type};base64,#{encoded_photo}")
-    # image.original_filename = person_params[:filename]
-    # @person.photo = image
+  #      IO.binwrite("#{Rails.root}/public/system/people/photos/photo.png", image_data)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+  #      File.open("#{Rails.root}/public/system/people/photos/photo.png", 'wb') do |f|
+  #        f.write image_data
+  #      end    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+  #      file = File.open("#{Rails.root}/public/system/people/photos/photo.png")
+  #      @person.photo = file
+  #      file.close
+      end
 
-    respond_to do |format|
-      if @person.save        
-        format.html { redirect_to admin_people_url, notice: 'Cadastro realizado com sucesso.' }        
-        if params.has_key?(:on_line)
-          format.js   { render action: 'message' }
-        else
-          format.json { render :show, status: :ok, location: @person }
-        end        
-      else 
-        format.html { render :new }
-        format.json { render json: @person.errors, status: :unprocessable_entity }   
-        format.js   { render action: 'message' }     
+      @person.address.addressable = @person #<<<<<<<< Necessario
+      @person.occupation.occupatiable = @person #<<<<<<<< Necessario
+      @person.occupation.address.addressable = @person.occupation #<<<<<<<< Necessario
+      @person.driver_license.licensable = @person #<<<<<<<< Necessario
+      @person.deficiency_person.deficiencable = @person #<<<<<<<< Necessario
+
+      # encoded_photo = person_params[:data]
+      # content_type = person_params[:content_type]
+      # image = Paperclip.io_adapters.for("data:#{content_type};base64,#{encoded_photo}")
+      # image.original_filename = person_params[:filename]
+      # @person.photo = image
+
+      respond_to do |format|
+        if @person.save        
+          format.html { redirect_to admin_people_url, notice: 'Cadastro realizado com sucesso.' }        
+          if params.has_key?(:on_line)
+            format.js   { render action: 'message' }
+          else
+            format.json { render :show, status: :ok, location: @person }
+          end        
+        else 
+          format.html { render :new }
+          format.json { render json: @person.errors, status: :unprocessable_entity }   
+          format.js   { render action: 'message' }     
+        end
       end
     end
   end
@@ -149,39 +154,41 @@ class Admin::PeopleController < Admin::AdminController
   # PATCH/PUT /people/1
   # PATCH/PUT /people/1.json
   def update
-    respond_to do |format|
-      data = params[:data_uri]
-    
-      if data.present?
-        image_data = Base64.decode64(data['data:image/png;base64,'.length .. -1])
-        @person.photo_file = image_data
-        params[:photo_file] = image_data
-        person_params[:photo_file] = image_data
-        
-#        dirname = File.dirname("#{Rails.root}/public/system/people/photos/photo.png")
-#        unless File.directory?(dirname)
-#          FileUtils.mkdir_p(dirname)
-#        end
+    if permission 23
+      respond_to do |format|
+        data = params[:data_uri]
+      
+        if data.present?
+          image_data = Base64.decode64(data['data:image/png;base64,'.length .. -1])
+          @person.photo_file = image_data
+          params[:photo_file] = image_data
+          person_params[:photo_file] = image_data
+          
+  #        dirname = File.dirname("#{Rails.root}/public/system/people/photos/photo.png")
+  #        unless File.directory?(dirname)
+  #          FileUtils.mkdir_p(dirname)
+  #        end
 
-#        IO.binwrite("#{Rails.root}/public/system/people/photos/photo.png", image_data)                      
-#        File.open("#{Rails.root}/public/system/people/photos/photo.png", 'wb') do |f|
-#          f.write image_data
-#        end    
+  #        IO.binwrite("#{Rails.root}/public/system/people/photos/photo.png", image_data)                      
+  #        File.open("#{Rails.root}/public/system/people/photos/photo.png", 'wb') do |f|
+  #          f.write image_data
+  #        end    
 
-#        file = File.open("#{Rails.root}/public/system/people/photos/photo.png")
-#        @person.photo = file
-#        file.close
-      else
-        @person.photo_file = nil
-      end
+  #        file = File.open("#{Rails.root}/public/system/people/photos/photo.png")
+  #        @person.photo = file
+  #        file.close
+        else
+          @person.photo_file = nil
+        end
 
-      if @person.update(person_params)
-        format.html { redirect_to admin_people_url, notice: 'Cadastro atualizado com sucesso.' }
-        format.json { head :no_content }
-      else
-        format.html { redirect_to admin_people_url, notice: 'Cadastro não atualizado com sucesso.' }
-        format.json { render json: @person.errors, status: :unprocessable_entity }
-        format.js   { render action: 'message' }
+        if @person.update(person_params)
+          format.html { redirect_to admin_people_url, notice: 'Cadastro atualizado com sucesso.' }
+          format.json { head :no_content }
+        else
+          format.html { redirect_to admin_people_url, notice: 'Cadastro não atualizado com sucesso.' }
+          format.json { render json: @person.errors, status: :unprocessable_entity }
+          format.js   { render action: 'message' }
+        end
       end
     end
   end
@@ -189,22 +196,27 @@ class Admin::PeopleController < Admin::AdminController
   # DELETE /people/1
   # DELETE /people/1.json
   def destroy
-    @person.destroy
-    respond_to do |format|
-      format.html { redirect_to admin_people_url, notice: 'Cadastro removido com sucesso.' }
-      format.json { head :no_content }
+    if permission 24
+      @person.destroy
+      respond_to do |format|
+        format.html { redirect_to admin_people_url, notice: 'Cadastro removido com sucesso.' }
+        format.json { head :no_content }
+      end
     end
   end
 
   def birthdays_month
     xml_data = render_to_string('birthdays_month.xml.builder', layout: false)
-    @company = Company.find(2)  
-    encoded_string = Base64.encode64("#{@company.name}#RS##{@company.telephone}#RS# ")
+    @company = Company.find(session[:current_company])  
+    encoded_string = Base64.encode64("COMPANY_NAME#VLR##{@company.name}#RS#COMPANY_PHONE#VLR##{@company.telephone}#RS# ")
     send_doc(xml_data, '/people/person', 'birthdays_month.jasper', "Aniversariantes do mês", encoded_string, "pdf")  
   end
 
-  def exportar_pdf
-    render('birthday.xml.builder', layout: false)
+  def without_fingerprint
+    xml_data = render_to_string('people.xml.builder', layout: false)
+    @company = Company.find(session[:current_company])  
+    encoded_string = Base64.encode64("COMPANY_NAME#VLR##{@company.name}#RS#COMPANY_PHONE#VLR##{@company.telephone}#RS# ")
+    send_doc(xml_data, '/people/person', 'without_fingerprint.jasper', "Pessoas sem biometria", encoded_string, "pdf")  
   end
 
   def birthday   
@@ -223,6 +235,10 @@ class Admin::PeopleController < Admin::AdminController
 
     def set_people
       @people = Person.where('date_born IS NOT NULL and EXTRACT(month FROM date_born) = ?', Time.now.month)     
+    end
+
+    def set_people_without_fngerprint      
+      @people = Person.where("LENGTH(fingerprint) = 0")   
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

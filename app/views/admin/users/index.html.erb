@@ -1,0 +1,107 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header card-header-success" data-background-color="green">
+        <div class="row">
+          <div class="col">
+            <h4 class="title">Usuários</h4>                
+          </div>              
+        </div>
+      </div>
+
+      <div class="row justify-content-center d-flex align-items-center">
+        <div class="col-11">
+          <div class="card-content table-responsive">
+            
+            <table id="tableUsers" class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>E-mail</th>
+                  <th>Perfil</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @users.each do |user| %>
+                  <tr>
+                    <td><%= user.id %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.profile.description %></td>
+                    <td>
+                        <a href="#" class="edit_user" style="color: gray; heigth: 100%; width: 100%;">
+                            <i class="material-icons">edit</i>
+                        </a>                        
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+            <br/>
+          </div>
+        </div>
+      </div>      
+    </div>
+  </div>
+</div>
+
+<script> 
+  jQuery(function($){
+    $.notify("<%= notice %>", "success" );    
+
+    $(".edit_user").on("click", function(event){
+        event.preventDefault();  
+        
+        var index = parseInt( $(this).closest('tr').index() )+1;
+
+        $.ajax({
+          url: "/admin/profiles/",
+          type: "GET",
+          data: {},
+          success: function(data, status, jqXHR){
+            var json = jqXHR.responseJSON;                    
+            var profiles = json.profiles;
+            var profile = $("#tableUsers tbody tr:nth-child("+ index +") td:nth-child(3)").text();
+            var options = '<select class="custom-select" id="selectProfile">';
+
+            for (var i = 0; i < profiles.length; i++) {
+               options += '<option value="' + profiles[i].id + '">' + profiles[i].description + '</option>';
+            }
+            options += "</select><span class=\"caret\"></span>";           
+
+            $("#tableUsers tbody tr:nth-child("+ index +") td:nth-child(3)").html(options);
+            $("#selectProfile").val(profile);
+            document.getElementById('selectProfile').addEventListener("change", changeProfile);
+          },
+          error : function(jqXHR, textStatus, errorThrown){
+            var json = jqXHR.responseJSON;  
+          }
+        }); 
+    });
+
+    var changeProfile = function(event){
+
+      var index = parseInt( $(this).closest('tr').index() )+1;      
+      var user_id = $("#tableUsers tbody tr:nth-child("+ index +") td:nth-child(1)").text();
+      var profile_id = $('#selectProfile').val();
+      var user = new Object();
+      user['id'] = user_id;
+      user["profile_id"] = profile_id;
+
+      $.ajax({
+        url: "/admin/users/",
+        type: "PATCH",
+        data: {"user": user},
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON;
+          var profile = json.profile;          
+          $("#tableUsers tbody tr:nth-child("+ index +") td:nth-child(3)").html(profile);          
+        },
+        error : function(jqXHR, textStatus, errorThrown){
+          var json = jqXHR.responseJSON;  
+        }
+      }); 
+    }
+  });
+</script>

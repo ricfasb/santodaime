@@ -8,6 +8,8 @@ class Admin::CheckinsController < Admin::AdminController
   include Jasper::Bridge
   
   before_action :set_checkins, only: [:checkins_pdf]
+  before_action :set_without_checkins, only: [:without_checkins_pdf]
+
   before_action :authenticate_user!
   
   # GET /checkins
@@ -39,11 +41,20 @@ class Admin::CheckinsController < Admin::AdminController
     end
   end
 
+  def without_checkins_pdf
+    xml_data = render_to_string('checkins_nok.xml.builder', layout: false)    
+    @company = Company.find( session[:current_company] )      
+
+    encoded_string = Base64.encode64("COMPANY_NAME#VLR##{@company.name}#RS#COMPANY_TELEPHONE#VLR##{@company.telephone}#RS#")
+    send_doc(xml_data, '/people/person', 'sem_checkin.jasper', "Relatório de pessoas sem registro de checkin", encoded_string, "pdf")
+  end
+
   def checkins_pdf
-    xml_data = render_to_string('checkins_ok.xml.builder', layout: false)
-    @company = Company.find(2)  
-    encoded_string = Base64.encode64("#{@company.name}#RS##{@company.telephone}#RS# ")
-    send_doc(xml_data, '/checkins/checkin', 'checkins.jasper', "Checkins Realizados", encoded_string, "pdf")  
+    xml_data = render_to_string('checkins_ok.xml.builder', layout: false)    
+    @company = Company.find( session[:current_company] )      
+
+    encoded_string = Base64.encode64("COMPANY_NAME#VLR##{@company.name}#RS#COMPANY_PHONE#VLR##{@company.telephone}#RS#DATA_INICIO#VLR#01/08/2019#RS#DATA_FIM#VLR#31/08/2019#RS#")
+    send_doc(xml_data, '/checkins/checkin', 'checkins.jasper', "Checkins Realizados", encoded_string, "pdf")
   end
 
   private
@@ -58,4 +69,13 @@ class Admin::CheckinsController < Admin::AdminController
       
       @checkins = Checkin.where(:created_at =>  init_date..end_date).order('created_at DESC')
     end
+
+    def set_without_checkins     
+      init_date = format_date_hour_ini_us params[:initial_date]
+      end_date  = format_date_hour_fin_us params[:final_date]
+                
+      @people = Person.people_has_no_checkin(init_date, end_date)                
+      puts "#{@people.count}"
+    end
+
 end

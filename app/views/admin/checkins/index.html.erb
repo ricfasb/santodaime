@@ -120,6 +120,18 @@ jQuery(function($){
 
     event.preventDefault();             
   });
+
+  $('#btnNotCheckins').on("click", function(event) {   
+    var dataInicial = $('#q_created_at_gteq').val();
+    var dataFinal = $('#q_created_at_lteq').val();
+
+    var url = "/admin/checkins/without_checkins_pdf?initial_date="+dataInicial+"&final_date="+dataFinal;
+    window.open(url, '_blank');    
+
+    event.preventDefault();             
+  });  
+
+  
   
 });    
 </script>
