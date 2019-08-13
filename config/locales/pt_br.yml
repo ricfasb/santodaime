@@ -131,6 +131,7 @@
         quantity: Quantidade
         amount: Valor        
       expense:
+        company: Empresa
         description: Descrição
         observation: Observação
         amount: Valor
