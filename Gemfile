@@ -28,7 +28,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'trix'
 
-# gem 'jasper-bridge'
+#gem 'jasper-bridge'
 # Use SCSS for stylesheets
 # gem active_scaffold
 # gem active_admin
