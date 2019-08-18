@@ -11,8 +11,8 @@
                     <%= link_to raw('<i class="material-icons">add</i>'),
                       new_admin_category_path, 
                       :style => "margin-left: 35px",
-                      :class => 'btn btn-success btn-round btn-fab' %>
-                </div>
+                      :class => 'btn btn-success btn-round btn-fab' %>                    
+                </div>               
               </div>
             </div>
             
@@ -41,25 +41,15 @@
                       <thead>
                         <tr>
                           <th width="10%"><%= model_class.human_attribute_name(:id) %></th>
-                          <th width="45%"><%= model_class.human_attribute_name(:description) %></th>
-                          <th width="45%"><%= model_class.human_attribute_name(:insert_tuition) %></th>                                                                
-                          <th width="20%"><%=t '.actions', :default => t("helpers.actions") %></th>
+                          <th width="75%"><%= model_class.human_attribute_name(:description) %></th>                                                                                        
+                          <th width="15%"><%=t '.actions', :default => t("helpers.actions") %></th>
                         </tr>
                       </thead>
                       <tbody>
                         <% @categories.each do |category| %>
                           <tr>
                             <td><%= category.id %></td>
-                            <td style="word-break: break-all;"><%= link_to category.description, admin_category_path(category) %></td>
-                            <td>
-                              <% unless category.nil? %>
-                                <% if category.insert_tuition == true %>
-                                  <%= "Sim" %>
-                                <% else %>
-                                  <%= "Não" %>
-                                <% end %>
-                              <% end %>
-                            </td>                                                                    
+                            <td style="word-break: break-all;"><%= link_to category.description, admin_category_path(category) %></td>                                                                                              
                             <td>
                               <div class="btn-group" role="group">
                                 <%= link_to raw('<i class="material-icons">edit</i>'),
@@ -87,7 +77,8 @@
                           </th>
                         </tfoot>
                       <% end %> 
-                    </table>                          
+                    </table>
+                    <br/>                          
                   </div>
                 </div>
               </div>   

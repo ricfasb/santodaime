@@ -1,16 +1,8 @@
 class Category < ActiveRecord::Base
     validates_presence_of :description
     validates_uniqueness_of :id
-
-    validate :generates_tuition
-
-    def generates_tuition        
-        if insert_tuition && tuition_id.nil?
-            errors.add(:insert_tuition, 'Selecione a mensalidade')
-        end
-        if !insert_tuition
-          self.tuition_id = nil
-        end
-    end
-
+    
+    has_many :category_tuitions, :dependent => :destroy
+    accepts_nested_attributes_for :category_tuitions, allow_destroy: true
+    
 end

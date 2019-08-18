@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190810183724) do
+ActiveRecord::Schema.define(version: 20190814221859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,15 @@ ActiveRecord::Schema.define(version: 20190810183724) do
     t.boolean  "insert_tuition"
     t.integer  "tuition_id"
     t.index ["tuition_id"], name: "index_categories_on_tuition_id", using: :btree
+  end
+
+  create_table "category_tuitions", force: :cascade do |t|
+    t.integer  "category_id"
+    t.integer  "tuition_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["category_id"], name: "index_category_tuitions_on_category_id", using: :btree
+    t.index ["tuition_id"], name: "index_category_tuitions_on_tuition_id", using: :btree
   end
 
   create_table "checkins", force: :cascade do |t|
@@ -266,7 +275,6 @@ ActiveRecord::Schema.define(version: 20190810183724) do
 
   create_table "permissions", force: :cascade do |t|
     t.string  "description"
-    t.string  "screen",      limit: 50
     t.integer "father"
   end
 
@@ -347,6 +355,8 @@ ActiveRecord::Schema.define(version: 20190810183724) do
   add_foreign_key "addresses", "cities"
   add_foreign_key "addresses", "states"
   add_foreign_key "categories", "tuitions"
+  add_foreign_key "category_tuitions", "categories"
+  add_foreign_key "category_tuitions", "tuitions"
   add_foreign_key "checkins", "companies"
   add_foreign_key "checkins", "people"
   add_foreign_key "cities", "states"

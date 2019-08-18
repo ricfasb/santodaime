@@ -19,8 +19,7 @@
         description: Descrição
       category:
         id: Código
-        description: Decrição
-        insert_tuition: Gera mensalidade
+        description: Decrição        
         tuition_id: Mensalidade
         created_at: Criado em
       person:

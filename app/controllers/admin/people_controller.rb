@@ -102,7 +102,7 @@ class Admin::PeopleController < Admin::AdminController
   # POST /people.json
   def create  
 
-    if permission 22
+#    if permission 22
 
       @person = Person.new(person_params)
       data = params[:data_uri]
@@ -148,7 +148,7 @@ class Admin::PeopleController < Admin::AdminController
           format.js   { render action: 'message' }     
         end
       end
-    end
+ #   end
   end
 
   # PATCH/PUT /people/1

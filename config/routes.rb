@@ -21,7 +21,8 @@ Rails.application.routes.draw do
 
     get '/users' => 'users#index'
 
-    resources :categories    
+    resources :categories
+
     resources :checkins do
       get "checkins_pdf",         to: "checkins#checkins_pdf",          on: :collection
       get "without_checkins_pdf", to: "checkins#without_checkins_pdf",  on: :collection

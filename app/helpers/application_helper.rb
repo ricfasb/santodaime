@@ -45,6 +45,7 @@ module ApplicationHelper
     end
 
     def profile_logged
+        puts "Logged #{current_user}"
         User.find( current_user.id )
     end
 
@@ -56,5 +57,25 @@ module ApplicationHelper
             false
         end
     end
+
+    def link_to_add_fields_2(name, f, association, class_name)
+        new_object = f.object.send(association).klass.new
+        id = new_object.object_id
+        fields = f.fields_for(association, new_object, category_tuition: id) do |builder|
+            render(association.to_s.singularize, f: builder)
+        end
+
+        link_to(name, '#', class: "#{class_name} add_fields nested-add-btn", data: {id: id, fields: fields.gsub("\n", "")})
+    end
+
+    def link_to_add_fields(name, f, association, class_name)
+        new_object = f.object.send(association).klass.new        
+        id = new_object.object_id        
+        fields = f.fields_for(association, new_object, child_index: id) do |builder|
+            render(association.to_s.singularize, f: builder)
+        end
+
+        link_to(raw('<i class="material-icons">add</i>'+name), '#', class: "#{class_name} btn btn-success", data: {id: id, fields: fields.gsub("\n", "")})
+    end    
     
 end

@@ -1,6 +1,5 @@
 class Admin::CategoriesController < Admin::AdminController
-
-  
+ 
   layout "admin"
 
   before_action :set_category, only: [:show, :edit, :update, :destroy]
@@ -25,7 +24,7 @@ class Admin::CategoriesController < Admin::AdminController
   end
 
   # GET /categories/1/edit
-  def edit
+  def edit    
   end
 
   # POST /categories
@@ -65,7 +64,7 @@ class Admin::CategoriesController < Admin::AdminController
   def destroy
     if @category.description == "Fardado"
       respond_to do |format|
-        format.html { redirect_to admin_categories_url, notice: 'Categoria removida com sucesso.' }        
+        format.html { redirect_to admin_categories_url, notice: 'Categoria do sistema, não permite exclusão.' }        
         @category.errors.add("Atenção " "Categoria do sistema, não permite exclusão", "" "!")
         format.js { render action: 'message' }
       end
@@ -81,12 +80,12 @@ class Admin::CategoriesController < Admin::AdminController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_category
-      @category = Category.find(params[:id])
+      @category = Category.find(params[:id])      
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def category_params
-      params.require(:category).permit(:id, :description, :insert_tuition, :tuition_id)
+      params.require(:category).permit(:id, :description, category_tuitions_attributes: [:id, :tuition_id, :_destroy])
     end
 
 end

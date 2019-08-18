@@ -1,7 +1,7 @@
 class TuitionPerson < ApplicationRecord  
   extend Enumerize
 
-  enumerize :status_payment, in: [:pending, :paid]
+  enumerize :status_payment, in: [:pending, :paid, :cancelled]
 
   belongs_to :person
   belongs_to :tuition

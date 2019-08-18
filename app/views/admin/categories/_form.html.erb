@@ -1,73 +1,149 @@
 <%- model_class = Category -%>
-<%= form_for [:admin, @category], :html => { remote: true, :class => "form-horizontal tuition" } do |f| %>
+<%= form_for [:admin, @category], :html => { remote: true, :class => "form-horizontal" } do |f| %>
 
-<div class="content">  
-  <div class="container-fluid">
+<div class="row justify-content-center d-flex align-items-center">
+  <div class="col-10">
 
-    <div class="row justify-content-center d-flex align-items-center">
-      <div class="col-10">
+    <div class="row">
+      <div class="col">            
+        <%= f.label :description, :class => 'control-label' %>
+        <%= f.text_field :description, :class => 'form-control' %>            
+      </div>
+      <div class="col-3">
+        <%= link_to_add_fields "Mensalidade", f, :category_tuitions, 'add-tuition' %>
+      </div>
+    </div>  
 
-        <div class="row">
-          <div class="col">            
-            <%= f.label :description, :class => 'control-label' %>
-            <%= f.text_field :description, :class => 'form-control' %>            
+    <div class="row">
+      <div class="col-12 small-centered columns">
+        <fieldset>          
+          <div class="nasted-list">
+            <table id="tableTuitions" class="table table-stripped">
+              <thead>
+                <th>Código</th>
+                <th>Mensalidade</th>
+                <th style="text-align: center">Remover</th>
+              </thead>
+              <tbody class="fields-target">
+                <% if f.object.id.present? %>
+                  <% @category.category_tuitions.each do |category_tuition| %>
+                    <tr>
+                      <td class="tuition-identifier"><%= "#{category_tuition.tuition.id}" %></td>
+                      <td class="tuition-name"><%= "#{category_tuition.tuition.description}" %></td>
+                      <td style="text-align: center"> 
+                        <%= f.hidden_field :_destroy %>
+                        <%= link_to raw('<i class="material-icons">delete</i>'),
+                            admin_categories_path(category_tuition),
+                            :method => :delete,
+                            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },                                            
+                            :style => 'color: #cf1a1a; font-size: 32px;' %>  
+                      </td>
+                    </tr>
+                  <% end %>
+                <% else %>
+                  <%= f.fields_for :category_tuitions do |builder| %>                  
+                    <%= render 'category_tuition', f: builder %>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
           </div>
-          <div class="col-4">
-            <div class="togglebutdton">
-              <label class="input-checkbox checkbox-lightBlue">
-                <%= f.check_box :insert_tuition %>
-                <span class="checkbox"></span>
-              </label>
-              <label for="category_insert_tuition" class="label"><%= model_class.human_attribute_name(:insert_tuition)%></label>             
-            </div>
-          </div>
-        </div>  
-
-        <div class="row">     
-          <div class="col-6 divMensalidade">
-            <div class="label-floating">                
-                <%= f.collection_select(:tuition_id, Tuition.order('description desc').all, :id, :description,
-                     {:prompt => 'Selecione a mensalidade'}, {:class => 'btn btn-primary custom-select'}) %>                     
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12" align="right">
-            <div class="btn-group" role="group">
-              <%= f.submit nil, :class => 'btn btn-success' %>
-              <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                        admin_categories_path, :class => 'btn btn-danger' %>
-            </div>
-          </div>
-        </div> 
-
-      </div>    
+        </fieldset>
+      </div>
     </div>
-  </div>
-</div>          
+
+    <div class="row">
+      <div class="col-12" align="right">
+        <div class="btn-group" role="group">
+          <%= f.submit nil, :class => 'btn btn-success' %>
+          <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                    admin_categories_path, :class => 'btn btn-danger' %>
+        </div>
+      </div>
+    </div> 
+
+  </div>    
+</div>            
 <% end %>
+
+<div id="tuitionModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Nova Mensalidade</h4>
+        <button type="button" class="close" id="closeModal" data-dismiss="modal"><span>×</span></button>                        
+      </div>
+      <div class="modal-body">
+        <form id="tuition-form">
+          <%= hidden_field_tag :tuition_id %>
+          <div class="row">
+            <div class="col-12">  
+              <%= label_tag :tuition_sel_id, "Mensalidade:" %>              
+              <%= collection_select(:tuition_sel, :id, Tuition.order('description desc').all, :id, :description,
+                    {:prompt => 'Selecione a mensalidade'}, {:class => 'btn btn-primary custom-select'}) %>                     
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer btn-group">
+        <%= link_to "Adicionar", "#", class: "btn btn-success save-tuition" %>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnFechar">Fechar</button>
+      </div>
+    </div>
+  </div>  
+</div>
 
 <script> 
   jQuery(function($){
-    $('.selectpicker').selectpicker({
-        width: '100%'
-    });
     
     $('#liCategoria').addClass("active");   
-    
-    function verifyTuition(){
-      if( $('#category_insert_tuition').is(':checked')){
-        $('.divMensalidade').css('display', 'block');
-      }else{
-        $('.divMensalidade').css('display', 'none');
-      }
-    }
 
-    verifyTuition();
-    $('#category_insert_tuition').change(function () {
-      verifyTuition();
+    $('.add-tuition').click(function(event) {
+      var id = $(this).data('id'); 
+      var tuitionScreen = $('#tuitionModal');
+      tuitionScreen.find('#tuition_id').val(id);
+      $(tuitionScreen).modal();    
+
+      event.preventDefault();
     });
+
+    $('.save-tuition').click(function(event) {
+      var errors = [];
+
+      var tuition_id = $('#tuition_sel_id').val(); 
+                  
+      var table = $("#tableTuitions");
+      table.find('tbody').find('tr').each(function(indice){
+        var row = $(this);                
+        if(tuition_id === $(this).find("td").eq(0).text() ){
+          errors.push("Esta mensalidade já consta na lista.");
+          $.notify("Esta mensalidade já consta na lista.", "error" );          
+        }
+      });
+
+      if( errors.length > 0)
+        return false;  
+      
+      var row = addTuitionRow();  
+      var btnRemover = "<a href=\"#\" style=\"color: #cf1a1a; font-size: 32px;\"><i class=\"material-icons\">delete</i></a>";
+      var tuition_name = $('#tuition_sel_id option:selected').text();
+      row.find('.tuition-id').val(tuition_id);
+      row.find('.tuition-identifier').text(tuition_id);      
+      row.find('.tuition-name').text(tuition_name);    
+      row.find('.btn-remover').html(btnRemover);
+      event.preventDefault();     
+    });
+
+    var addTuitionRow = function() {
+      var id = $('.add-tuition').data('id');      
+      var fields = $('.add-tuition').data('fields');
+      var time = new Date().getTime();          
+      var regexp = new RegExp(id, 'g');
+      var tuition = $('.add-tuition').data('fields').replace(regexp, time);
+      $('.fields-target').append(tuition);
+
+      return $('.fields-target').children().last();
+    };
 
   });
 </script>     
