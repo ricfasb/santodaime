@@ -94,20 +94,61 @@ class  Admin::CashesController < Admin::AdminController
     def set_payments
       @init_date = format_date_hour_ini_us params[:initial_date]
       @end_date  = format_date_hour_fin_us params[:final_date]
+
+      @cashes = []
+      @tuitionPeople = TuitionPerson.where.not(pay_day: nil)
+      @invoces = Invoice.where.not(pay_day: nil)
+
+      @tuitionPeople.each do |t|
+        @cash = Cash.new    
+        @cash.type = 'Mensalidade'
+        @cash.identifier = 1
+        @cash.pay_day = t.pay_day
+        @cash.created_at = t.created_at
+        @cash.person = t.person.name
+        @cash.amount = t.tuition.amount        
+        @cashes.push(@cash)
+      end
       
-      @cashes = Cash.all
+      @invoces.each do |i|
+        @cash = Cash.new    
+        @cash.type = i.invoice_type.description
+        @cash.identifier = 1
+        @cash.pay_day = i.pay_day
+        @cash.created_at = i.created_at
+        @cash.person = i.person.name
+        @cash.amount = i.amount        
+        @cashes.push(@cash)
+      end
+            
     end
 
     def set_expenses 
       @init_date = format_date_hour_ini_us params[:initial_date]
       @end_date  = format_date_hour_fin_us params[:final_date]
 
+      @expenses = Expense.all
+
+      @expenses.each do |e|
+        @cash = Cash.new 
+        @cash.type = "Despesa"
+        @cash.identifier = -1
+        @cash.pay_day = e.created_at
+        @cash.created_at = e.created_at
+        @cash.person = e.provider
+        @cash.amount = e.amount        
+        @cashes.push(@cash)
+      end
+
       @cashes = Cash.all
     end
 
     def set_overdue 
       @init_date = format_date_hour_ini_us params[:initial_date]
-      @end_date  = format_date_hour_fin_us params[:final_date]
+      @end_date  = format_date_hour_fin_us DateTime.now.to_s
+
+      @tuitionPeople = TuitionPerson.where(pay_day: nil).where(cancel_date: nil)
+      @invoces = Invoice.where(pay_day: nil)..where(cancel_date: nil)
 
       @cashes = Cash.all
     end

@@ -16,7 +16,7 @@ class Admin::CompaniesController < Admin::AdminController
     rescue StandardError => e  
       puts "#{e.message}"
     end
-
+    
     if request.xhr?
       render :json => { :address => @address, :state => @state, :city => @city, :cities => @cities }
     else

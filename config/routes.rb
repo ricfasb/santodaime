@@ -56,8 +56,8 @@ Rails.application.routes.draw do
 
     resources :cashes do
       get "payments_pdf", to: "cashes#payments_pdf",  on: :collection
-      get "expenses_pdf", to: "cashes#expenses_pdf"
-      get "overdue_pdf",  to: "cashes#overdue_pdf"
+      get "expenses_pdf", to: "cashes#expenses_pdf",  on: :collection
+      get "overdue_pdf",  to: "cashes#overdue_pdf",  on: :collection
     end    
     
     get "/users" => 'users#index'    
