@@ -36,7 +36,7 @@
             <div class="row">
               <div class="col">
                 <div class="card-content table-responsive">
-                  <table class="table table-striped">
+                  <table id="tableInvoices" class="table table-striped">
                     <thead>
                       <tr>                   
                         <th><%= model_class.human_attribute_name(:created_at) %></th>     
@@ -50,7 +50,7 @@
                     </thead>
                     <tbody>
                       <% @invoices.each do |invoice| %>
-                        <tr>                          
+                        <tr value=<%= invoice.id %> >                          
                           <td><%= invoice.created_at.strftime("%d/%m/%Y %H:%M:%S") %></td>
                           <td><%= link_to invoice.person.name, admin_invoice_path(invoice)  %></td>
                           <td><%= invoice.description %></td>
@@ -62,11 +62,8 @@
                               <div class="btn-group">
                                 <%= link_to raw('<i class="material-icons">edit</i>'),
                                             edit_admin_invoice_path(invoice), :style => 'color: gray; heigth: 100%; width: 100%;' %>
-                                <%= link_to raw('<i class="material-icons">delete</i>'),
-                                            admin_invoice_path(invoice),
-                                            :method => :delete,
-                                            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },                                            
-                                            :style => 'color: #cf1a1a; font-size: 32px;' %>
+                                &nbsp;
+                                <button class="btn btn-xs btn-danger btn-cancel">Cancelar</button>
                               </div>
                             <% end %>
                           </td>
@@ -98,5 +95,24 @@
 <script> 
   jQuery(function($){
     $.notify("<%= notice %>", "success" );
+
+    $('#tableInvoices').on('click', '.btn-cancel', function(event) {
+      event.preventDefault();
+      if( confirm('Deseja realmente cancelar esta cobrança?') ){                
+          var index = parseInt( $(this).closest('tr').index() )+1;
+          var id = $(this).closest('tr').attr('value');                                
+
+          var invoice = new Object();
+          invoice["id"] = id;
+          invoice["cancel_date"] = new Date();
+          invoice["person_cancel"] = "<%= escape_javascript(current_user.id.to_s)%>";
+          $.ajax({
+              url: "/admin/invoices/"+id,
+              type: "PUT",
+              data: { "id": id, "invoice" : invoice },
+              success: function(data, status, jqXHR){ }
+          });                
+      }      
+    });   
   });
 </script>         

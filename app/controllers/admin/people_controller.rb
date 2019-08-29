@@ -95,7 +95,7 @@ class Admin::PeopleController < Admin::AdminController
 
   # GET /people/1/edit
   def edit
-    @tuitionPeople = TuitionPerson.where(person_id: params[:id])    
+    @tuitionPeople = TuitionPerson.where(person_id: params[:id]).order('due_date ASC')  
   end
 
   # POST /people

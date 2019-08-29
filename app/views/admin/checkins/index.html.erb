@@ -10,16 +10,16 @@
                 </div>
                 <div class="col" align="right">
 
-                  <button class="btn btn-success btn-round btn-fab" id="btnNotCheckins">
+                  <button class="btn btn-success btn-round btn-fab" id="btnNotCheckins" rel="tooltip" title="Checkins não realizados">
                     <i class="material-icons">thumb_down</i>
                   </button>
 
-                  <button class="btn btn-success btn-round btn-fab" id="btnCheckins">
+                  <button class="btn btn-success btn-round btn-fab" id="btnCheckins" rel="tooltip" title="Checkins realizados">
                     <i class="material-icons">thumb_up</i>
                   </button>
                   
-                  <button class="btn btn-success btn-round btn-fab" id="btnNewCheckin">
-                    <i class="material-icons">add</i>
+                  <button class="btn btn-success btn-round btn-fab" id="btnNewCheckin" rel="tooltip" title="Efetuar Checkin">
+                    <i class="material-icons">fingerprint</i>
                   </button>  
 
                 </div>
@@ -29,8 +29,8 @@
             <div class="card-content">
               <%= search_form_for [:admin, @q] do |f| %>
               <div class="row">                        
-                <div class="col-2">
-                  <%= f.label 'Busca:' %>                                                    
+                <div class="col-2" align="right" style="display: table; ">
+                  <%= f.label 'Busca:', :style => 'display:table-cell; vertical-align: middle; height: 40px;' %>                                                    
                 </div>
                 <div class="col-4" align="right">			   
                   <%= f.search_field :person_name_start, :placeholder => 'Nome da pessoa', :class => 'form-control' %>
@@ -94,6 +94,7 @@
                         </tfoot>
                       <% end %>  
                     </table>
+                    <br/>
                   </div>
                 </div>
               </div>                       

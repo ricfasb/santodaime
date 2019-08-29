@@ -1,28 +1,60 @@
 <div id="mensalidade" class="tab-pane fade">
     <div class="col-12 box-shadow">   
-    <table class="table table-striped">
+    <table id="tableTuitionsPerson" class="table table-striped">
         <thead>
         <tr>
             <th>Data de vencimento</th>
             <th>Valor</th>
             <th>Situação</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         <% @tuitionPeople.each do |tuition| %>
-        <tr>                                
+        <tr value=<%= tuition.id %> >                                
             <td><%= tuition.due_date.strftime("%d/%m/%Y") %></td>
             <td><%= tuition.tuition.amount %></td>
-            <td>
-                <% unless tuition.pay_day.nil? %>
-                <%= "Pago" %>
-                <% else %>            
-                <%= "Pendente" %>
-                <% end %>            
-            </td>
+            <% if not tuition.cancel_date.nil? %>          
+                <td><%= "Cancelado" %></td>                
+                <td><%= "Cancelado por #{user_name tuition.person_cancel}" %></td>                
+            <% elsif tuition.pay_day.nil? %>          
+                <td><%= "Pendente" %></td>
+                <td><button class="btn btn-xs btn-danger btn-cancel">Cancelar</button></td>
+            <% else %>     
+                <td colspan="2"><%= "Pago" %></td>                        
+            <% end %>                     
         </tr>
         <% end %>
         </tbody>
     </table>
     </div>
 </div>
+
+<script>
+    jQuery(function($){
+        $('#tableTuitionsPerson').on('click', '.btn-cancel', function(event) {
+            event.preventDefault();
+            if( confirm('Deseja realmente cancelar esta mensalidade?') ){                
+                var index = parseInt( $(this).closest('tr').index() )+1;
+                var id = $(this).closest('tr').attr('value');                                
+
+                var tuition_person = new Object();
+                tuition_person["id"] = id;
+
+                $.ajax({
+                    url: "/admin/tuitions_people/",
+                    type: "PATCH",
+                    data: { "id": id, "tuition_person" : tuition_person },
+                    success: function(data, status, jqXHR){
+                        if(data.status){    
+                            var username = data.username.email;                      
+                            $("#tableTuitionsPerson tbody tr:nth-child("+ index +") td:nth-child(3)").html("Cancelado");
+                            $("#tableTuitionsPerson tbody tr:nth-child("+ index +") td:nth-child(4)").html("Cancelador por " + username);
+                        }                        
+                    },
+                    error: function(o, status, error) { }
+                });                
+            }      
+        });    
+    });  
+</script>

@@ -635,10 +635,6 @@
     });
 
     /* Fim webcam */
-    $('.selectpicker').selectpicker({
-        width: '100%'
-    });   
-
     if( $('#person_fingerprint').val().length > 0 ){
       $( "#btnBiometria" ).attr("class","btn btn-success btn-round btn-icon");
       $( "#btnLerBiometria" ).attr("class","btn btn-successn");
@@ -852,10 +848,7 @@
         $("#person_address_attributes_city_id").val(city_id);
         
       },
-      error: function(o, status, error) {
-        var json = o.responseJSON;
-        alert(json);
-      }
+      error: function(o, status, error) { }
     });
   });
 
@@ -880,10 +873,7 @@
         $("#person_occupation_attributes_address_attributes_city_id").val(city_id_profissional);
         
       },
-      error: function(o, status, error) {
-        var json = o.responseJSON;
-        alert(json);
-      }
+      error: function(o, status, error) { }
     });
   });    
 </script>

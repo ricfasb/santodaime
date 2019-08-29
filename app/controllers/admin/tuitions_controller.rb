@@ -3,7 +3,7 @@ class Admin::TuitionsController < Admin::AdminController
   
   layout "admin"
   
-  before_action :set_tuition, only: [:show, :edit, :update, :destroy]
+  before_action :set_tuition, only: [:get_tuition, :show, :edit, :update, :destroy]
   before_action :authenticate_user!  
 
   # GET /tuitions
@@ -65,6 +65,14 @@ class Admin::TuitionsController < Admin::AdminController
     respond_to do |format|
       format.html { redirect_to admin_tuitions_url, notice: 'Mensalidade removida com sucesso.' }
       format.json { head :no_content }
+    end
+  end
+
+  def get_tuition
+    if request.xhr?
+      render :json => { :tuition => @tuition }
+    else
+      render json: {}, status: :false
     end
   end
 

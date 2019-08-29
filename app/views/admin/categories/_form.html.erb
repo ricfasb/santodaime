@@ -22,6 +22,7 @@
               <thead>
                 <th>Código</th>
                 <th>Mensalidade</th>
+                <th>Valor</th>
                 <th style="text-align: center">Remover</th>
               </thead>
               <tbody class="fields-target">
@@ -30,22 +31,27 @@
                     <tr>
                       <td class="tuition-identifier"><%= "#{category_tuition.tuition.id}" %></td>
                       <td class="tuition-name"><%= "#{category_tuition.tuition.description}" %></td>
-                      <td style="text-align: center"> 
-                        <%= f.hidden_field :_destroy %>
-                        <%= link_to raw('<i class="material-icons">delete</i>'),
-                            admin_categories_path(category_tuition),
-                            :method => :delete,
-                            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },                                            
-                            :style => 'color: #cf1a1a; font-size: 32px;' %>  
+                      <td class="tuition-amount"><%= "#{category_tuition.tuition.amount}" %></td>
+                      <td style="text-align: center">                         
+                        <%= link_to '#', id: category_tuition.id, style: 'color: #cf1a1a; font-size: 32px;',  class: 'remove_fields' do %>
+                          <i class="material-icons">delete</i>
+                        <% end %>
                       </td>
                     </tr>
-                  <% end %>
+                  <% end %>                 
                 <% else %>
                   <%= f.fields_for :category_tuitions do |builder| %>                  
                     <%= render 'category_tuition', f: builder %>
                   <% end %>
                 <% end %>
               </tbody>
+              <% if @category.category_tuitions.length == 0 %> 
+                <tfoot> 
+                  <th colspan="4" class="tfoot_empty" style="text-align: center; height: 50px;">
+                    Nenhuma mensalidade adicionada
+                  </th>
+                </tfoot>
+              <% end %>
             </table>
           </div>
         </fieldset>
@@ -94,8 +100,7 @@
 </div>
 
 <script> 
-  jQuery(function($){
-    
+  jQuery(function($){    
     $('#liCategoria').addClass("active");   
 
     $('.add-tuition').click(function(event) {
@@ -111,8 +116,13 @@
       var errors = [];
 
       var tuition_id = $('#tuition_sel_id').val(); 
+
+      if( tuition_id === "" ){
+        errors.push("Selecione uma mensalidade.");
+        $.notify("Selecione uma mensalidade.", "error" ); 
+      }
                   
-      var table = $("#tableTuitions");
+      var table = $("#tableTuitions");               
       table.find('tbody').find('tr').each(function(indice){
         var row = $(this);                
         if(tuition_id === $(this).find("td").eq(0).text() ){
@@ -122,15 +132,24 @@
       });
 
       if( errors.length > 0)
-        return false;  
+        return false;    
       
+      $('#tableTuitions > tfoot').remove();
       var row = addTuitionRow();  
-      var btnRemover = "<a href=\"#\" style=\"color: #cf1a1a; font-size: 32px;\"><i class=\"material-icons\">delete</i></a>";
+      var btnRemover = "<a href=\"#\" style=\"color: #cf1a1a; font-size: 32px;\"><i class=\"material-icons btn-remover\">delete</i></a>";
       var tuition_name = $('#tuition_sel_id option:selected').text();
+      var amount = 0.0;
+
+      var objTuition = getMensalidade(tuition_id);      
+      objTuition.done(function(result) {
+          amount = result;
+      });
+
       row.find('.tuition-id').val(tuition_id);
       row.find('.tuition-identifier').text(tuition_id);      
       row.find('.tuition-name').text(tuition_name);    
-      row.find('.btn-remover').html(btnRemover);
+      row.find('.tuition-amount').text( amount );    
+      row.find('.div-btn-remover').html(btnRemover);
       event.preventDefault();     
     });
 
@@ -144,6 +163,65 @@
 
       return $('.fields-target').children().last();
     };
+    
+    function getMensalidade(mensalidade){
+      var deferred = $.Deferred();	            
+      var result = null;
+
+      $.ajax({
+        url: "/admin/tuitions/" + mensalidade +"/get_tuition/",
+        type: "GET",
+        async: false,
+        data: { "id": mensalidade },
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON; 
+          result = json.tuition.amount;
+        },
+        error: function(o, status, error) {}
+      });   
+
+      deferred.resolve(result);
+      return deferred.promise();
+    }
+
+    $('form').on('click', '.btn-remover', function(event) {      
+      $(this).closest('tr').remove();
+      verificaRodape();      
+      event.preventDefault();
+    });
+
+    $('form').on('click', '.remove_fields', function(event) {
+      var row = $(this).closest('tr');
+      var id = $(this).closest('a').attr('id');
+      event.preventDefault();
+      $.ajax({
+        url: "/admin/categories/" + id +"/destroy_category_tuition/",
+        type: "DELETE",
+        data: { },
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON; 
+          row.remove();
+          verificaRodape();                            
+        },
+        error: function(o, status, error) {
+          var json = o.responseJSON;
+          alert(json);
+        }
+      });      
+    });
+
+    var verificaRodape = function(event){
+      var tfoot = "<tfoot> "+ 
+                  "<th colspan=\"4\" class=\"tfoot_empty\" style=\"text-align: center; height: 50px;\">"+
+                  " Nenhuma mensalidade adicionada"+
+                  "</th>"+
+                  "</tfoot>";
+      var tbody = $("#tableTuitions tbody");
+
+      if (tbody.children().length == 0) {
+          $('#tableTuitions').append(tfoot);
+      }      
+    }
 
   });
 </script>     

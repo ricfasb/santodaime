@@ -15,6 +15,10 @@ class Admin::CheckinsController < Admin::AdminController
   # GET /checkins
   # GET /checkins.json
   def index
+    params[:q] ||= {}
+    if params[:q][:created_at_lteq].present?
+      params[:q][:created_at_lteq] = params[:q][:created_at_lteq].to_date.end_of_day
+    end
     @q = Checkin.ransack(params[:q])
     @q.sorts = ['created_at desc'] if @q.sorts.empty?
     @checkins = @q.result.paginate(:page => params[:page], :per_page => 10)  

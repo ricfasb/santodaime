@@ -9,41 +9,63 @@
     <div class="container-fluid">
       <div class="row justify-content-center d-flex align-items-center">
         <div class="col-10">
-        
+          
+          <%= f.hidden_field :company_id, value: session[:current_company] %> 
           <div class="row">
-            <div class="col-lg-10">
-              <%= f.collection_select(:person_id, Person.all.order(:name), :id, :name,
-                  {:prompt => 'Selecione a pessoa'}, {:class => 'custom-select', 'data-live-search'=>"true", 'data-size'=>"2"}) %>
-            </div>
-            <div class="col-lg-2">
-            </div>
-          </div>
+            <div class="col-8">
+              <%= f.label 'Nome da Pessoa', :class => 'control-label' %>
+              <%= f.text_field :person_name, data: { autocomplete_source: Person.order(:name).map(&:name)}, :class => 'form-control' %>              
+            </div>            
 
-          <div class="row">
-            <div class="col-lg-10">
-              <%= f.collection_select(:invoice_type_id, InvoiceType.all.order(:description), :id, :description,
-                  {:prompt => 'Tipo de cobrança'}, {:class => 'btn btn-primary custom-select'}) %>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-12">                            
-              <%= f.text_field :description, :placeholder => model_class.human_attribute_name(:description), :class => 'form-control' %>              
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="input-group">                
-                <%= f.text_field :due_date, placeholder: model_class.human_attribute_name(:due_date), :data => {"date-format" => "DD/MM/YYYY"}, class: 'form-control datepicker btnCalendar' %>
-                <span class="input-group-addon">
-                  <i class="fa fa-calendar btnCalendar"></i>
-                </span>
+            <div class="col-4">
+              <div class="divCheckPaied" style="margin-top: 25px">
+                <label class="input-checkbox">                
+                  <%= f.check_box :create_paied %>
+                  <span class="checkbox"></span>
+                </label>
+                <label for="checkbox" class="label">Lançar como Pago</label>                             
               </div>
             </div>
-            
-            <div class="col-lg-6">                             
-              <%= f.text_field :amount, :placeholder => model_class.human_attribute_name(:amount), value: sprintf('%.2f', f.object.amount.to_f).gsub(/\./, ','), class: "mask-money form-control" %>                            
+          </div>
+
+          <div class="row">
+            <div class="col-8">              
+              <%= f.collection_select(:invoice_type_id, InvoiceType.all.order(:description), :id, :description,
+                  {:prompt => 'Selecione o tipo de cobrança'}, {:class => 'btn btn-primary custom-select'}) %>
+            </div>
+
+            <div class="col-4">
+              <%= f.label 'Identificador', :class => 'control-label' %>
+              <%= f.text_field :identifier, :class => 'form-control' %>
+            </div>            
+          </div>
+
+          <div class="row">
+            <div class="col-8">
+              <%= f.label 'Descrição', :class => 'control-label' %>              
+              <%= f.text_area :description, :class => 'form-control', :size => "40x4" %>
+            </div>
+
+            <div class="col-4">
+              <div class="row">
+                <div class="col">
+                  <%= f.label 'Data de vencimento', :class => 'control-label' %>
+                    <div class="input-group">                
+                      <%= f.text_field :due_date, placeholder: model_class.human_attribute_name(:due_date), :data => {"date-format" => "DD/MM/YYYY"}, class: 'form-control datepicker btnCalendar' %>
+                      <span class="input-group-addon">
+                        <i class="fa fa-calendar btnCalendar"></i>
+                      </span>
+                    </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                    <%= f.label 'Valor', :class => 'control-label' %>
+                    <%= f.text_field :amount, value: sprintf('%.2f', f.object.amount.to_f).gsub(/\./, ','), class: "mask-money form-control" %>
+                </div>
+              </div>
+
             </div>
           </div>
 
@@ -68,7 +90,7 @@
 
     $(".btnCalendar").on("click", function() {
       $('#invoice_due_date').focus();
-    });
+    });    
 
     $(".mask-money").maskMoney(
       { 
@@ -81,5 +103,10 @@
         requireDecimal: true
       }
     );
+
+    return $('#invoice_person_name').autocomplete({
+        source: $('#invoice_person_name').data('autocomplete-source')
+    });
+
   });
 </script> 

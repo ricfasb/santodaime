@@ -7,8 +7,8 @@ class Admin::PaymentsController < Admin::AdminController
   before_action :authenticate_user!
 
   def get_all_debits
-    @invoices = Invoice.where(pay_day: nil).where(person_id: params[:person_id])
-    @tuitions = TuitionPerson.where(pay_day: nil).where(person_id: params[:person_id])
+    @invoices = Invoice.where(pay_day: nil).where(cancel_date: nil).where(person_id: params[:person_id])
+    @tuitions = TuitionPerson.where(pay_day: nil).where(cancel_date: nil).where(person_id: params[:person_id])
     @person_id = params[:person_id]
     if request.xhr?
       render :json => { :person => @person_id, :invoices => @invoices, :tuitions => @tuitions }

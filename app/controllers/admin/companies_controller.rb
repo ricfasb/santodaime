@@ -6,10 +6,16 @@ class Admin::CompaniesController < Admin::AdminController
   before_action :authenticate_user!, except: [:get_cep, :load_cities]
 
   def get_cep
-    @address = ViaCep::Address.new(params[:cep])
-    @state   = State.where(uf: @address.state)
-    @city    = City.where(name: @address.city)    
-    @cities  = City.where(state_id: 18)  
+    begin
+      @address = ViaCep::Address.new(params[:cep])
+      @state   = State.where(uf: @address.state)
+      @city    = City.where(name: @address.city)
+      @cities  = City.cities_by_state( @address.state )
+    rescue ViaCep::Errors::ZipcodeNotFound
+      puts "Zip Code Not Founded"
+    rescue StandardError => e  
+      puts "#{e.message}"
+    end
 
     if request.xhr?
       render :json => { :address => @address, :state => @state, :city => @city, :cities => @cities }

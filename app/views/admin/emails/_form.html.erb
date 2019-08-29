@@ -31,15 +31,12 @@
             </div>
           </div>
         </div> 
-
-        <%= f.hidden_field :company_id, value: '1' %> 
+        
+        <%= f.hidden_field :company_id, value: session[:current_company] %> 
 <% end %>
 
 <script> 
   jQuery(function($){
-    $('.selectpicker').selectpicker({
-        width: '100%'
-    });
     
     $('#liEmail').addClass("active");  
     $(".mask-money").maskMoney(

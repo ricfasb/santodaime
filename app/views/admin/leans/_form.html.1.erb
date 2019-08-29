@@ -6,9 +6,9 @@
 
   <div class="row">
     <div class="col-10">
-
-      <%= f.hidden_field :company_id %>
       
+      <%= f.hidden_field :company_id, value: session[:current_company] %> 
+
       <div class="row">
         <div class="col-10">      
           <%= collection_select(:person_id, :id, Person.all.order(:name), :id, :name,

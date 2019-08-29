@@ -94,8 +94,7 @@
       $(this).unmask();
       if($(this).val().length > 0){
         getCep(event);
-      }
-      
+      }      
     });
     $("#company_telephone").on("blur", function(event) { 
       $(this).unmask();
@@ -163,7 +162,7 @@
       cep = cep.replace('.','').replace('-','');
       
       $.ajax({
-        url: "/admin/companies/" + 99 +"/get_cep/",
+        url: "/admin/companies/get_cep/",
         type: "GET",
         data: {"cep" : cep},
         beforeSend: function() {
@@ -172,27 +171,34 @@
         success: function(data, status, jqXHR){
           var json = jqXHR.responseJSON;
 
-          state_id = json.state[0].id;
-          city_id = json.city[0].id;
-          var cities = json.cities;          
-          var options = '';
-          
-          $("#company_address_attributes_city_id").empty();
+          if(json.state !== null && json.state.length > 0){
+            state_id = json.state[0].id;
+            if(json.city !== null && json.city.length > 0){
+              city_id = json.city[0].id;
+              var cities = json.cities;          
+              var options = '';
+              
+              $("#company_address_attributes_city_id").empty();
 
-          for (var i = 0; i < cities.length; i++) {
-            options += '<option value="' + cities[i].id + '">' + cities[i].name + '</option>';
-          }
-          $("#company_address_attributes_city_id").append(options);          
-          $("#company_address_attributes_city_id").val(city_id);
-          $("#company_address_attributes_state_id").val(state_id);
+              for (var i = 0; i < cities.length; i++) {
+                options += '<option value="' + cities[i].id + '">' + cities[i].name + '</option>';
+              }
+              $("#company_address_attributes_city_id").append(options);          
+              $("#company_address_attributes_city_id").val(city_id);
+              $("#company_address_attributes_state_id").val(state_id);
 
-          $('#company_address_attributes_street').val(json.address.response.logradouro);          
-          $('#company_address_attributes_neighbourhood').val(json.address.response.bairro);          
-                              
+              $('#company_address_attributes_street').val(json.address.response.logradouro);          
+              $('#company_address_attributes_neighbourhood').val(json.address.response.bairro);          
+            }
+          }else{
+            $('#company_address_attributes_street').val("");
+            $('#company_address_attributes_neighbourhood').val("");
+            $("#company_address_attributes_state_id").val(-1);
+            $("#company_address_attributes_city_id").empty();            
+          }                
         },
         error: function(o, status, error) {
-          var json = o.responseJSON;
-          alert(json);
+          var json = o.responseJSON;          
         },
         complete: function() {
           removeLoader();

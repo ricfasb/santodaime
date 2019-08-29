@@ -1,5 +1,4 @@
-class Admin::InvoicesController < Admin::AdminController
-  protect_from_forgery with: :null_session
+class Admin::InvoicesController < Admin::AdminController  
   
   layout "admin"
 
@@ -9,7 +8,7 @@ class Admin::InvoicesController < Admin::AdminController
   # GET /invoices
   # GET /invoices.json
   def index
-    @q = Invoice.where(pay_day: [nil]).ransack(params[:q])
+    @q = Invoice.where(pay_day: [nil]).where(cancel_date: [nil]).ransack(params[:q])
     @invoices = @q.result.paginate(:page => params[:page], :per_page => 10).order('created_at DESC')
   end
 
@@ -77,6 +76,6 @@ class Admin::InvoicesController < Admin::AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def invoice_params
-      params.require(:invoice).permit(:person_id, :invoice_type_id, :description, :due_date, :amount)
+      params.require(:invoice).permit(:id, :identifier, :create_paied, :company_id, :person_id, :invoice_type_id, :description, :due_date, :amount, :person_name, :cancel_date, :person_cancel)
     end
 end

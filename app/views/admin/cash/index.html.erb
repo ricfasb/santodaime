@@ -67,14 +67,19 @@
                                 <td>R$ <%= humanized_money cash.amount %></td>                                                                                                    
                             <% end %>                                                    
                         </tr> 
-                        <% end %>  
+                        <% end %>                           
                         <tr>                    
                             <td colspan="4" align="center" style="color: green; font-size: large; font-weight: bold">Total R$ <%= humanized_money @totInput %></td>
                             <td colspan="4" align="center" style="color: red; font-size: large; font-weight: bold">Total R$ <%= humanized_money @totOutput %></td>
                         </tr>     
                         <tr>                    
                             <td colspan="8" align="center" style="color: green; font-size: large; font-weight: bold">Total R$ <%= humanized_money @totInput - @totOutput %></td>                    
-                        </tr>     
+                        </tr>                             
+                        <tfoot> 
+                        <th colspan="5" style="text-align: left; height: 50px;">
+                            <%= will_paginate @cashes %>
+                        </th>
+                        </tfoot>        
                     </tbody>        
                 </table>                          
             </div>

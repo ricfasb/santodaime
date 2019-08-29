@@ -93,6 +93,7 @@
         id: Código
         person_id: Pessoa
         invoice_id: Cobrança
+        description: Descrição
         due_date: Vencimento
         pay_day: Dia do pagamento
         pay_amount: Valor
@@ -102,6 +103,7 @@
         description: Descrição  
       invoice:
         id: Código
+        company: Sede
         created_at: Lançado em
         person: Pessoa
         person_id: Nome

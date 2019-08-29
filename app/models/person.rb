@@ -25,9 +25,10 @@ class Person < ActiveRecord::Base
   accepts_nested_attributes_for :driver_license,    :allow_destroy => true
   accepts_nested_attributes_for :deficiency_person, :allow_destroy => true
 
-  after_save :generate_tuitions
-  has_many :tuition_person, :dependent => :destroy
+  after_create :generate_tuitions
   
+  has_many :tuition_person, :dependent => :destroy  
+
   def uploaded_file=(incoming_file)
     self.filename = incoming_file.original_filename
     self.content_type = incoming_file.content_type
@@ -42,12 +43,21 @@ class Person < ActiveRecord::Base
     where("not exists (SELECT 1 FROM checkins WHERE people.id = checkins.person_id AND checkins.created_at BETWEEN ? AND ?)", date_ini, date_fin)    
   end
 
+  #gera as mensalidades 
   def generate_tuitions
-#    if self.category.insert_tuition
-#        puts "Gera mensalidade"        
-#    else
-#        puts "Não gera mensalidade"
-#    end
+    @year = Time.now.year
+    @actual_month = Time.now.month
+    self.category.category_tuitions.each do |c|
+      for month in @actual_month..12
+        @tuition_person = TuitionPerson.new
+        @tuition_person.person_id = self.id
+        @tuition_person.tuition_id = c.tuition.id
+        datestr = "#{c.tuition.day}-#{month}-#{@year}"      
+        @tuition_person.due_date = Date.parse(datestr)
+        @tuition_person.status_payment = "pending"
+        @tuition_person.save
+      end
+    end
   end
 
   private

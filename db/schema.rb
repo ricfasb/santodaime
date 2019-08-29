@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190814221859) do
+ActiveRecord::Schema.define(version: 20190829033949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20190814221859) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "identifier"
+    t.datetime "pay_day"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -139,8 +140,9 @@ ActiveRecord::Schema.define(version: 20190814221859) do
     t.string   "observation"
     t.string   "provider"
     t.float    "amount"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.date     "date_expense"
     t.index ["company_id"], name: "index_expenses_on_company_id", using: :btree
   end
 
@@ -159,8 +161,17 @@ ActiveRecord::Schema.define(version: 20190814221859) do
     t.datetime "pay_day"
     t.float    "discount"
     t.string   "amount_paied"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "identifier"
+    t.boolean  "create_paied"
+    t.integer  "person_paied"
+    t.datetime "cancel_date"
+    t.integer  "person_cancel"
+    t.datetime "charge_back_date"
+    t.integer  "person_charge_back"
+    t.integer  "company_id"
+    t.index ["company_id"], name: "index_invoices_on_company_id", using: :btree
     t.index ["invoice_type_id"], name: "index_invoices_on_invoice_type_id", using: :btree
     t.index ["person_id"], name: "index_invoices_on_person_id", using: :btree
   end
@@ -256,6 +267,7 @@ ActiveRecord::Schema.define(version: 20190814221859) do
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
     t.binary   "photo_file"
+    t.string   "gender",                    limit: 1
     t.index ["address_id"], name: "index_people_on_address_id", using: :btree
     t.index ["category_id"], name: "index_people_on_category_id", using: :btree
     t.index ["cpf"], name: "index_people_on_cpf", using: :btree
@@ -312,11 +324,16 @@ ActiveRecord::Schema.define(version: 20190814221859) do
     t.integer  "tuition_id"
     t.date     "due_date"
     t.datetime "pay_day"
-    t.string   "status_payment", limit: 50
+    t.string   "status_payment",     limit: 50
     t.float    "discount"
     t.string   "amount_paied"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.integer  "person_paied"
+    t.datetime "cancel_date"
+    t.integer  "person_cancel"
+    t.datetime "charge_back_date"
+    t.integer  "person_charge_back"
     t.index ["person_id"], name: "index_tuition_people_on_person_id", using: :btree
     t.index ["tuition_id"], name: "index_tuition_people_on_tuition_id", using: :btree
   end
@@ -365,6 +382,7 @@ ActiveRecord::Schema.define(version: 20190814221859) do
   add_foreign_key "emails", "companies"
   add_foreign_key "emails", "people"
   add_foreign_key "expenses", "companies"
+  add_foreign_key "invoices", "companies"
   add_foreign_key "invoices", "invoice_types"
   add_foreign_key "invoices", "people"
   add_foreign_key "lean_people", "leans"

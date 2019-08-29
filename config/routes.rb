@@ -1,8 +1,5 @@
 Rails.application.routes.draw do  
       
-  namespace :admin do
-    resources :invoice_types
-  end
   #concern :active_scaffold_association, ActiveScaffold::Routing::Association.new
   #concern :active_scaffold, ActiveScaffold::Routing::Basic.new(association: true)
   get 'register/new'
@@ -21,7 +18,9 @@ Rails.application.routes.draw do
 
     get '/users' => 'users#index'
 
-    resources :categories
+    resources :categories do
+      delete "destroy_category_tuition"      
+    end         
 
     resources :checkins do
       get "checkins_pdf",         to: "checkins#checkins_pdf",          on: :collection
@@ -30,7 +29,6 @@ Rails.application.routes.draw do
 
     resources :products
     resources :expenses
-
     resources :leans
     
     resources :profile_permissions do
@@ -42,8 +40,14 @@ Rails.application.routes.draw do
     resources :emails do
       get "/send_mail", to: "emails#send_mail"
     end
-    resources :tuitions
 
+    resources :tuitions do 
+      get "get_tuition"          
+    end
+
+    patch "/tuitions_people" => "tuitions_people#update"
+
+    resources :invoice_types
     resources :invoices    
     resources :payments do
       get 'get_debits'
@@ -56,8 +60,8 @@ Rails.application.routes.draw do
     post "/users" => "users#create_session"
     patch "/users" => "users#update"
 
-    resources :companies do
-      get 'get_cep'
+    resources :companies do      
+      get "get_cep", to: "companies#get_cep",  on: :collection
       get 'load_cities'
     end
 

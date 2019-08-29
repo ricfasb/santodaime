@@ -42,8 +42,8 @@
         </div>
       </div> 
     
-      <%= f.hidden_field :person_id %>
-      <%= f.hidden_field :company_id %>
+      <%= f.hidden_field :person_id %>      
+      <%= f.hidden_field :company_id, value: session[:current_company] %> 
 
     </div>
   </div>
@@ -167,7 +167,7 @@
       $.ajax({
         url: "/admin/checkins",
         type: "POST",
-        data: {"checkin" : { "person_id" : checkin_person_id, "company_id" : "1" } },
+        data: {"checkin" : { "person_id" : checkin_person_id, "company_id" : checkin_company_id } },
         success: function(data, status, jqXHR){
           return jqXHR.responseJSON;
         },

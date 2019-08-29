@@ -49,6 +49,10 @@ module ApplicationHelper
         User.find( current_user.id )
     end
 
+    def user_name( id ) 
+        User.find( id ).email
+    end
+
     def permission number
         @count = ProfilePermission.where(profile_id: profile_logged.profile.id, permission_id: number ).count
         if @count > 0
