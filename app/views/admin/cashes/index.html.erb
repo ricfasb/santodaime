@@ -1,0 +1,157 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header card-header-success" data-background-color="green">
+                <h4 class="title">Livro Caixa</h4>
+            </div> 
+
+            <div class="row justify-content-center d-flex align-items-center">
+                <div class="col-11">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="rdReport" value="1" checked>Pagamentos
+                                    <span class="circle">
+                                    <span class="check"></span>
+                                    </span>
+                                </label>
+
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="rdReport" value="2">Despesas
+                                    <span class="circle">
+                                    <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="rdReport" value="3">Inadimplentes
+                                    <span class="circle">
+                                    <span class="check"></span>
+                                    </span>
+                                </label>                        
+                            </div>
+                        </div>
+
+                        <div class="col-3">
+                            <div class="input-group">  
+                                <input type="text " placeholder="Data inicial" data-date-format="DD/MM/YYYY" class="form-control datepicker btnCalendarI" >
+                                <span class="input-group-addon">
+                                <i class="fa fa-calendar btnCalendarI"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-3">
+                            <div class="input-group">  
+                                <input type="text " placeholder="Data final" data-date-format="DD/MM/YYYY" class="form-control datepicker btnCalendarF" >
+                                <span class="input-group-addon">
+                                <i class="fa fa-calendar btnCalendarF"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-2" align="right">
+                            <button id="btnImprimir" class="btn btn-success"><i class="material-icons">printer</i> Imprimir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-content table-responsive">                        
+                <table class="table table-striped">
+                    <thead>
+                    <tr>                
+                        <th colspan="5">Receitas</th>
+                        <th colspan="5">Despesas</th>                                                                                
+                    </tr>
+                    <tr>
+                        <th></th>  
+                        <th>Data</th>                
+                        <th>Tipo</th>
+                        <th>Pessoa</th>                                                                
+                        <th>Valor</th>                
+                        <th>Data</th>
+                        <th>Tipo</th>
+                        <th>Fornecedor</th>
+                        <th>Valor</th>
+                    </tr>
+                    </thead>
+                    <tbody> 
+                        <% @cashes.each do |cash| %>           
+                        <tr>
+                            <% if cash.identifier == 1 %>
+                                <td></td>
+                                <td style="color: green"><%= format_date_dt_hr cash.pay_day %></td>
+                                <td style="color: green"><%= cash.type %></td>
+                                <td style="color: green; word-break: break-all;"><%= cash.person %></td>
+                                <td style="color: green">R$ <%= humanized_money cash.amount %></td>                                                                    
+                                <td colspan="4"></td>
+                            <% else %>                                
+                                <td colspan="5"></td>
+                                <td style="color: red"><%= format_date_dt_hr cash.pay_day %></td>
+                                <td style="color: red"><%= cash.type %></td>
+                                <td style="color:red; word-break: break-all;"><%= cash.person %></td>
+                                <td style="color: red">R$ <%= humanized_money cash.amount %></td>                                                                                                    
+                            <% end %>                                                    
+                        </tr> 
+                        <% end %>                           
+                        <tr>                    
+                            <td colspan="5" align="center" style="color: green; font-size: large; font-weight: bold">Total R$ <%= humanized_money @totInput %></td>
+                            <td colspan="5" align="center" style="color: red; font-size: large; font-weight: bold">Total R$ <%= humanized_money @totOutput %></td>
+                        </tr>     
+                        <tr>                    
+                            <% if @totInput - @totOutput < 0 %>
+                                <td colspan="9" align="center" style="color: red; font-size: large; font-weight: bold">Total Geral R$ <%= humanized_money @totInput - @totOutput %></td>
+                            <% else %>
+                                <td colspan="9" align="center" style="color: green; font-size: large; font-weight: bold">Total Geral R$ <%= humanized_money @totInput - @totOutput %></td>
+                            <% end %>
+                        </tr>                             
+                        <tfoot> 
+                        <th colspan="6" style="text-align: left; height: 50px;">
+                            <%= will_paginate @cashes %>
+                        </th>
+                        </tfoot>        
+                    </tbody>        
+                </table>                          
+            </div>
+        </div>    
+    </div>
+</div>
+
+<script>
+jQuery(function($){
+  md.initFormExtendedDatetimepickers();
+  
+  $("#btnImprimir").on("click", function(event) {    
+    event.preventDefault();  
+
+    var dataInicial = $('.btnCalendarI').val();
+    var dataFinal = $('.btnCalendarF').val();  
+
+    var rdValue = $("input[name='rdReport']:checked"). val();  
+    var url = '';    
+    
+    if( rdValue == 1){
+        url = "/admin/cashes/payments_pdf?initial_date="+dataInicial+"&final_date="+dataFinal;
+    }else if( rdValue == 2){
+        url = "/admin/cashes/expenses_pdf?initial_date="+dataInicial+"&final_date="+dataFinal;
+    }else{
+        url = "/admin/cashes/overdue_pdf?initial_date="+dataInicial;
+    }
+    window.open(url, '_blank');
+    
+  });   
+
+  $("input[name='rdReport']").on("click", function(event) {   
+    var rdValue = $("input[name='rdReport']:checked"). val(); 
+    if( rdValue == 3){        
+        $('.btnCalendarF').val('');
+        $('.btnCalendarF').attr('disabled', 'disable');
+    }else{
+        $('.btnCalendarF').removeAttr("disabled");
+    }    
+  });   
+
+});    
+</script>

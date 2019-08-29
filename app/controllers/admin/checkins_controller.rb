@@ -80,8 +80,7 @@ class Admin::CheckinsController < Admin::AdminController
       @init_date = format_date_hour_ini_us params[:initial_date]
       @end_date  = format_date_hour_fin_us params[:final_date]
                 
-      @people = Person.people_has_no_checkin(@init_date, @end_date)                
-      puts "#{@people.count}"
+      @people = Person.people_has_no_checkin(@init_date, @end_date)      
     end
 
 end

@@ -54,7 +54,11 @@ Rails.application.routes.draw do
       get 'get_all_debits'
     end
 
-    get 'cash/index'
+    resources :cashes do
+      get "payments_pdf", to: "cashes#payments_pdf",  on: :collection
+      get "expenses_pdf", to: "cashes#expenses_pdf"
+      get "overdue_pdf",  to: "cashes#overdue_pdf"
+    end    
     
     get "/users" => 'users#index'    
     post "/users" => "users#create_session"

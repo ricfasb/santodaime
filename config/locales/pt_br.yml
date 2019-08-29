@@ -135,6 +135,7 @@
         company: Empresa
         description: Descrição
         observation: Observação
+        date_expense: Data da Saída
         amount: Valor
         provider: Fornecedor
       lean:

@@ -76,6 +76,6 @@ class Admin::ExpensesController < Admin::AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def expense_params
-      params.require(:expense).permit(:company_id, :description, :observation, :provider, :amount)
+      params.require(:expense).permit(:company_id, :description, :observation, :provider, :date_expense, :amount)
     end
 end
