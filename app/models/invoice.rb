@@ -3,7 +3,8 @@ class Invoice < ApplicationRecord
   belongs_to :company
   belongs_to :invoice_type
   belongs_to :person
-
+  belongs_to :payment_type
+  
   before_save :verify_pay
   validate :min_amount
   

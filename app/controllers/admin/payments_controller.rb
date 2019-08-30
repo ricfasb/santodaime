@@ -63,10 +63,16 @@ class Admin::PaymentsController < Admin::AdminController
     params[:payments].each { |payment|  
       if params[:payments][payment][:cobranca] == "Multa"        
         @id = params[:payments][payment][:id]
-        Invoice.update(@id, pay_day: DateTime.now)
+        @payment_type = params[:payments][payment][:payment_type_id]
+        @discount = params[:payments][payment][:discount]
+        @person_paid = current_user.id
+        Invoice.update(@id, pay_day: DateTime.now, payment_type_id: @payment_type, discount: @discount, person_paied: @person_paid)
       elsif params[:payments][payment][:cobranca] == "Mensalidade"        
         @id = params[:payments][payment][:id]
-        TuitionPerson.update(@id, pay_day: DateTime.now)
+        @payment_type = params[:payments][payment][:payment_type_id]
+        @discount = params[:payments][payment][:discount]
+        @person_paid = current_user.id
+        TuitionPerson.update(@id, pay_day: DateTime.now, status_payment: 'paid', payment_type_id: @payment_type, discount: @discount, person_paied: @person_paid)
       end
     }
     

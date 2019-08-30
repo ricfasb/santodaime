@@ -1,4 +1,10 @@
 namespace :utils do
+
+  desc "Criar tipo de pagamento"
+  task setup_payment_types: :environment do
+    PaymentType.create(id: 1, description:'Dinheiro')
+  end
+
   desc "Gerar a tabela de Perfis"
   task setup_profiles: :environment do
     Profile.create(id: 1, description:'Administrador')

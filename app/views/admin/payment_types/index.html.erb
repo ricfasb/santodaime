@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header card-header-success" data-background-color="green">
+        <div class="row">
+          <div class="col">
+            <h4 class="title">Tipos de Pagamento</h4>                
+          </div>              
+        </div>
+      </div>  
+
+      <div class="row justify-content-center d-flex align-items-center">
+        <div class="col-11">
+          <div class="card-content table-responsive">
+            
+            <%= render :partial => 'form' %> 
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Descrição</th>
+                  <th colspan="2"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @payment_types.each do |payment_type| %>
+                  <tr>
+                    <td><%= payment_type.description %></td>
+                    <td>
+                    <%= link_to 'Remover', admin_payment_type_path(payment_type), method: :delete, data: { confirm: 'Tem certeza que deseja remover este tipo de pagamento?' } %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+              <% if @payment_types.blank? %> 
+                <tfoot> 
+                  <th colspan="2" class="tfoot_empty" style="text-align: center; height: 50px;">
+                    Nenhum tipo de pagamento encontrado!
+                  </th>
+                </tfoot>
+              <% end %> 
+            </table>
+            <br/>
+          </div>
+        </div>
+      </div>      
+    </div>
+  </div>
+</div>
+
+<script> 
+  jQuery(function($){
+    $.notify("<%= notice %>", "success" );
+  });
+</script>

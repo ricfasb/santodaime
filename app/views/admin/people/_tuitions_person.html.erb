@@ -49,7 +49,7 @@
                         if(data.status){    
                             var username = data.username.email;                      
                             $("#tableTuitionsPerson tbody tr:nth-child("+ index +") td:nth-child(3)").html("Cancelado");
-                            $("#tableTuitionsPerson tbody tr:nth-child("+ index +") td:nth-child(4)").html("Cancelador por " + username);
+                            $("#tableTuitionsPerson tbody tr:nth-child("+ index +") td:nth-child(4)").html("Cancelado por " + username);
                         }                        
                     },
                     error: function(o, status, error) { }

@@ -52,6 +52,8 @@
         marital_state_id: Estado civil
         degree_education_id: Grau de escolaridade
         occupation_id: Profissão
+        number_cnh: Número CNH
+        category_cnh: Categoria CNH
         date_issue: Emissão CNH
         expering_date: Validade CNH
         wifes_name: Conjuge
@@ -124,6 +126,8 @@
         amount: Valor
         day_email: Dia de envio do e-mail
         email: E-mail de cobrança
+        subject: Assunto
+        message: Mensagem
       product:
         company: Sede
         name: Nome

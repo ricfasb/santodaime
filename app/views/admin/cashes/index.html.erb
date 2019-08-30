@@ -130,7 +130,23 @@ jQuery(function($){
     var dataFinal = $('.btnCalendarF').val();  
 
     var rdValue = $("input[name='rdReport']:checked"). val();  
-    var url = '';    
+    var url = '';   
+
+    var errors = [];
+    
+    if( rdValue != 3){
+        if( dataFinal == ''){
+            errors.push("Informe a data final.");
+            $.notify("Informe a data final.", "error" ); 
+        }
+    }
+
+    if( dataInicial == ''){
+      errors.push("Informe a data inicial.");
+      $.notify("Informe a data inicial.", "error" ); 
+    }    
+    if( errors.length > 0)
+      return false;  
     
     if( rdValue == 1){
         url = "/admin/cashes/payments_pdf?initial_date="+dataInicial+"&final_date="+dataFinal;

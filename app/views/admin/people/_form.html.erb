@@ -190,12 +190,12 @@
                   
                   <div class="row">
                     <div class="col-md-4">
-                      <%= ad.collection_select(:state_id, State.all.order(:name).all, :id, :name,
+                      <%= ad.collection_select(:state_id, State.all.order(:name), :id, :name,
                         {:prompt => 'Estado'}, {:class => 'btn btn-success custom-select'}) %>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8"> 
                       <%= ad.select(:city_id, City.where(:state_id => ad.object.state_id ).collect{|s| [s.name, s.id]}, 
-                        {:prompt => 'Cidade'}, {:class => 'btn btn-primary custom-select'} ) %>  
+                        {:prompt => 'Cidade'}, {:class => 'btn btn-default custom-select'} ) %>  
                     </div>
                   </div> 
 
@@ -229,7 +229,7 @@
                       <div class="input-group">
                         <%= d.text_field :expering_date, :data => {"date-format" => "DD/MM/YYYY"}, class: 'form-control datepicker' %>
                         <span class="input-group-addon">
-                          <i class="fa fa-calendar btnCalendar btnCalendarDateExpering"></i>
+                          <i class="fa fa-calendar btnCalendar btnCalendarExperingDate"></i>
                         </span>
                       </div>
                     </div>
@@ -780,26 +780,41 @@
     var city_id_profissional;
 
     var getCepProfissional = function(event) {
-      event.preventDefault();
-      var cep = $('#person_address_attributes_zip_code').val();
-  
+      event.preventDefault();      
+      var cep = $('#person_occupation_attributes_address_attributes_zip_code').val().replace('.','').replace('-','');
+
       $.ajax({
-        url: "/admin/people/" + 99 +"/get_cep/",
+        url: "/admin/people/get_cep/",
         type: "GET",
-        data: {"cep" : cep.replace('.','').replace('-','')},
+        data: {"cep" : cep},
         success: function(data, status, jqXHR){
           var json = jqXHR.responseJSON;
-          var state_id = json.state[0].id;
-          city_id_profissional = json.city[0].id;
+          if(json.state !== null && json.state.length > 0){
+            var state_id_profissional = json.state[0].id;
+            if(json.city !== null && json.city.length > 0){
+              city_id_profissional = json.city[0].id;
+              var cities = json.cities;          
+              var options = '';
+              $("#person_occupation_attributes_address_attributes_city_id").empty();
 
-          $('#person_occupation_attributes_address_attributes_street').val(json.address.response.logradouro);
-          $('#person_occupation_attributes_address_attributes_neighbourhood').val(json.address.response.bairro);          
-          $("#person_occupation_attributes_address_attributes_state_id").val(state_id );          
+              for (var i = 0; i < cities.length; i++) {
+                options += '<option value="' + cities[i].id + '">' + cities[i].name + '</option>';
+              }
+              $("#person_occupation_attributes_address_attributes_city_id").append(options);          
+              $("#person_occupation_attributes_address_attributes_city_id").val(city_id_profissional);
+              $("#person_occupation_attributes_address_attributes_state_id").val(state_id_profissional);
+
+              $('#person_occupation_attributes_address_attributes_street').val(json.address.response.logradouro);
+              $('#person_occupation_attributes_address_attributes_neighbourhood').val(json.address.response.bairro);                          
+            }
+          }else{
+            $('#person_occupation_attributes_address_attributes_street').val("");
+            $('#person_occupation_attributes_address_attributes_neighbourhood').val("");
+            $("#person_occupation_attributes_address_attributes_state_id").val(-1);
+            $("#person_occupation_attributes_address_attributes_city_id").empty();            
+          }
         },
-        error: function(o, status, error) {
-          var json = o.responseJSON;
-          alert(json);
-        }
+        error: function(o, status, error) { }
       });
     };
 
@@ -808,22 +823,37 @@
         var cep = $('#person_address_attributes_zip_code').val().replace('.','').replace('-','');
     
         $.ajax({
-          url: "/admin/people/" + 99 +"/get_cep/",
+          url: "/admin/people/get_cep/",
           type: "GET",
           data: {"cep" : cep},
           success: function(data, status, jqXHR){
             var json = jqXHR.responseJSON;
-            var state_id = json.state[0].id;
-            city_id = json.city[0].id;
+            if(json.state !== null && json.state.length > 0){
+              var state_id = json.state[0].id;
+              if(json.city !== null && json.city.length > 0){
+                city_id = json.city[0].id;
+                var cities = json.cities;          
+                var options = '';
+                $("#person_address_attributes_city_id").empty();
 
-            $('#person_address_attributes_street').val(json.address.response.logradouro);
-            $('#person_address_attributes_neighbourhood').val(json.address.response.bairro);            
-            $("#person_address_attributes_state_id").val(state_id );            
+                for (var i = 0; i < cities.length; i++) {
+                  options += '<option value="' + cities[i].id + '">' + cities[i].name + '</option>';
+                }
+                $("#person_address_attributes_city_id").append(options);          
+                $("#person_address_attributes_city_id").val(city_id);
+                $("#person_address_attributes_state_id").val(state_id);
+
+                $('#person_address_attributes_street').val(json.address.response.logradouro);
+                $('#person_address_attributes_neighbourhood').val(json.address.response.bairro);            
+              }
+            }else{
+              $('#person_address_attributes_street').val("");
+              $('#person_address_attributes_neighbourhood').val("");
+              $("#person_address_attributes_state_id").val(-1);
+              $("#person_address_attributes_city_id").empty();            
+            }                                                
           },
-          error: function(o, status, error) {
-            var json = o.responseJSON;
-            alert(json);
-          }
+          error: function(o, status, error) { }
         });
       };      
   });

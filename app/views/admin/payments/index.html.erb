@@ -19,7 +19,12 @@
                       {:prompt => 'Selecione a pessoa'}, {:class => 'custom-select', 'data-live-search'=>"true", 'data-size'=>"2", data: {style: "btn btn-primary"}}) %>                    
                   </div>  
                   <div class="col-2">
-                    <button class="btn btn-success" id="btnPay">Pagar</button>
+                    <button class="btn btn-success" id="btnPaymentType">
+                      Pagar
+                      <i class="material-icons">
+                      done_outline
+                      </i> 
+                    </button>
                   </div>
                 </div> 
 
@@ -52,7 +57,7 @@
                             <td><%= link_to payment.id, admin_payment_path(payment) %></td>                                                    
                             <td><%= payment.invoice_id %></td>
                             <td><%= payment.description %></td>
-                            <td><%= payment.due_date %></td>
+                            <td><%= format_dt payment.due_date %></td>
                             <td><%= payment.pay_amount %></td>
                             <td><%= payment.discount %></td>
                             <td><%= payment.obs_discount %></td>                                                      
@@ -94,10 +99,74 @@
 
       $(".mask-person-id").val(codPessoaCompleto);
     });
+    var paymentTypeScreen;
 
-    $("#btnPay").on("click", function(event) {
+    $.ajax({
+      url: "/admin/payment_types/get_all/",
+      type: "GET",      
+      success: function(data, status, jqXHR){
+        var json = jqXHR.responseJSON;  
+        var payment_types = json.payment_types;
+        var checked = "";
+        paymentTypeScreen = "<div class=\"modal fade\" id=\"paymentTypeModal\" role=\"dialog\">"+
+                            "  <div class=\"modal-dialog\">"+
+                            "    <div class=\"modal-content\">"+
+                            "      <div class=\"modal-header\">"+
+                            "          <h4 class=\"modal-title\">Selecione o tipo de pagamento</h4>"+
+                            "          <button type=\"button\" class=\"close\" id=\"closeModal\" data-dismiss=\"modal\"><span>×</span></button>"+                        
+                            "      </div>"+
+                            "     <div class=\"modal-body\" id=\"paymentType\" style=\"margin-left: 50px\">";
+
+        for (var i = 0; i < payment_types.length; i++) {
+          paymentTypeScreen +="<div class=\"form-check\">"+
+                              "   <label class=\"form-check-label\">"+
+                              "      <input class=\"form-check-input\" type=\"radio\" name=\"rdPaymentType\" value=" + payment_types[i].id + ">"+payment_types[i].description+"" +
+                              "      <span class=\"circle\">"+
+                              "      <span class=\"check\"></span>"+
+                              "      </span>"+
+                              "    </label>"+
+                              "</div>";          
+        }
+
+        paymentTypeScreen +="</div>"+
+                            "     <div class=\"modal-footer btn-group\">"+
+                            "          <button type=\"button\" class=\"btn btn-success\" id=\"btnPay\" >Finalizar</button>"	+
+                            "          <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" id=\"btnClosePaymentType\">Fechar</button>"+
+                            "      </div>"+
+                            "    </div>"+
+                            "  </div>"+
+                            "</div>";
+        $(paymentTypeScreen).appendTo("body");          
+      }
+    });    
+
+    $("#btnPaymentType").on("click", function(event) {
+      event.preventDefault();
+      
+      var table = $('#tableDebitos');
+      var rowCount = 0;
+       table.find('tbody').find('tr').each(function(indice){
+        var row = $(this);
+        if(row.find('input[type="checkbox"]').is(':checked')) {
+          rowCount = rowCount+1;
+        }
+      });
+
+      if(rowCount > 0){
+        $(paymentTypeScreen).appendTo("body");   
+        $("#paymentTypeModal").modal(); 
+      }
+    });
+
+    $('body').on('click', '#btnPay', function(event) {      
       var table = $('#tableDebitos');
       var payments = [];
+      var rdPaymentType = $("input[name='rdPaymentType']:checked"). val();
+
+      if(rdPaymentType == 'null' || rdPaymentType == null){
+        alert('Selecione o tipo de pagamento!');
+        return false;
+      }
 
       table.find('tbody').find('tr').each(function(indice){
         var row = $(this);
@@ -105,37 +174,49 @@
           var payment = new Object();
           payment["id"]       = $(this).find("td").eq(0).find('input[type="checkbox"]').val();
           payment["cobranca"] = $(this).find("td").eq(1).text();             
-          payment["valor"]    = moeda2float($(this).find("td").eq(4).text());
-          payment["desconto"] = 0.0;
+          payment["valor"]    = moeda2float($(this).find("td").eq(4).text());          
+          payment["status_payment"] = 'paid';
+          payment["payment_type_id"] = rdPaymentType;
+
           if($(this).find("td").eq(5).text() !== ""){
-            payment["desconto"] = moeda2float($(this).find("td").eq(5).text());
+            payment["discount"] = moeda2float($(this).find("td").eq(5).text());
+          }else{
+            payment["discount"] = 0.0;
           }
           payment["observacao"] = $(this).find("td").eq(6).text();
           payments.push(payment);
         }
       });
-      $.ajax({
-        url: "/admin/payments",
-        type: "POST",
-        data: {"payments" : payments },
-        success: function(data, status, jqXHR){
-          var json = jqXHR.responseJSON;
-          var status = json.status;       
-          if(status === "ok"){
-            alert('Pagamento realizado com sucesso!');            
-            setTimeout(function() {
-              try{                            
-                $('#person_id_id').trigger("change");
-              } catch(ex){
-                return false;
-              }
-            }, 10); 
+
+      if( payments[0] ){
+        $.ajax({
+          url: "/admin/payments",
+          type: "POST",
+          data: {"payments" : payments },
+          success: function(data, status, jqXHR){
+            var json = jqXHR.responseJSON;
+            var status = json.status;   
+
+            $("#paymentTypeModal").detach(); 
+            $("#paymentTypeModal").hide();                    
+            $('.modal-backdrop').remove(); 
+
+            if(status === "ok"){
+              alert('Pagamento realizado com sucesso!');            
+              setTimeout(function() {
+                try{                            
+                  $('#person_id_id').trigger("change");
+                } catch(ex){
+                  return false;
+                }
+              }, 10); 
+            }
+          },
+          error: function(o, status, error) {
+            var json = o.responseJSON;             
           }
-        },
-        error: function(o, status, error) {
-          var json = o.responseJSON;             
-        }
-      });   
+        });   
+      }
     });
 
     $("#txtCodigo").on("blur", function(event) {
@@ -155,10 +236,7 @@
             $('#person_id_id').val( 0 ); 
           }             
         },
-        error: function(o, status, error) {
-          var json = o.responseJSON;
-          alert(json);
-        }
+        error: function(o, status, error) { }
       });
     });  
 
@@ -281,8 +359,8 @@
                             "</td>"+
                             "<td>Mensalidade</td>"+
                             "<td>Parcela da mensalidade</td>"+
-                            "<td>"+ tuitions[i].due_date +"</td>"+
-                            "<td>"+ tuitions[i].tuition.amount +"</td>"+
+                            "<td>"+ mascaraData( tuitions[i].due_date ) +"</td>"+
+                            "<td>"+ float2moeda( tuitions[i].tuition.amount ) +"</td>"+
                             "<td><input type=\"text\" placeholder=\"0,00\" class=\"form-control\"></td>"+
                             "<td><input type=\"text\" placeholder=\"Observação\" class=\"form-control\"></td>"+                          
                           "</tr>";
@@ -304,8 +382,8 @@
                             "</td>"+
                             "<td>"+ invoices[i].invoice_type.description +"</td>"+
                             "<td>"+ invoices[i].description +"</td>"+
-                            "<td>"+ invoices[i].due_date +"</td>"+
-                            "<td>"+ invoices[i].amount +"</td>"+
+                            "<td>"+ mascaraData( invoices[i].due_date ) +"</td>"+
+                            "<td>"+ float2moeda( invoices[i].amount ) +"</td>"+
                             "<td><input type=\"text\" placeholder=\"0,00\" class=\"form-control\"></td>"+
                             "<td><input type=\"text\" placeholder=\"Observação\" class=\"form-control\"></td>"+                          
                           "</tr>";
@@ -329,5 +407,9 @@
       });
     });
 
+    function mascaraData(data){
+      var date = data.split("-")
+      return date[2] + "/" + date[1] + "/" +date[0];
+    }
   });
 </script> 

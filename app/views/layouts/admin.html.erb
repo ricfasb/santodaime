@@ -83,8 +83,7 @@
                     </li>
                     <% end %>
 
-                    <% # if permission 6 %>
-                    <!--
+                    <% if permission 6 %>                    
                     <li class="nav-item ">
                         <a class="nav-link collapsed" data-toggle="collapse" href="#mnEmprestimo" aria-expanded="false">
                         <i class="material-icons">date_range</i>
@@ -106,26 +105,21 @@
                                     <span class="sidebar-normal"> Emprestados </span>
                                 </a>
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="#">
-                                    <span class="sidebar-mini"> PM </span>
-                                    <p class="sidebar-normal"> Devolvidos </p>
-                                </a>
-                            </li>
                         </ul>
                         </div>
-                    </li>
-                    -->
-                    <% # end %>
+                    </li>                    
+                    <% end %>
 
-                    <% if permission 7 %>
+                    <% #if permission 7 %>
+                    <!--
                     <li id="liEmail" class="<%= active_class(admin_emails_path) %>">
                         <a href="/admin/emails">
                             <i class="material-icons">mailn</i>
                             <p>Envio de e-mails</p>
                         </a>
-                    </li>   
-                    <% end %>
+                    </li> 
+                    -->  
+                    <% #end %>
                     
                     <% if permission 8 %>
                     <li id="liCaixa" class="<%= active_class(admin_cashes_path) %>">
@@ -170,7 +164,7 @@
                             <p>Tipos de Cobrança</p>
                         </a>
                     </li> 
-                    <% end %> 
+                    <% end %>                                                       
 
                     <% if permission 13 %>
                     <li id="liMensalidade" class="<%= active_class(admin_tuitions_path) %>">
@@ -180,6 +174,13 @@
                         </a>
                     </li>   
                     <% end %>
+
+                    <li id="liTiposPagamento" class="<%= active_class(admin_payment_types_path) %>">
+                        <a href="/admin/payment_types">
+                            <i class="material-icons">card_membership</i>
+                            <p>Tipos de Pagamento</p>
+                        </a>
+                    </li>      
 
                     <% if permission 14 %>
                     <li id="liPagamento" class="<%= active_class(admin_payments_path) %>">

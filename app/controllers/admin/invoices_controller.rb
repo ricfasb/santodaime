@@ -76,6 +76,6 @@ class Admin::InvoicesController < Admin::AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def invoice_params
-      params.require(:invoice).permit(:id, :identifier, :create_paied, :company_id, :person_id, :invoice_type_id, :description, :due_date, :amount, :person_name, :cancel_date, :person_cancel)
+      params.require(:invoice).permit(:id, :identifier, :create_paied, :company_id, :person_id, :invoice_type_id, :description, :due_date, :amount, :person_name, :cancel_date, :person_cancel, :payment_type_id)
     end
 end

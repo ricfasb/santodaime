@@ -39,15 +39,19 @@ class Admin::PeopleController < Admin::AdminController
   end
 
   def get_cep
-    @address = ViaCep::Address.new(params[:cep])
-    @state = State.where(uf: @address.state)
-    @city = City.where(name: @address.city)
-
+    begin
+      @address = ViaCep::Address.new(params[:cep])
+      @state   = State.where(uf: @address.state)
+      @city    = City.where(name: @address.city)
+      @cities  = City.cities_by_state( @address.state )
+    rescue ViaCep::Errors::ZipcodeNotFound
+      puts "Zip Code Not Founded"
+    rescue StandardError => e  
+      puts "#{e.message}"
+    end
+    
     if request.xhr?
-      render :json => { :address => @address, 
-                        :state => @state, 
-                        :city => @city
-                      }
+      render :json => { :address => @address, :state => @state, :city => @city, :cities => @cities }
     else
       render json: {}, status: :false
     end
@@ -243,7 +247,7 @@ class Admin::PeopleController < Admin::AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def person_params
-      params.require(:person).permit(:name, :email, :photo, :photo_file, :date_born, :date_enroll, :height, :rg, :cpf, :telephone_residence, :smartphone_number, :telephone_message, :message_person, :facebook, :father_name, :mother_name, :category_id, :marital_state_id, :wifes_name, :among_sun, :degree_education_id, :course, :motive, :complementary_information, :fingerprint, :on_line, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id], :driver_license_attributes => [:licensable_id, :licensable_type, :number_cnh, :category_cnh, :date_issue, :expering_date], :occupation_attributes =>[:occupatiable_id, :occupatiable_type, :description, :experience_time, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id]], :deficiency_person_attributes => [:deficiencable_id, :deficiencable_type, :chronic_disease, :controlled_medication] )
+      params.require(:person).permit(:name, :email, :photo, :photo_file, :date_born, :date_enroll, :height, :rg, :cpf, :telephone_residence, :smartphone_number, :telephone_message, :message_person, :facebook, :father_name, :mother_name, :category_id, :marital_state_id, :wifes_name, :among_sun, :degree_education_id, :course, :motive, :complementary_information, :fingerprint, :on_line, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id, :state_id], :driver_license_attributes => [:licensable_id, :licensable_type, :number_cnh, :category_cnh, :date_issue, :expering_date], :occupation_attributes =>[:occupatiable_id, :occupatiable_type, :description, :experience_time, :address_attributes => [:addressable_id, :addressable_type, :zip_code, :street, :number, :complement, :reference, :neighbourhood, :city_id, :state_id]], :deficiency_person_attributes => [:deficiencable_id, :deficiencable_type, :chronic_disease, :controlled_medication] )
     end
 
 #    def photo_file

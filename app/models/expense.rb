@@ -10,4 +10,8 @@ class Expense < ApplicationRecord
     end
   end
 
+  def self.expenses_between_dates(date_ini, date_fin)
+    where("COALESCE( expenses.date_expense, expenses.created_at) BETWEEN ? AND ?", date_ini, date_fin)    
+  end
+
 end

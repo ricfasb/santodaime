@@ -13,6 +13,15 @@ class Admin::LeansController < Admin::AdminController
     @leans = @q.result.paginate(:page => params[:page], :per_page => 10).order('created_at DESC')
   end
 
+  def get_leans_by_person
+    @leans = Lean.where(person_id: params[:person_id]).where(returned: nil)
+    if request.xhr?
+      render :json => { :leans => @leans }
+    else
+      render json: {}, status: :false
+    end
+  end
+
   # GET /leans/1
   # GET /leans/1.json
   def show
@@ -88,6 +97,6 @@ class Admin::LeansController < Admin::AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def lean_params
-      params.require(:lean).permit(:company_id, :person_id, :product_id, :quantity, :expected_return)
+      params.require(:lean).permit(:id, :company_id, :person_id, :product_id, :quantity, :expected_return, :returned)
     end
 end

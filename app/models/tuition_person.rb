@@ -5,7 +5,8 @@ class TuitionPerson < ApplicationRecord
 
   belongs_to :person
   belongs_to :tuition
-  
+  belongs_to :payment_type
+
   def as_json(options={})
     #super(:only => [ ApplicationController.helpers.format_date(:due_date) ],
     super(:only => [ :id, :due_date, :amount ],

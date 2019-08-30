@@ -6,7 +6,7 @@ class CreateLeans < ActiveRecord::Migration[5.0]
       t.references :product, foreign_key: true
       t.date :expected_return
       t.integer :quantity
-      t.date :returned
+      t.datetime :returned
 
       t.timestamps
     end

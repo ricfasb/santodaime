@@ -1,5 +1,5 @@
 Rails.application.routes.draw do  
-      
+        
   #concern :active_scaffold_association, ActiveScaffold::Routing::Association.new
   #concern :active_scaffold, ActiveScaffold::Routing::Basic.new(association: true)
   get 'register/new'
@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   namespace :admin do
     
     resources :people do
-      get :search_person           
-      get :get_cep
+      get :search_person                 
+      get "get_cep", to: "people#get_cep",  on: :collection
       get 'show_image',         :on => :collection
       get "search_fingerprint", to: "people#search_fingerprint",  on: :collection
       get "birthdays_month",    to: "people#birthdays_month",     on: :collection
@@ -29,7 +29,14 @@ Rails.application.routes.draw do
 
     resources :products
     resources :expenses
-    resources :leans
+
+    resources :leans do
+      get "get_leans_by_person", to: "leans#get_leans_by_person",  on: :collection
+    end
+
+    resources :payment_types do      
+      get "get_all", to: "payment_types#get_all",  on: :collection
+    end
     
     resources :profile_permissions do
       get 'get_permissions'

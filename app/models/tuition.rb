@@ -8,8 +8,11 @@ class Tuition < ApplicationRecord
   validate :send_mail
 
   def send_mail
-      if send_email && email_id.nil?
-          errors.add('Enviar email ativado: ', 'Necessário selecionar o email!')
+      if send_email && self.day_email.blank?
+        errors.add('Enviar email ativado: ', 'Informe o dia de envio!')
+      end
+      if send_email && self.message.blank?
+        errors.add('Enviar email ativado: ', 'Necessário preencher a mensagem!')
       end
   end
 

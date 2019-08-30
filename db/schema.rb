@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190829033949) do
+ActiveRecord::Schema.define(version: 20190830120148) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,8 @@ ActiveRecord::Schema.define(version: 20190829033949) do
     t.datetime "updated_at", null: false
     t.integer  "identifier"
     t.datetime "pay_day"
+    t.string   "category"
+    t.date     "due_date"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -171,8 +173,10 @@ ActiveRecord::Schema.define(version: 20190829033949) do
     t.datetime "charge_back_date"
     t.integer  "person_charge_back"
     t.integer  "company_id"
+    t.integer  "payment_type_id"
     t.index ["company_id"], name: "index_invoices_on_company_id", using: :btree
     t.index ["invoice_type_id"], name: "index_invoices_on_invoice_type_id", using: :btree
+    t.index ["payment_type_id"], name: "index_invoices_on_payment_type_id", using: :btree
     t.index ["person_id"], name: "index_invoices_on_person_id", using: :btree
   end
 
@@ -216,6 +220,12 @@ ActiveRecord::Schema.define(version: 20190829033949) do
     t.index ["address_id"], name: "index_occupations_on_address_id", using: :btree
     t.index ["occupatiable_id"], name: "index_occupations_on_occupatiable_id", using: :btree
     t.index ["occupatiable_type"], name: "index_occupations_on_occupatiable_type", using: :btree
+  end
+
+  create_table "payment_types", force: :cascade do |t|
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "payments", force: :cascade do |t|
@@ -334,6 +344,8 @@ ActiveRecord::Schema.define(version: 20190829033949) do
     t.integer  "person_cancel"
     t.datetime "charge_back_date"
     t.integer  "person_charge_back"
+    t.integer  "payment_type_id"
+    t.index ["payment_type_id"], name: "index_tuition_people_on_payment_type_id", using: :btree
     t.index ["person_id"], name: "index_tuition_people_on_person_id", using: :btree
     t.index ["tuition_id"], name: "index_tuition_people_on_tuition_id", using: :btree
   end
@@ -347,6 +359,8 @@ ActiveRecord::Schema.define(version: 20190829033949) do
     t.integer  "email_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "subject"
+    t.string   "message"
     t.index ["email_id"], name: "index_tuitions_on_email_id", using: :btree
   end
 
@@ -384,6 +398,7 @@ ActiveRecord::Schema.define(version: 20190829033949) do
   add_foreign_key "expenses", "companies"
   add_foreign_key "invoices", "companies"
   add_foreign_key "invoices", "invoice_types"
+  add_foreign_key "invoices", "payment_types"
   add_foreign_key "invoices", "people"
   add_foreign_key "lean_people", "leans"
   add_foreign_key "lean_people", "people"
@@ -403,6 +418,7 @@ ActiveRecord::Schema.define(version: 20190829033949) do
   add_foreign_key "products", "companies"
   add_foreign_key "profile_permissions", "permissions"
   add_foreign_key "profile_permissions", "profiles"
+  add_foreign_key "tuition_people", "payment_types"
   add_foreign_key "tuition_people", "people"
   add_foreign_key "tuition_people", "tuitions"
   add_foreign_key "tuitions", "emails"

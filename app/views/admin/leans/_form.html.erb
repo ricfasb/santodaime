@@ -34,7 +34,7 @@
 
         <div class="col-3">
           <div class="input-group">  
-            <input type="text" id="btnExpectedReturn" data-date-format="DD/MM/YYYY" class="form-control datepicker btnExpectedReturn"></input>            
+            <input type="text" id="inputExpectedReturn" data-date-format="DD/MM/YYYY" class="form-control datepicker"></input>            
             <span class="input-group-addon">
               <i class="fa fa-calendar btnExpectedReturn"></i>
             </span>
@@ -78,6 +78,7 @@
     </div>
 
     <div class="btn-group pull-right">        
+      <button id="btnDevolver" class="btn btn-danger" style="visibility: hidden">Devolver</button>
       <button id="btnEmprestar" class="btn btn-success">Emprestar</button>
     </div>
       
@@ -98,6 +99,85 @@
     pessoasSelecionadas = [];
     produtosSelecionados = [];
 
+    $("#chkAll").on("change", function(event) {      
+      if($("#chkAll").is(":checked")){
+        $('.form-check-input').prop( "checked", true );        
+      }else{
+        $('.form-check-input').prop( "checked", false );                
+      }      
+    });
+
+    $('#tableProducts').on('click', '.btn-remover', function(event) {      
+      $(this).closest('tr').remove();
+      verificaRodape();      
+      event.preventDefault();
+    });
+    
+    $("#person_id").on("click", function() {
+      event.preventDefault();
+
+      var person_id = $('#person_id').val();
+
+      $.ajax({
+        url: "/admin/leans/get_leans_by_person",
+        type: "GET",
+        data: {"person_id": person_id},
+        success: function(data, status, jqXHR){
+          var json = jqXHR.responseJSON;                    
+          var leans = json.leans;
+          var hasOne   = false;
+          var tfoot    = "<tfoot>"+ 
+                         " <tr>"+
+                         "  <th colspan=\"6\" class=\"tfoot_empty\" style=\"text-align: center; height: 50px;\">"+
+                         "   Nenhum produto adicionado"+
+                         "  </th>"+
+                         " </tr>"
+                         "</tfoot>";  
+          var tbody    = "<tbody>"+                          
+                         "</tbody>"; 
+
+          $('#tableProducts > tbody').remove();
+          $('#tableProducts > tfoot').remove(); 
+
+          if( leans.length > 0){
+            hasOne = true;            
+          }
+
+          if( hasOne ){  
+            $( '#tableProducts').append(tbody);
+            for (var i = 0; i < leans.length; i++) {
+              var linha = "<tr value="+ leans[i].id +">"+
+                    "<td>"+
+                    "  <div class=\"form-check\">"+
+                    "    <label class=\"form-check-label\">"+
+                    "      <input class=\"form-check-input check-emprestado\" type=\"checkbox\">&nbsp;"+
+                    "      <span class=\"form-check-sign\">"+
+                    "        <span class=\"check\"></span>"+
+                    "      </span>"+
+                    "    </label>"+
+                    "  </div>"+
+                    "</td>"+
+                    "<td>"+ leans[i].product.id +"</td>"+
+                    "<td>"+ leans[i].product.name +"</td>"+                    
+                    "<td>"+ leans[i].quantity +"</td>"+
+                    "<td>"+ mascaraData( leans[i].expected_return ) +"</td>"+
+                    "<td></td>"+                    
+                  "</tr>";
+
+              $('#tableProducts > tbody').append(linha);
+              $('#tableProducts > tfoot').remove();
+              produtosSelecionados.push(leans[i].product_id);
+            }
+          }else{
+            $('#tableProducts > tbody').html(""); 
+            if( $( '#tableProducts > tfoot' ).length === 0 )
+              $( '#tableProducts').append(tfoot);
+          }
+        },
+        error : function(jqXHR, textStatus, errorThrown){ }
+      }); 
+    });
+
     $("#btnAddPerson").on("click", function() {
       event.preventDefault();
 
@@ -110,7 +190,7 @@
       var linha = "<tr>"+
                     "<td>"+ codigo +"</td>"+
                     "<td>"+ nome +"</td>"+                    
-                    "<td align=\"center\"><button class=\"btn btn-sm btn-danger\">remover</button></td>"+                    
+                    "<td align=\"center\"><button class=\"btn btn-sm btn-danger btn-remover\">remover</button></td>"+                    
                   "</tr>";
 
       $('#tablePeople > tbody').append(linha);
@@ -140,10 +220,19 @@
         $.notify("Informe a quantidade.", "error" );   
       }
 
-      var dataDevPrevista = $('#btnExpectedReturn').val();
+      var dataDevPrevista = $('#inputExpectedReturn').val();
       if( dataDevPrevista == ''){
         errors.push("Informe a data de devolução prevsta.");
         $.notify("Informe a data de devolução prevsta.", "error" );   
+      }
+
+      var dataHoje = new Date();
+      var date = dataDevPrevista.split("/")
+      var data = new Date( date[2], date[1] - 1, date[0], dataHoje.getHours(), dataHoje.getMinutes(), dataHoje.getSeconds(), dataHoje.getMilliseconds() );
+
+      if( data < dataHoje ){
+        errors.push("A data deve ser igual ou maior que hoje.");
+        $.notify("A data deve ser igual ou maior que hoje.", "error" );   
       }
 
       if( errors.length > 0)
@@ -151,19 +240,30 @@
 
       var nome = $('#products_id option:selected').text();
       var linha = "<tr>"+
-                    "<td>"+ codigo +"</td>"+
+                    "<td></td>"+
                     "<td>"+ codigo +"</td>"+
                     "<td>"+ nome +"</td>"+                    
                     "<td>"+ quantidade +"</td>"+
                     "<td>"+ dataDevPrevista +"</td>"+
-                    "<td align=\"center\"><button class=\"btn btn-sm btn-danger\">remover</button></td>"+                    
+                    "<td align=\"center\"><button class=\"btn btn-sm btn-danger btn-remover\">remover</button></td>"+                    
                   "</tr>";
 
       $('#tableProducts > tbody').append(linha);
       $('#tableProducts > tfoot').remove();
       produtosSelecionados.push(codigo);
     });
-
+    
+    $(".btnExpectedReturn").on("click", function() {
+      $('#inputExpectedReturn').focus();
+    });
+    
+    $('#tableProducts').on('change', '.check-emprestado', function(event) {            
+      event.preventDefault();
+      if( $(this).is(':checked')) {
+        $('#btnDevolver').css('visibility', 'visible')
+      }
+    });    
+  
     $("#btnEmprestar").click(function () {    
       event.preventDefault();
       var errors = [];
@@ -186,32 +286,84 @@
       var leans = [];
 
       table.find('tbody > tr').each(function(indice){
-
-        var row = $(this);
-        var lean = new Object();        
-        lean["company_id"] = 1;
-        lean["person_id"] = pessoa_id;
-        lean["product_id"] = $(this).find("td").eq(1).text();
-        lean["quantity"] = $(this).find("td").eq(3).text();        
-        lean["expected_return"] = $(this).find("td").eq(4).text();        
-        leans.push(lean);
-      });
-
-      $.ajax({
-        url: "/admin/leans/",
-        type: "POST",
-        data: {"lean": leans},
-        success: function(data, status, jqXHR){
-          var json = jqXHR.responseJSON;                    
-
-          var options = '';
-        },
-        error : function(jqXHR, textStatus, errorThrown){
-          var json = jqXHR.responseJSON;  
+        var colCheck = $(this).find("td").eq(0).html();
+        
+        if( colCheck.indexOf('form-check') < 0){
+          var row = $(this);
+          var lean = new Object();        
+          lean["company_id"] = 1;
+          lean["person_id"] = pessoa_id;
+          lean["product_id"] = $(this).find("td").eq(1).text();
+          lean["quantity"] = $(this).find("td").eq(3).text();        
+          lean["expected_return"] = $(this).find("td").eq(4).text();        
+          leans.push(lean);
         }
-      });     
+      });
+      
+      if( leans[0] ){
+        $.ajax({
+          url: "/admin/leans/",
+          type: "POST",
+          data: {"lean": leans},
+          success: function(data, status, jqXHR){
+            var json = jqXHR.responseJSON;                    
 
+            var options = '';
+          },
+          error : function(jqXHR, textStatus, errorThrown){ }
+        });     
+      }
     });
+
+    $("#btnDevolver").click(function () {    
+      event.preventDefault();     
+
+      var table = $('#tableProducts');    
+
+      table.find('tbody > tr').each(function(indice){                   
+        var row = $(this);
+
+        if(row.find('input[type="checkbox"]').is(':checked')) {
+          var id = $(this).closest('tr').attr('value');  
+
+          alert('tamita');
+          alert(row.closest('tr').attr('value'));
+          alert(id);
+
+          var lean = new Object();   
+          let current_datetime = new Date();          
+          lean["returned"] = current_datetime;               
+
+          $.ajax({
+            url: "/admin/leans/"+id,
+            type: "PUT",
+            data: {"id": id, "lean": lean},
+            success: function(data, status, jqXHR){            
+              verificaRodape();
+            },
+            error : function(jqXHR, textStatus, errorThrown){ }
+          });
+        }
+      });                               
+    });
+
+    function mascaraData(data){
+      var date = data.split("-")
+      return date[2] + "/" + date[1] + "/" +date[0];
+    }
+
+    var verificaRodape = function(event){
+      var tfoot = "<tfoot> "+ 
+                  "<th colspan=\"6\" class=\"tfoot_empty\" style=\"text-align: center; height: 50px;\">"+
+                  " Nenhum produto adicionado"+
+                  "</th>"+
+                  "</tfoot>";
+      var tbody = $("#tableProducts tbody");
+
+      if (tbody.children().length == 0) {
+          $('#tableProducts').append(tfoot);
+      }      
+    }
          
   });  
 </script>  

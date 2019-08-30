@@ -7,6 +7,7 @@ class AddFieldsToInvoice < ActiveRecord::Migration[5.0]
     add_column :invoices, :person_cancel, :integer
     add_column :invoices, :charge_back_date, :datetime
     add_column :invoices, :person_charge_back, :integer
-    add_reference :invoices, :company, foreign_key: true    
+    add_reference :invoices, :company, foreign_key: true   
+    add_reference :invoices, :payment_type, foreign_key: true 
   end
 end

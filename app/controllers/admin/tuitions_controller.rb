@@ -84,6 +84,6 @@ class Admin::TuitionsController < Admin::AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tuition_params
-      params.require(:tuition).permit(:description, :send_email, :day, :amount, :day_email, :email_id)
+      params.require(:tuition).permit(:description, :send_email, :day, :amount, :day_email, :subject, :message)
     end
 end
