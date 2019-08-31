@@ -4,6 +4,10 @@ class Admin::LeansController < Admin::AdminController
   
   #before_action :set_lean, only: [:show, :edit, :update, :destroy]
   before_action :set_lean, only: [:show, :edit, :update]
+  
+  before_action :set_leans, only: [:leans_pdf]
+  before_action :set_returneds, only: [:returneds_pdf]
+
   before_action :authenticate_user!
   
   # GET /leans
@@ -52,6 +56,9 @@ class Admin::LeansController < Admin::AdminController
       @lean.expected_return = params[:lean][l][:expected_return]
 
       if @lean.save
+        @product = Product.find(@lean.product_id)
+        @quantity = @product.quantity - @lean.quantity
+        @product.update(quantity: @quantity) 
         @success.push( @lean.product_id )
       else
         @errors.push( @lean.product_id )
@@ -67,7 +74,14 @@ class Admin::LeansController < Admin::AdminController
   # PATCH/PUT /leans/1
   # PATCH/PUT /leans/1.json
   def update    
-    if @lean.update(lean_params)        
+    if @lean.update(lean_params)   
+      @lean = Lean.find( params[:id] )
+      @product = Product.find( @lean.product_id )
+      @quantity = @product.quantity + @lean.quantity
+      @product.update(quantity: @quantity)      
+
+      puts "#{ @product }"
+      puts "#{ lean_params }"
       render :json => { :status => :ok }       
     else
       render :json => { :status => :false }
@@ -84,6 +98,12 @@ class Admin::LeansController < Admin::AdminController
 #    end
 #  end
 
+  def leans_pdf
+  end
+
+  def returneds_pdf
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_lean
@@ -93,5 +113,11 @@ class Admin::LeansController < Admin::AdminController
     # Never trust parameters from the scary internet, only allow the white list through.
     def lean_params
       params.require(:lean).permit(:id, :company_id, :person_id, :product_id, :quantity, :expected_return, :returned)
+    end
+
+    def set_leans 
+    end
+
+    def set_returneds
     end
 end

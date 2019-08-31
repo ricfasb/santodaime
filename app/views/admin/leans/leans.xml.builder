@@ -1,11 +1,11 @@
 xml.instruct! :xml, :version => '1.0', :encoding => 'utf-8'
-xml.cashes do
-    @cashes.each do |cash|
-        xml.cash do
-            xml.charge_back_date format_date_hour cash.charge_back_date.to_s
+xml.leans do
+    @leans.each do |lean|
+        xml.lean do
+            xml.created_at format_date_hour lean.cancel_date.to_s
             xml.name cash.person
             xml.category cash.category            
-            xml.person_charge_back cash.person_charge_back
+            xml.person_cancel cash.person_cancel
             xml.type cash.type            
             xml.amount cash.amount
         end

@@ -108,7 +108,9 @@
         $('.form-check-input').prop( "checked", true );        
       }else{
         $('.form-check-input').prop( "checked", false );                
-      }      
+      }    
+      
+      $('.check-emprestado').trigger('change');  
     });
 
     $('#tableProducts').on('click', '.btn-remover', function(event) {      
@@ -140,6 +142,7 @@
           var tbody    = "<tbody>"+                          
                          "</tbody>"; 
           
+          $('#tableProducts > tbody').remove();
           $('#tableProducts > tfoot').remove(); 
 
           if( leans.length > 0){
@@ -211,7 +214,18 @@
         $.notify("Selecione o produto.", "error" );      
       } 
 
-      if ( exists ) {
+      var exists = new Boolean(false);
+
+      var table = $('#tableProducts');
+      table.find('tbody > tr').each(function(indice){
+        var row = $(this);
+        var product_id = row.find("td").eq(1).text();
+        if( product_id == codigo ){
+          exists = true;          
+        }
+      });
+
+      if ( exists === true ) {
         errors.push("Este produto já consta na lista.");
         $.notify("Este produto já consta na lista.", "error" );      
       } 
@@ -249,6 +263,10 @@
                     "<td>"+ dataDevPrevista +"</td>"+
                     "<td align=\"center\"><button class=\"btn btn-sm btn-danger btn-remover\">remover</button></td>"+                    
                   "</tr>";
+      
+      var tbody = "<tbody></tbody>";
+      if( $('#tableProducts > tbody' ).length === 0 )
+        $('#tableProducts').append(tbody);   
 
       $('#tableProducts > tbody').append(linha);
       $('#tableProducts > tfoot').remove();      
@@ -260,8 +278,20 @@
     
     $('#tableProducts').on('change', '.check-emprestado', function(event) {            
       event.preventDefault();
-      if( $(this).is(':checked')) {
-        $('#btnDevolver').css('visibility', 'visible')
+      var table = $('#tableProducts');    
+      var hasOneChecked = new Boolean(false);
+
+      table.find('tbody > tr').each(function(indice){                   
+        var row = $(this);        
+        if(row.find('input[type="checkbox"]').is(':checked')) {
+          hasOneChecked = true;
+        }
+      }); 
+
+      if(hasOneChecked === true){
+        $('#btnDevolver').css('visibility', 'visible');          
+      }else{
+        $('#btnDevolver').css('visibility', 'hidden');          
       }
     });    
   
@@ -304,11 +334,7 @@
           type: "POST",
           data: {"lean": leans},
           success: function(data, status, jqXHR){
-            var json = jqXHR.responseJSON; 
-            var products = json.products;
-            for (var i = 0; i < products.length; i++) {                   
-
-            }              
+            $('#person_id').trigger('click');             
           },
           error : function(jqXHR, textStatus, errorThrown){ }
         });     

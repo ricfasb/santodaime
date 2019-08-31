@@ -32,6 +32,8 @@ Rails.application.routes.draw do
 
     resources :leans do
       get "get_leans_by_person", to: "leans#get_leans_by_person",  on: :collection
+      get "leans_pdf",  to: "leans#leans_pdf",  on: :collection
+      get "returneds_pdf",  to: "leans#returneds_pdf",  on: :collection
     end
 
     resources :payment_types do      
@@ -65,6 +67,8 @@ Rails.application.routes.draw do
       get "payments_pdf", to: "cashes#payments_pdf",  on: :collection
       get "expenses_pdf", to: "cashes#expenses_pdf",  on: :collection
       get "overdue_pdf",  to: "cashes#overdue_pdf",  on: :collection
+      get "charge_back_pdf",  to: "cashes#charge_back_pdf",  on: :collection
+      get "cancellations_pdf",  to: "cashes#cancellations_pdf",  on: :collection
     end    
     
     get "/users" => 'users#index'    

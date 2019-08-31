@@ -11,6 +11,8 @@ class  Admin::CashesController < Admin::AdminController
   before_action :set_payments, only: [:payments_pdf]
   before_action :set_expenses, only: [:expenses_pdf]
   before_action :set_overdue, only: [:overdue_pdf]
+  before_action :set_chargeback, only: [:chargeback_pdf]
+  before_action :set_cancellations, only: [:cancellations_pdf]
 
   def index
     @cashes = []
@@ -89,6 +91,24 @@ class  Admin::CashesController < Admin::AdminController
     @df = format_dt @end_date.to_s
     encoded_string = Base64.encode64("DI#VLR##{@di}#RS#DF#VLR##{@df}#RS#")
     send_doc(xml_data, '/cashes/cash', 'overdue.jasper', "Relatório de Inadimplentes", encoded_string, "pdf")
+  end
+
+  def charge_back_pdf
+    xml_data = render_to_string('chargeback.xml.builder', layout: false)    
+    @company = Company.find( session[:current_company] )      
+    @di = format_dt @init_date.to_s
+    @df = format_dt @end_date.to_s
+    encoded_string = Base64.encode64("DI#VLR##{@di}#RS#DF#VLR##{@df}#RS#")
+    send_doc(xml_data, '/cashes/cash', 'chargeback.jasper', "Relatório de Estornos", encoded_string, "pdf")
+  end
+
+  def cancellations_pdf
+    xml_data = render_to_string('cancellations.xml.builder', layout: false)    
+    @company = Company.find( session[:current_company] )      
+    @di = format_dt @init_date.to_s
+    @df = format_dt @end_date.to_s
+    encoded_string = Base64.encode64("DI#VLR##{@di}#RS#DF#VLR##{@df}#RS#")
+    send_doc(xml_data, '/cashes/cash', 'cancellations.jasper', "Relatório de Cancelamentos", encoded_string, "pdf")
   end
 
   private 
@@ -173,6 +193,71 @@ class  Admin::CashesController < Admin::AdminController
         @cash.type = i.invoice_type.description
         @cash.identifier = 1
         @cash.due_date = i.due_date
+        @cash.created_at = i.created_at
+        @cash.person = i.person.name
+        @cash.category = i.person.category.description
+        @cash.amount = i.amount        
+        @cashes.push(@cash)
+      end
+    end
+
+
+    def set_chargeback
+      @init_date = format_date_hour_ini_us params[:initial_date]
+      @end_date  = format_date_hour_fin_us params[:final_date]
+
+      @cashes = []
+      @tuitionPeople = TuitionPerson.where(pay_day: nil).where(:charge_back_date => @init_date..@end_date)
+      @invoices = Invoice.where(pay_day: nil).where(:charge_back_date => @init_date..@end_date)
+
+      @tuitionPeople.each do |t|
+        @cash = Cash.new    
+        @cash.type = 'Mensalidade'        
+        @cash.pay_day = t.pay_day
+        @cash.created_at = t.created_at
+        @cash.person = t.person.name
+        @cash.category = t.person.category.description
+        @cash.amount = t.tuition.amount        
+        @cashes.push(@cash)
+      end
+      
+      @invoices.each do |i|
+        @cash = Cash.new    
+        @cash.type = i.invoice_type.description        
+        @cash.pay_day = i.pay_day
+        @cash.created_at = i.created_at
+        @cash.person = i.person.name
+        @cash.category = i.person.category.description
+        @cash.amount = i.amount        
+        @cashes.push(@cash)
+      end
+    end
+
+    def set_cancellations
+      @init_date = format_date_hour_ini_us params[:initial_date]
+      @end_date  = format_date_hour_fin_us params[:final_date]
+
+      @cashes = []
+      @tuitionPeople = TuitionPerson.where.not(pay_day: nil).where(:pay_day => @init_date..@end_date)
+      @invoces = Invoice.where.not(pay_day: nil).where(:pay_day => @init_date..@end_date)
+
+      @tuitionPeople.each do |t|
+        @cash = Cash.new    
+        @cash.type = 'Mensalidade'
+        @cash.identifier = 1
+        @cash.pay_day = t.pay_day
+        @cash.created_at = t.created_at
+        @cash.person = t.person.name
+        @cash.category = t.person.category.description
+        @cash.amount = t.tuition.amount        
+        @cashes.push(@cash)
+      end
+      
+      @invoces.each do |i|
+        @cash = Cash.new    
+        @cash.type = i.invoice_type.description
+        @cash.identifier = 1
+        @cash.pay_day = i.pay_day
         @cash.created_at = i.created_at
         @cash.person = i.person.name
         @cash.category = i.person.category.description

@@ -28,6 +28,17 @@ class Admin::PaymentsController < Admin::AdminController
     end
   end
 
+  def get_actual_debits
+    @invoices = Invoice.where("due_date < ?", Date.today).where(pay_day: nil).where(person_id: params[:person_id])
+    @tuitions = TuitionPerson.where("due_date < ?", Date.today).where(pay_day: nil).where(person_id: params[:person_id])
+    @person_id = params[:person_id]
+    if request.xhr?
+      render :json => { :person => @person_id, :invoices => @invoices, :tuitions => @tuitions }
+    else
+      render json: {}, status: :false
+    end
+  end
+
   def pay
     if request.xhr?
       render json: {}, status: :true
