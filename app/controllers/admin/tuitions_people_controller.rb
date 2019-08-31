@@ -17,12 +17,10 @@ class Admin::TuitionsPeopleController < Admin::AdminController
         # Use callbacks to share common setup or constraints between actions.
         def set_tuition_person
             @tuition_person = TuitionPerson.find(params[:id])
-            @tuition_person.cancel_date = DateTime.now
-            @tuition_person.person_cancel = current_user.id
         end
         
         def tuition_person_params
-            params.require(:tuition_person).permit(:id)
+            params.require(:tuition_person).permit(:id, :pay_day, :person_paied, :status_payment, :discount, :amount_paied, :payment_type_id, :charge_back_date, :person_charge_back)
         end
 
 end

@@ -8,10 +8,12 @@
                 <h4 class="title">Cobranças</h4>                
               </div>
               <div class="col" align="right">
-                    <%= link_to raw('<i class="material-icons">add</i>'),
-                      new_admin_invoice_path, 
-                      :style => "margin-left: 35px",
-                      :class => 'btn btn-success btn-round btn-fab' %>
+                <% if permission 35 %>
+                  <%= link_to raw('<i class="material-icons">add</i>'),
+                    new_admin_invoice_path, 
+                    :style => "margin-left: 35px",
+                    :class => 'btn btn-success btn-round btn-fab' %>
+                <% end %>
               </div>
             </div>
 	        </div>  
@@ -60,10 +62,14 @@
                           <td>       
                             <% if invoice.pay_day.nil? %>
                               <div class="btn-group">
-                                <%= link_to raw('<i class="material-icons">edit</i>'),
-                                            edit_admin_invoice_path(invoice), :style => 'color: gray; heigth: 100%; width: 100%;' %>
+                                <% if permission 36 %>
+                                  <%= link_to raw('<i class="material-icons">edit</i>'),
+                                              edit_admin_invoice_path(invoice), :style => 'color: gray; heigth: 100%; width: 100%;' %>
+                                <% end %>
                                 &nbsp;
-                                <button class="btn btn-xs btn-danger btn-cancel">Cancelar</button>
+                                <% if permission 37 %>
+                                  <button class="btn btn-xs btn-danger btn-cancel">Cancelar</button>
+                                <% end %>
                               </div>
                             <% end %>
                           </td>

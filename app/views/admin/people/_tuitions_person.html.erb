@@ -40,6 +40,8 @@
 
                 var tuition_person = new Object();
                 tuition_person["id"] = id;
+                tuition_person["cancel_date"] = new Date();
+                tuition_person["person_cancel"] = "<%= escape_javascript(current_user.id.to_s)%>";
 
                 $.ajax({
                     url: "/admin/tuitions_people/",

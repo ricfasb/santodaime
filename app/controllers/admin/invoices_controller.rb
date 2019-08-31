@@ -48,8 +48,12 @@ class Admin::InvoicesController < Admin::AdminController
   def update
     respond_to do |format|
       if @invoice.update(invoice_params)
-        format.html { redirect_to admin_invoices_url, notice: 'Cobrança atualizada com sucesso.' }
-        format.json { head :no_content }
+        if invoice_params.has_key?(:charge_back_date)
+          format.json{ render :json => { :status => :true } }
+        else
+          format.html { redirect_to admin_invoices_url, notice: 'Cobrança atualizada com sucesso.' }
+          format.json { head :no_content }
+        end
       else
         format.html { render :edit }
         format.json { render json: @invoice.errors, status: :unprocessable_entity }
@@ -76,6 +80,6 @@ class Admin::InvoicesController < Admin::AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def invoice_params
-      params.require(:invoice).permit(:id, :identifier, :create_paied, :company_id, :person_id, :invoice_type_id, :description, :due_date, :amount, :person_name, :cancel_date, :person_cancel, :payment_type_id)
+      params.require(:invoice).permit(:id, :identifier, :create_paied, :company_id, :person_id, :invoice_type_id, :description, :due_date, :amount, :person_name, :pay_day, :discount, :amount_paied, :person_paied, :charge_back_date, :person_charge_back, :cancel_date, :person_cancel, :payment_type_id)
     end
 end

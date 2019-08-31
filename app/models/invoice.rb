@@ -5,7 +5,7 @@ class Invoice < ApplicationRecord
   belongs_to :person
   belongs_to :payment_type
   
-  before_save :verify_pay
+  before_create :verify_pay
   validate :min_amount
   
   validates_presence_of :company, :amount, :due_date, :description, :invoice_type, :person

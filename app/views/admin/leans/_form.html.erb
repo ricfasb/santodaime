@@ -78,8 +78,12 @@
     </div>
 
     <div class="btn-group pull-right">        
-      <button id="btnDevolver" class="btn btn-danger" style="visibility: hidden">Devolver</button>
-      <button id="btnEmprestar" class="btn btn-success">Emprestar</button>
+      <% if permission 29 %>
+        <button id="btnDevolver" class="btn btn-danger" style="visibility: hidden">Devolver</button>
+      <% end %>
+      <% if permission 28 %>
+        <button id="btnEmprestar" class="btn btn-success">Emprestar</button>
+      <% end %>
     </div>
       
     </div>
@@ -135,8 +139,7 @@
                          "</tfoot>";  
           var tbody    = "<tbody>"+                          
                          "</tbody>"; 
-
-          $('#tableProducts > tbody').remove();
+          
           $('#tableProducts > tfoot').remove(); 
 
           if( leans.length > 0){
@@ -165,8 +168,7 @@
                   "</tr>";
 
               $('#tableProducts > tbody').append(linha);
-              $('#tableProducts > tfoot').remove();
-              produtosSelecionados.push(leans[i].product_id);
+              $('#tableProducts > tfoot').remove();              
             }
           }else{
             $('#tableProducts > tbody').html(""); 
@@ -204,12 +206,12 @@
       var codigo = $('#products_id').val();
       var index = produtosSelecionados.indexOf(codigo);
 
-      if (codigo === '' || index > -1) {
+      if (codigo === '') {
         errors.push("Selecione o produto.");
         $.notify("Selecione o produto.", "error" );      
       } 
 
-      if (index > -1) {
+      if ( exists ) {
         errors.push("Este produto já consta na lista.");
         $.notify("Este produto já consta na lista.", "error" );      
       } 
@@ -249,8 +251,7 @@
                   "</tr>";
 
       $('#tableProducts > tbody').append(linha);
-      $('#tableProducts > tfoot').remove();
-      produtosSelecionados.push(codigo);
+      $('#tableProducts > tfoot').remove();      
     });
     
     $(".btnExpectedReturn").on("click", function() {
@@ -271,9 +272,6 @@
       var pessoa_id = $('#person_id').val();
       if (pessoa_id === '')
         errors.push("Informe a pessoa que está efetuando o empréstimo.");    
-
-      if( produtosSelecionados.length == 0)
-        errors.push("Adicione o produto que deseja emprestar.");        
         
       $.each(errors, function(index, value) {
         $.notify(value, "error" );        
@@ -306,9 +304,11 @@
           type: "POST",
           data: {"lean": leans},
           success: function(data, status, jqXHR){
-            var json = jqXHR.responseJSON;                    
+            var json = jqXHR.responseJSON; 
+            var products = json.products;
+            for (var i = 0; i < products.length; i++) {                   
 
-            var options = '';
+            }              
           },
           error : function(jqXHR, textStatus, errorThrown){ }
         });     
@@ -325,11 +325,6 @@
 
         if(row.find('input[type="checkbox"]').is(':checked')) {
           var id = $(this).closest('tr').attr('value');  
-
-          alert('tamita');
-          alert(row.closest('tr').attr('value'));
-          alert(id);
-
           var lean = new Object();   
           let current_datetime = new Date();          
           lean["returned"] = current_datetime;               
@@ -338,7 +333,8 @@
             url: "/admin/leans/"+id,
             type: "PUT",
             data: {"id": id, "lean": lean},
-            success: function(data, status, jqXHR){            
+            success: function(data, status, jqXHR){       
+              row.closest('tr').remove();     
               verificaRodape();
             },
             error : function(jqXHR, textStatus, errorThrown){ }

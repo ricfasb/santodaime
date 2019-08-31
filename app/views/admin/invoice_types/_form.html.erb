@@ -8,12 +8,16 @@
 
     <div class="col-2">
       <% unless @invoice_type.description.nil? %>
-        <div class="btn-group">          
-          <%= f.submit nil, :class => 'btn btn-sm btn-success' %>
+        <div class="btn-group">    
+          <% if permission 38 %>      
+            <%= f.submit nil, :class => 'btn btn-sm btn-success' %>
+          <% end %>
           <a class="btn btn-sm btn-default" href="/admin/invoice_types/">Cancelar</a>
         </div>
       <% else %>
-        <%= f.submit nil, :class => 'btn btn-sm btn-success' %>
+        <% if permission 38 %> 
+          <%= f.submit nil, :class => 'btn btn-sm btn-success' %>
+        <% end %>
       <% end %>
     </div>
     <div class="col-1"></div>

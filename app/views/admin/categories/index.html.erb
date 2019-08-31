@@ -8,10 +8,12 @@
                   <h4 class="title">Categorias</h4>
                 </div>
                 <div class="col" align="right">
-                    <%= link_to raw('<i class="material-icons">add</i>'),
-                      new_admin_category_path, 
-                      :style => "margin-left: 35px",
-                      :class => 'btn btn-success btn-round btn-fab' %>                    
+                    <% if permission 19 %>  
+                      <%= link_to raw('<i class="material-icons">add</i>'),
+                        new_admin_category_path, 
+                        :style => "margin-left: 35px",
+                        :class => 'btn btn-success btn-round btn-fab' %>       
+                    <% end %>             
                 </div>               
               </div>
             </div>
@@ -52,13 +54,18 @@
                             <td style="word-break: break-all;"><%= link_to category.description, admin_category_path(category) %></td>                                                                                              
                             <td>
                               <div class="btn-group" role="group">
-                                <%= link_to raw('<i class="material-icons">edit</i>'),
-                                            edit_admin_category_path(category), :style => 'color: gray; heigth: 100%; width: 100%;' %>
-                                <%= link_to raw('<i class="material-icons">delete</i>'),
-                                            admin_category_path(category),
-                                            :method => :delete,
-                                            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },                                            
-                                            :style => 'color: #cf1a1a; font-size: 32px;' %>                                
+                                <% if permission 20 %>
+                                  <%= link_to raw('<i class="material-icons">edit</i>'),
+                                              edit_admin_category_path(category), :style => 'color: gray; heigth: 100%; width: 100%;' %>
+                                <% end %>
+
+                                <% if permission 21 %>
+                                  <%= link_to raw('<i class="material-icons">delete</i>'),
+                                              admin_category_path(category),
+                                              :method => :delete,
+                                              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },                                            
+                                              :style => 'color: #cf1a1a; font-size: 32px;' %>                                
+                                <% end %>
                               </div>
                             </td>
                           </tr>

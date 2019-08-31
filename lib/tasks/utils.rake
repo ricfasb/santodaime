@@ -55,21 +55,22 @@ namespace :utils do
     Permission.create(id: 34, description:'Remover', father: '9')
     #Cobrancas
     Permission.create(id: 35, description:'Inserir', father: '11')    
-    Permission.create(id: 36, description:'Cancelar', father: '11')
+    Permission.create(id: 36, description:'Alterar', father: '11')
+    Permission.create(id: 37, description:'Cancelar', father: '11')
     #Tipos de cobranca
-    Permission.create(id: 37, description:'Inserir', father: '12')    
-    Permission.create(id: 38, description:'Remover', father: '12')
+    Permission.create(id: 38, description:'Inserir', father: '12')    
+    Permission.create(id: 39, description:'Remover', father: '12')
     #Mensalidades
-    Permission.create(id: 39, description:'Inserir', father: '13')
-    Permission.create(id: 40, description:'Alterar', father: '13')
-    Permission.create(id: 41, description:'Remover', father: '13')
+    Permission.create(id: 40, description:'Inserir', father: '13')
+    Permission.create(id: 41, description:'Alterar', father: '13')
+    Permission.create(id: 42, description:'Remover', father: '13')
     #Pagamentos
-    Permission.create(id: 42, description:'Pagar', father: '14')    
+    Permission.create(id: 43, description:'Pagar', father: '14')    
     #Segurança
-    Permission.create(id: 43, description:'Criar usuário', father: '15')
-    Permission.create(id: 44, description:'Alterar usuário', father: '15')
-    Permission.create(id: 45, description:'Criar perfil', father: '15')
-    Permission.create(id: 46, description:'Alterar permissões', father: '15')
+    Permission.create(id: 44, description:'Criar usuário', father: '15')
+    Permission.create(id: 45, description:'Alterar usuário', father: '15')
+    Permission.create(id: 46, description:'Criar perfil', father: '15')
+    Permission.create(id: 47, description:'Alterar permissões', father: '15')
   end
 
   desc "Insere as permissoes do admin"
@@ -120,6 +121,7 @@ namespace :utils do
     ProfilePermission.create(profile_id: 1, permission_id: 44)    
     ProfilePermission.create(profile_id: 1, permission_id: 45)    
     ProfilePermission.create(profile_id: 1, permission_id: 46)    
+    ProfilePermission.create(profile_id: 1, permission_id: 47)
   end
 
   desc "Gerar a tabela de estados brasileiros"

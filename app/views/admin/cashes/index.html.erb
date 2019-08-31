@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div class="card-content table-responsive">                        
-                <table class="table table-striped">
+                <table id="tableCashes" class="table table-striped">
                     <thead>
                     <tr>                
                         <th colspan="5">Receitas</th>
@@ -81,7 +81,11 @@
                         <% @cashes.each do |cash| %>           
                         <tr>
                             <% if cash.identifier == 1 %>
-                                <td></td>
+                                <td>
+                                    <button value=<%= cash.id %>@@<%= cash.type %> rel="tooltip" title="Estornar pagamento" class="btn btn-xs btn-warning btn-estorno">
+                                        Estornar
+                                    </button>
+                                </td>
                                 <td style="color: green"><%= format_date_dt_hr cash.pay_day %></td>
                                 <td style="color: green"><%= cash.type %></td>
                                 <td style="color: green; word-break: break-all;"><%= cash.person %></td>
@@ -122,6 +126,60 @@
 <script>
 jQuery(function($){
   md.initFormExtendedDatetimepickers();
+  $('[data-toggle="tooltip"]').tooltip();
+
+  $('#tableCashes').on('click', '.btn-estorno', function(event) {            
+    event.preventDefault();
+    var row = $(this).closest('tr');
+    if( confirm('Deseja realmente estornar este pagamento?') ){          
+        var data =  $(this).val().split("@@");
+
+        var id = data[0];
+        var type = data[1];
+
+        if(type.toLowerCase() === 'mensalidade'){       
+            var tuition_person = new Object();
+            tuition_person["id"] = id;
+            tuition_person["pay_day"] = null;
+            tuition_person["status_payment"] = 'pending';
+            tuition_person["discount"] = null;
+            tuition_person["person_paied"] = null;
+            tuition_person["amount_paied"] = null;
+            tuition_person["payment_type_id"] = null;
+
+            $.ajax({
+                url: "/admin/tuitions_people/",
+                type: "PATCH",
+                data: {"id": id, "tuition_person" : tuition_person},
+                success: function(data, status, jqXHR){                       
+                    location.href = "/admin/cashes/";
+                },
+                error : function(jqXHR, textStatus, errorThrown){ }
+            });
+        }else{
+            
+            var invoice = new Object();
+            invoice["id"] = id;
+            invoice["pay_day"] = null;
+            invoice["discount"] = null;
+            invoice["amount_paied"] = null;        
+            invoice["person_paied"] = null;        
+            invoice["payment_type_id"] = null;
+            invoice["charge_back_date"] = new Date();
+            invoice["person_charge_back"] = "<%= escape_javascript(current_user.id.to_s)%>";
+
+            $.ajax({
+                url: "/admin/invoices/"+id,
+                type: "PUT",
+                data: {"invoice" : invoice},
+                success: function(data, status, jqXHR){                
+                    location.href = "/admin/cashes/";
+                },
+                error : function(jqXHR, textStatus, errorThrown){ }
+            });
+        }
+    }
+  }); 
   
   $("#btnImprimir").on("click", function(event) {    
     event.preventDefault();  

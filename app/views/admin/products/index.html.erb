@@ -7,11 +7,13 @@
           <div class="col-md-8">
             <h4 class="title">Produtos</h4>                
           </div>
-          <div class="col" align="right">
-                <%= link_to raw('<i class="material-icons">add</i>'),
-                  new_admin_product_path, 
-                  :style => "margin-left: 35px",
-                  :class => 'btn btn-success btn-round btn-fab' %>
+          <% if permission 25 %>  
+            <div class="col" align="right">
+                  <%= link_to raw('<i class="material-icons">add</i>'),
+                    new_admin_product_path, 
+                    :style => "margin-left: 35px",
+                    :class => 'btn btn-success btn-round btn-fab' %>
+          <% end %>
           </div>
         </div>
       </div>  
@@ -58,13 +60,18 @@
                       <td><%= product.amount %></td>        
                       <td>
                         <div class="btn-group" role="group">
-                          <%= link_to raw('<i class="material-icons">edit</i>'),
-                                      edit_admin_product_path(product), :style => 'color: gray; heigth: 100%; width: 100%;' %>
-                          <%= link_to raw('<i class="material-icons">delete</i>'),
-                                      admin_product_path(product),
-                                      :method => :delete,
-                                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Tem certeza que deseja remover o produto selecionado?')) },
-                                      :style => 'color: #cf1a1a; font-size: 32px;' %>
+                          <% if permission 26 %>
+                            <%= link_to raw('<i class="material-icons">edit</i>'),
+                                        edit_admin_product_path(product), :style => 'color: gray; heigth: 100%; width: 100%;' %>
+                          <% end %>
+
+                          <% if permission 27 %>
+                            <%= link_to raw('<i class="material-icons">delete</i>'),
+                                        admin_product_path(product),
+                                        :method => :delete,
+                                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Tem certeza que deseja remover o produto selecionado?')) },
+                                        :style => 'color: #cf1a1a; font-size: 32px;' %>
+                          <% end %>
                         </div>
                       </td>
                     </tr>

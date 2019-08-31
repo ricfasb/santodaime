@@ -60,22 +60,17 @@ class Admin::LeansController < Admin::AdminController
 
     respond_to do |format|
       format.js
-      render json: { "errors": @errors, "success": @success}, status: :created
+      render json: { "errors": @errors, "products": @success}, status: :created
     end
   end
 
   # PATCH/PUT /leans/1
   # PATCH/PUT /leans/1.json
-  def update
-    respond_to do |format|
-      if @lean.update(lean_params)
-        format.html { redirect_to admin_leans_path, notice: 'Empréstimo atualizado com sucesso.' }
-        format.json { render :index, status: :ok, location: @lean }
-      else
-        format.html { render :edit }
-        format.json { render json: @lean.errors, status: :unprocessable_entity }
-        format.js   { render action: 'message' }
-      end
+  def update    
+    if @lean.update(lean_params)        
+      render :json => { :status => :ok }       
+    else
+      render :json => { :status => :false }
     end
   end
 

@@ -24,6 +24,7 @@ class  Admin::CashesController < Admin::AdminController
 
     @tuitionPeople.each do |t|
       @cash = Cash.new    
+      @cash.id = t.id
       @cash.type = 'Mensalidade'
       @cash.identifier = 1
       @cash.pay_day = t.pay_day
@@ -35,7 +36,8 @@ class  Admin::CashesController < Admin::AdminController
     end
     
     @invoces.each do |i|
-      @cash = Cash.new    
+      @cash = Cash.new  
+      @cash.id = i.id  
       @cash.type = i.invoice_type.description
       @cash.identifier = 1
       @cash.pay_day = i.pay_day

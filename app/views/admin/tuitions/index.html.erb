@@ -8,10 +8,12 @@
                 <h4 class="title">Mensalidades</h4>                
               </div>
               <div class="col" align="right">
-                <%= link_to raw('<i class="material-icons">add</i>'),
-                      new_admin_tuition_path, 
-                      :style => "margin-left: 35px",
-                      :class => 'btn btn-success btn-round btn-fab' %>
+                <% if permission 40 %> 
+                  <%= link_to raw('<i class="material-icons">add</i>'),
+                        new_admin_tuition_path, 
+                        :style => "margin-left: 35px",
+                        :class => 'btn btn-success btn-round btn-fab' %>
+                <% end %>
               </div>
             </div>
 	        </div> 
@@ -41,14 +43,18 @@
                             <td><%= tuition.amount %></td>
                             <td><%= tuition.subject %></td>
                             <td>
-                              <div class="btn-group">                                
-                                <%= link_to raw('<i class="material-icons">edit</i>'),
-                                            edit_admin_tuition_path(tuition), :style => 'color: gray; heigth: 100%; width: 100%;' %>
-                                <%= link_to raw('<i class="material-icons">delete</i>'),
-                                            admin_tuition_path(tuition),
-                                            :method => :delete,
-                                            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },                                            
-                                            :style => 'color: #cf1a1a; font-size: 32px;' %>
+                              <div class="btn-group">        
+                                <% if permission 41 %>                         
+                                  <%= link_to raw('<i class="material-icons">edit</i>'),
+                                              edit_admin_tuition_path(tuition), :style => 'color: gray; heigth: 100%; width: 100%;' %>
+                                <% end %>
+                                <% if permission 42 %> 
+                                  <%= link_to raw('<i class="material-icons">delete</i>'),
+                                              admin_tuition_path(tuition),
+                                              :method => :delete,
+                                              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },                                            
+                                              :style => 'color: #cf1a1a; font-size: 32px;' %>
+                                <% end %>
                               </div>
                           </td>
                           </tr>

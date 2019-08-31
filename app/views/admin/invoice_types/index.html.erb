@@ -28,7 +28,9 @@
                   <tr>
                     <td><%= invoice_type.description %></td>
                     <td>
-                    <%= link_to 'Remover', admin_invoice_type_path(invoice_type), method: :delete, data: { confirm: 'Tem certeza que deseja remover este tipo de cobrança?' } %>
+                    <% if permission 39 %> 
+                      <%= link_to 'Remover', admin_invoice_type_path(invoice_type), method: :delete, data: { confirm: 'Tem certeza que deseja remover este tipo de cobrança?' } %>
+                    <% end %>
                     </td>
                   </tr>
                 <% end %>

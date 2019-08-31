@@ -58,6 +58,47 @@
   jQuery(function($){
     $('#liCheckIn').addClass("active"); 
 
+    var paymentTypeScreen;
+
+    $.ajax({
+      url: "/admin/payment_types/get_all/",
+      type: "GET",      
+      success: function(data, status, jqXHR){
+        var json = jqXHR.responseJSON;  
+        var payment_types = json.payment_types;
+        var checked = "";
+        paymentTypeScreen = "<div class=\"modal fade\" id=\"paymentTypeModal\" role=\"dialog\">"+
+                            "  <div class=\"modal-dialog\">"+
+                            "    <div class=\"modal-content\">"+
+                            "      <div class=\"modal-header\">"+
+                            "          <h4 class=\"modal-title\">Selecione o tipo de pagamento</h4>"+
+                            "          <button type=\"button\" class=\"close\" id=\"closeModal\" data-dismiss=\"modal\"><span>×</span></button>"+                        
+                            "      </div>"+
+                            "     <div class=\"modal-body\" id=\"paymentType\" style=\"margin-left: 50px\">";
+
+        for (var i = 0; i < payment_types.length; i++) {
+          paymentTypeScreen +="<div class=\"form-check\">"+
+                              "   <label class=\"form-check-label\">"+
+                              "      <input class=\"form-check-input\" type=\"radio\" name=\"rdPaymentType\" value=" + payment_types[i].id + ">"+payment_types[i].description+"" +
+                              "      <span class=\"circle\">"+
+                              "      <span class=\"check\"></span>"+
+                              "      </span>"+
+                              "    </label>"+
+                              "</div>";          
+        }
+
+        paymentTypeScreen +="</div>"+
+                            "     <div class=\"modal-footer btn-group\">"+
+                            "          <button type=\"button\" class=\"btn btn-success\" id=\"btnPay\" >Finalizar</button>"	+
+                            "          <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" id=\"btnClosePaymentType\">Fechar</button>"+
+                            "      </div>"+
+                            "    </div>"+
+                            "  </div>"+
+                            "</div>";
+        $(paymentTypeScreen).appendTo("body");          
+      }
+    });
+
     function float2moeda(num) {
 	    x = 0;
 
@@ -137,11 +178,29 @@
                         "      </div>"+                        
                         "      <div class=\"modal-footer btn-group\">"+                        
                         "          <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" id=\"btnCloseInvoices\">Fechar</button>"+
-                        "          <button type=\"button\" class=\"btn btn-success\" id=\"btnPay\">Efetuar Pagamento</button>"+
+                        "          <button type=\"button\" class=\"btn btn-success\" id=\"btnPaymentType\">Efetuar Pagamento</button>"+
                         "      </div>"+
                         "    </div>"+
                         "  </div>"+
-                        "</div>";                          
+                        "</div>"; 
+
+    $("#btnPaymentType").on("click", function(event) {
+      event.preventDefault();
+      
+      var table = $('#tableDebitos');
+      var rowCount = 0;
+       table.find('tbody').find('tr').each(function(indice){
+        var row = $(this);
+        if(row.find('input[type="checkbox"]').is(':checked')) {
+          rowCount = rowCount+1;
+        }
+      });
+
+      if(rowCount > 0){
+        $(paymentTypeScreen).appendTo("body");   
+        $("#paymentTypeModal").modal(); 
+      }
+    });                                                 
 
     $("#fingerprint").on("change", function(event) {       
       if( $(this).val().length > 0) {
