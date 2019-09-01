@@ -58,6 +58,10 @@
   jQuery(function($){
     $('#liCheckIn').addClass("active"); 
 
+    $('body').on('click', '#btnPay', function(event) {  
+      payment();
+    });
+
     var paymentTypeScreen;
 
     $.ajax({
@@ -97,7 +101,7 @@
                             "</div>";
         $(paymentTypeScreen).appendTo("body");          
       }
-    });
+    });    
 
     function float2moeda(num) {
 	    x = 0;
@@ -183,8 +187,8 @@
                         "    </div>"+
                         "  </div>"+
                         "</div>"; 
-
-    $("#btnPaymentType").on("click", function(event) {
+        
+    $('body').on('click', '#btnPaymentType', function(event) {           
       event.preventDefault();
       
       var table = $('#tableDebitos');
@@ -197,8 +201,10 @@
       });
 
       if(rowCount > 0){
-        $(paymentTypeScreen).appendTo("body");   
-        $("#paymentTypeModal").modal(); 
+        $(paymentTypeScreen).appendTo("body");           
+        $(paymentScreen).detach(); 
+        $("#paymentModal").modal('hide');  
+        $("#paymentTypeModal").modal();        
       }
     });                                                 
 
@@ -212,10 +218,18 @@
     $("#btnCloseInvoices").on("click", function(event) {                 
       $(paymentScreen).detach(); 
       $(paymentScreen).modal('hide');                    
-      $('.modal-backdrop').remove();      
+      $('.modal-backdrop').remove();   
+      $('#NitgenApplet').css("visibility", "visible");    
       event.preventDefault();              
     });
-    
+
+    $('body').on('change', '#chkAll', function(event) {       
+      if($("#chkAll").is(":checked")){
+        $('.form-check-input').prop( "checked", true );        
+      }else{
+        $('.form-check-input').prop( "checked", false );                
+      }      
+    });    
 
     var checkin = function(event) {
       event.preventDefault();
@@ -241,7 +255,7 @@
       var total = 0.0;
 
       $.ajax({
-        url: "/admin/payments/" + person_id +"/get_all_debits/",
+        url: "/admin/payments/" + person_id +"/get_actual_debits/",
         type: "GET",
         data: {"person_id" : person_id},
         success: function(data, status, jqXHR){
@@ -272,8 +286,7 @@
             $('#NitgenApplet').css("visibility", "hidden");
             $('#auto_bio').prop("checked", false);
 
-            $(paymentScreen).appendTo("body");   
-            document.getElementById('btnPay').addEventListener("click", payment);         
+            $(paymentScreen).appendTo("body");                       
             $( '#tableDebitos').append(tbody);
 
             for (var i = 0; i < tuitions.length; i++) {
@@ -370,6 +383,12 @@
     var payment = function(event) {
       var table = $('#tableDebitos');
       var payments = [];
+      var rdPaymentType = $("input[name='rdPaymentType']:checked"). val();
+
+      if(rdPaymentType == 'null' || rdPaymentType == null){
+        alert('Selecione o tipo de pagamento!');
+        return false;
+      }
 
       table.find('tr').each(function(indice){
         var row = $(this);
@@ -378,9 +397,13 @@
           payment["id"]       = $(this).find("td").eq(0).find('input[type="checkbox"]').val();
           payment["cobranca"] = $(this).find("td").eq(1).text();             
           payment["valor"]    = moeda2float($(this).find("td").eq(4).text());
-          payment["desconto"] = 0.0;
+          payment["status_payment"] = 'paid';          
+          payment["payment_type_id"] = rdPaymentType;
+
           if($(this).find("td").eq(5).text() !== ""){
-            payment["desconto"] = moeda2float($(this).find("td").eq(5).text());
+            payment["discount"] = moeda2float($(this).find("td").eq(5).text());
+          }else{
+            payment["discount"] = 0.0;
           }
           payment["observacao"] = $(this).find("td").eq(6).text();
           payments.push(payment);
@@ -394,15 +417,10 @@
           var json = jqXHR.responseJSON;
           var status = json.status;       
           if(status === "ok"){
-            alert('Pagamento realizado com sucesso!');
+            $("#paymentTypeModal").modal('hide');  
+            $('#NitgenApplet').css("visibility", "visible"); 
             $("#btnCloseInvoices").trigger("click");
-            setTimeout(function() {
-              try{                            
-                $('#NitgenApplet').css("visibility", "visible"); 
-              } catch(ex){
-                return false;
-              }
-            }, 1000); 
+            alert('Pagamento realizado com sucesso!');                                    
           }
         },
         error: function(o, status, error) {
@@ -443,9 +461,10 @@
         var htmlMensagem = "<span class=\"text-success\" style=\"font-weight:bold\">Entrada realizada com sucesso.</span>";
         $('.mensagem').html(htmlMensagem);            
         
-        var htmlPhoto = "<img class=\"img_capa_zk responsive\" id=\"image-output\" src=" + person.photo + " />"
+        var htmlPhoto = "<img class=\"img_capa_zk responsive\" id=\"image-output\" src=" + person.photo + " />";
 
-        $('#divImagemFoto').html(htmlPhoto);            
+        $('#divImagemFoto').html(htmlPhoto);          
+        $('#image-output').attr("src", "/admin/people/show_image?id="+person.id);          
       }else{
         $('#checkin_person_id').val("");  
         $("#btnLimpar").click();

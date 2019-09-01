@@ -18,8 +18,8 @@ class Admin::PaymentsController < Admin::AdminController
   end
  
   def get_debits
-    @invoices = Invoice.where("due_date < ?", Date.today).where(pay_day: nil).where(person_id: params[:person_id])
-    @tuitions = TuitionPerson.where("due_date < ?", Date.today).where(pay_day: nil).where(person_id: params[:person_id])
+    @invoices = Invoice.where("due_date < ?", Date.today).where(pay_day: nil).where(cancel_date: nil).where(person_id: params[:person_id])
+    @tuitions = TuitionPerson.where("due_date < ?", Date.today).where(pay_day: nil).where(cancel_date: nil).where(person_id: params[:person_id])
     @person_id = params[:person_id]
     if request.xhr?
       render :json => { :person => @person_id, :invoices => @invoices, :tuitions => @tuitions }
@@ -29,8 +29,8 @@ class Admin::PaymentsController < Admin::AdminController
   end
 
   def get_actual_debits
-    @invoices = Invoice.where("due_date < ?", Date.today).where(pay_day: nil).where(person_id: params[:person_id])
-    @tuitions = TuitionPerson.where("due_date < ?", Date.today).where(pay_day: nil).where(person_id: params[:person_id])
+    @invoices = Invoice.where("due_date <= ?", Date.today.end_of_month).where(pay_day: nil).where(person_id: params[:person_id])
+    @tuitions = TuitionPerson.where("due_date <= ?", Date.today.end_of_month).where(pay_day: nil).where(person_id: params[:person_id])
     @person_id = params[:person_id]
     if request.xhr?
       render :json => { :person => @person_id, :invoices => @invoices, :tuitions => @tuitions }
@@ -72,18 +72,18 @@ class Admin::PaymentsController < Admin::AdminController
   # POST /payments.json
   def create
     params[:payments].each { |payment|  
-      if params[:payments][payment][:cobranca] == "Multa"        
-        @id = params[:payments][payment][:id]
-        @payment_type = params[:payments][payment][:payment_type_id]
-        @discount = params[:payments][payment][:discount]
-        @person_paid = current_user.id
-        Invoice.update(@id, pay_day: DateTime.now, payment_type_id: @payment_type, discount: @discount, person_paied: @person_paid)
-      elsif params[:payments][payment][:cobranca] == "Mensalidade"        
+      if params[:payments][payment][:cobranca] == "Mensalidade"        
         @id = params[:payments][payment][:id]
         @payment_type = params[:payments][payment][:payment_type_id]
         @discount = params[:payments][payment][:discount]
         @person_paid = current_user.id
         TuitionPerson.update(@id, pay_day: DateTime.now, status_payment: 'paid', payment_type_id: @payment_type, discount: @discount, person_paied: @person_paid)
+      else
+        @id = params[:payments][payment][:id]
+        @payment_type = params[:payments][payment][:payment_type_id]
+        @discount = params[:payments][payment][:discount]
+        @person_paid = current_user.id
+        Invoice.update(@id, pay_day: DateTime.now, payment_type_id: @payment_type, discount: @discount, person_paied: @person_paid)      
       end
     }
     

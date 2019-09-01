@@ -102,7 +102,7 @@
 
     $('#liSede').addClass("active");
 
-    $('#company_address_attributes_state_id').change(function () {
+    $('#company_address_attributes_state_id').change(function (event) {
       var id = $(this).val();   
       if( state_id === id)
         return;

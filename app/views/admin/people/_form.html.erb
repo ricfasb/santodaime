@@ -858,7 +858,7 @@
       };      
   });
 
-  $('#person_address_attributes_state_id').change(function () {
+  $('#person_address_attributes_state_id').change(function (event) {
     var id = $(this).val(); 
     
     $.ajax({
@@ -882,7 +882,7 @@
     });
   });
 
-  $('#person_occupation_attributes_address_attributes_state_id').change(function () {
+  $('#person_occupation_attributes_address_attributes_state_id').change(function (event) {
     var id = $(this).val(); 
     
     $.ajax({

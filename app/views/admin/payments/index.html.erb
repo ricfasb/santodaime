@@ -51,8 +51,10 @@
                           <th><%= model_class.human_attribute_name(:description) %></th>
                           <th><%= model_class.human_attribute_name(:due_date) %></th>
                           <th><%= model_class.human_attribute_name(:pay_amount) %></th>
+                          <!--
                           <th><%= model_class.human_attribute_name(:discount) %></th>
                           <th><%= model_class.human_attribute_name(:obs_discount) %></th>
+                          -->
                         </tr>
                       </thead>
                       <tbody>
@@ -63,8 +65,10 @@
                             <td><%= payment.description %></td>
                             <td><%= format_dt payment.due_date %></td>
                             <td><%= payment.pay_amount %></td>
+                            <!--
                             <td><%= payment.discount %></td>
                             <td><%= payment.obs_discount %></td>                                                      
+                            -->
                           </tr>
                         <% end %>
                       </tbody>
@@ -309,7 +313,7 @@
       $("#vlrTotal").text("Total: R$ 0,00");
     }
 
-    $('#person_id_id').change(function () {            
+    $('#person_id_id').change(function (event) {            
       var person_id =  $('#person_id_id').val();
       if(person_id === ''){
         limpar();
@@ -365,8 +369,8 @@
                             "<td>Parcela da mensalidade</td>"+
                             "<td>"+ mascaraData( tuitions[i].due_date ) +"</td>"+
                             "<td>"+ float2moeda( tuitions[i].tuition.amount ) +"</td>"+
-                            "<td><input type=\"text\" placeholder=\"0,00\" class=\"form-control\"></td>"+
-                            "<td><input type=\"text\" placeholder=\"Observação\" class=\"form-control\"></td>"+                          
+//                            "<td><input type=\"text\" placeholder=\"0,00\" class=\"form-control\"></td>"+
+//                            "<td><input type=\"text\" placeholder=\"Observação\" class=\"form-control\"></td>"+                          
                           "</tr>";
               $('#tableDebitos > tbody').append(linha);
             }
@@ -388,8 +392,8 @@
                             "<td>"+ invoices[i].description +"</td>"+
                             "<td>"+ mascaraData( invoices[i].due_date ) +"</td>"+
                             "<td>"+ float2moeda( invoices[i].amount ) +"</td>"+
-                            "<td><input type=\"text\" placeholder=\"0,00\" class=\"form-control\"></td>"+
-                            "<td><input type=\"text\" placeholder=\"Observação\" class=\"form-control\"></td>"+                          
+//                            "<td><input type=\"text\" placeholder=\"0,00\" class=\"form-control\"></td>"+
+//                            "<td><input type=\"text\" placeholder=\"Observação\" class=\"form-control\"></td>"+                          
                           "</tr>";
               $('#tableDebitos > tbody').append(linha);
             }

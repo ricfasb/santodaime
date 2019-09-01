@@ -61,6 +61,7 @@ Rails.application.routes.draw do
     resources :payments do
       get 'get_debits'
       get 'get_all_debits'
+      get 'get_actual_debits'
     end
 
     resources :cashes do
